@@ -37,8 +37,6 @@ public:
 
 	unsigned int Save(const char* file, const char* buffer, unsigned int size) const;
 
-private:
-
 };
 
 #endif // __j1FILESYSTEM_H__

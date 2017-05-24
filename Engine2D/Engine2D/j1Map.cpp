@@ -9,7 +9,7 @@
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
-	name.create("map");
+	name = "map";
 }
 
 // Destructor
@@ -22,7 +22,7 @@ bool j1Map::Awake(pugi::xml_node& config)
 	LOG("Loading Map Parser");
 	bool ret = true;
 
-	folder.create(config.child("folder").child_value());
+	folder = config.child("folder").child_value();
 
 	return ret;
 }
@@ -190,10 +190,11 @@ bool j1Map::CleanUp()
 bool j1Map::Load(const char* file_name)
 {
 	bool ret = true;
-	p2SString tmp("%s%s", folder.GetString(), file_name);
+	static char tmp_string[4096];
+	sprintf_s(tmp_string, 4096, "%s%s", folder.c_str(), file_name);
 
-	char* buf;
-	int size = App->fs->Load(tmp.GetString(), &buf);
+	char* buf = nullptr;
+	int size = App->fs->Load(tmp_string, &buf);
 	pugi::xml_parse_result result = map_file.load_buffer(buf, size);
 
 	RELEASE(buf);
@@ -252,7 +253,7 @@ bool j1Map::Load(const char* file_name)
 		{
 			TileSet* s = item->data;
 			LOG("Tileset ----");
-			LOG("name: %s firstgid: %d", s->name.GetString(), s->firstgid);
+			LOG("name: %s firstgid: %d", s->name.c_str(), s->firstgid);
 			LOG("tile width: %d tile height: %d", s->tile_width, s->tile_height);
 			LOG("spacing: %d margin: %d", s->spacing, s->margin);
 			item = item->next;
@@ -263,7 +264,7 @@ bool j1Map::Load(const char* file_name)
 		{
 			MapLayer* l = item_layer->data;
 			LOG("Layer ----");
-			LOG("name: %s", l->name.GetString());
+			LOG("name: %s", l->name.c_str());
 			LOG("tile width: %d tile height: %d", l->width, l->height);
 			item_layer = item_layer->next;
 		}
@@ -291,50 +292,42 @@ bool j1Map::LoadMap()
 		data.height = map.attribute("height").as_int();
 		data.tile_width = map.attribute("tilewidth").as_int();
 		data.tile_height = map.attribute("tileheight").as_int();
-		p2SString bg_color(map.attribute("backgroundcolor").as_string());
+		std::string bg_color = map.attribute("backgroundcolor").as_string();
 
 		data.background_color.r = 0;
 		data.background_color.g = 0;
 		data.background_color.b = 0;
 		data.background_color.a = 0;
 
-		if(bg_color.Length() > 0)
+		if(bg_color.length() > 0)
 		{
-			p2SString red, green, blue;
-			bg_color.SubString(1, 2, red);
-			bg_color.SubString(3, 4, green);
-			bg_color.SubString(5, 6, blue);
+			std::string red, green, blue;
+			bg_color.replace(1, 2, red);
+			bg_color.replace(3, 4, green);
+			bg_color.replace(5, 6, blue);
 
 			int v = 0;
 
-			sscanf_s(red.GetString(), "%x", &v);
+			sscanf_s(red.c_str(), "%x", &v);
 			if(v >= 0 && v <= 255) data.background_color.r = v;
 
-			sscanf_s(green.GetString(), "%x", &v);
+			sscanf_s(green.c_str(), "%x", &v);
 			if(v >= 0 && v <= 255) data.background_color.g = v;
 
-			sscanf_s(blue.GetString(), "%x", &v);
+			sscanf_s(blue.c_str(), "%x", &v);
 			if(v >= 0 && v <= 255) data.background_color.b = v;
 		}
 
-		p2SString orientation(map.attribute("orientation").as_string());
+		std::string orientation = map.attribute("orientation").as_string();
 
 		if(orientation == "orthogonal")
-		{
 			data.type = MAPTYPE_ORTHOGONAL;
-		}
 		else if(orientation == "isometric")
-		{
 			data.type = MAPTYPE_ISOMETRIC;
-		}
 		else if(orientation == "staggered")
-		{
 			data.type = MAPTYPE_STAGGERED;
-		}
 		else
-		{
 			data.type = MAPTYPE_UNKNOWN;
-		}
 	}
 
 	return ret;
@@ -343,7 +336,7 @@ bool j1Map::LoadMap()
 bool j1Map::LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set)
 {
 	bool ret = true;
-	set->name.create(tileset_node.attribute("name").as_string());
+	set->name = tileset_node.attribute("name").as_string();
 	set->firstgid = tileset_node.attribute("firstgid").as_int();
 	set->tile_width = tileset_node.attribute("tilewidth").as_int();
 	set->tile_height = tileset_node.attribute("tileheight").as_int();
@@ -377,22 +370,18 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 	}
 	else
 	{
-		set->texture = App->tex->Load(PATH(folder.GetString(), image.attribute("source").as_string()));
+		set->texture = App->tex->Load(PATH(folder.c_str(), image.attribute("source").as_string()));
 		int w, h;
 		SDL_QueryTexture(set->texture, NULL, NULL, &w, &h);
 		set->tex_width = image.attribute("width").as_int();
 
 		if(set->tex_width <= 0)
-		{
 			set->tex_width = w;
-		}
 
 		set->tex_height = image.attribute("height").as_int();
 
 		if(set->tex_height <= 0)
-		{
 			set->tex_height = h;
-		}
 
 		set->num_tiles_width = set->tex_width / set->tile_width;
 		set->num_tiles_height = set->tex_height / set->tile_height;
@@ -424,9 +413,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 
 		int i = 0;
 		for(pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
-		{
 			layer->data[i++] = tile.attribute("gid").as_int(0);
-		}
 	}
 
 	return ret;
@@ -442,14 +429,11 @@ bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 	if(data != NULL)
 	{
 		pugi::xml_node prop;
-
 		for(prop = data.child("property"); prop; prop = prop.next_sibling("property"))
 		{
 			Properties::Property* p = new Properties::Property();
-
 			p->name = prop.attribute("name").as_string();
 			p->value = prop.attribute("value").as_int();
-
 			properties.list.add(p);
 		}
 	}
@@ -474,7 +458,6 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 		memset(map, 1, layer->width*layer->height);
 
 		for(int y = 0; y < data.height; ++y)
-		{
 			for(int x = 0; x < data.width; ++x)
 			{
 				int i = (y*layer->width) + x;
@@ -492,7 +475,6 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 					}*/
 				}
 			}
-		}
 
 		*buffer = map;
 		width = data.width;

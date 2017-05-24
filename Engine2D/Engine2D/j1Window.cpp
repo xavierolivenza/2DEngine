@@ -10,7 +10,7 @@ j1Window::j1Window() : j1Module()
 {
 	window = NULL;
 	screen_surface = NULL;
-	name.create("window");
+	name = "window";
 }
 
 // Destructor
@@ -98,7 +98,7 @@ bool j1Window::CleanUp()
 // Set new window title
 void j1Window::SetTitle(const char* new_title)
 {
-	//title.create(new_title);
+	//title = new_title;
 	SDL_SetWindowTitle(window, new_title);
 }
 
