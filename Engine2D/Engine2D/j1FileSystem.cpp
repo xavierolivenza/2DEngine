@@ -35,9 +35,7 @@ bool j1FileSystem::Awake(pugi::xml_node& config)
 
 	// Add all paths in configuration in order
 	for(pugi::xml_node path = config.child("path"); path; path = path.next_sibling("path"))
-	{
 		AddPath(path.child_value());
-	}
 
 	// Ask SDL for a write dir
 	char* write_path = SDL_GetPrefPath(App->GetOrganization(), App->GetTitle());
@@ -95,7 +93,7 @@ unsigned int j1FileSystem::Load(const char* file, char** buffer) const
 
 	PHYSFS_file* fs_file = PHYSFS_openRead(file);
 
-	if(fs_file != NULL)
+	if(fs_file != nullptr)
 	{
 		PHYSFS_sint64 size = PHYSFS_fileLength(fs_file);
 
@@ -130,13 +128,13 @@ SDL_RWops* j1FileSystem::Load(const char* file) const
 	if(size > 0)
 	{
 		SDL_RWops* r = SDL_RWFromConstMem(buffer, size);
-		if(r != NULL)
+		if(r != nullptr)
 			r->close = close_sdl_rwops;
 
 		return r;
 	}
 	else
-		return NULL;
+		return nullptr;
 }
 
 int close_sdl_rwops(SDL_RWops *rw)
@@ -153,7 +151,7 @@ unsigned int j1FileSystem::Save(const char* file, const char* buffer, unsigned i
 
 	PHYSFS_file* fs_file = PHYSFS_openWrite(file);
 
-	if(fs_file != NULL)
+	if(fs_file != nullptr)
 	{
 		PHYSFS_sint64 written = PHYSFS_write(fs_file, (const void*)buffer, 1, size);
 		if(written != size)

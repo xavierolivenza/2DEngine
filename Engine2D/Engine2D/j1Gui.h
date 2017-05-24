@@ -39,7 +39,7 @@ public:
 
 private:
 
-	SDL_Texture* atlas;
+	SDL_Texture* atlas = nullptr;
 	std::string atlas_file_name;
 };
 

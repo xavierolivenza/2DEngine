@@ -62,13 +62,13 @@ bool j1Audio::CleanUp()
 
 	LOG("Freeing sound FX, closing Mixer and Audio subsystem");
 
-	if(music != NULL)
+	if(music != nullptr)
 	{
 		Mix_FreeMusic(music);
 	}
 
 	p2List_item<Mix_Chunk*>* item;
-	for(item = fx.start; item != NULL; item = item->next)
+	for(item = fx.start; item != nullptr; item = item->next)
 		Mix_FreeChunk(item->data);
 
 	fx.clear();
@@ -88,16 +88,12 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 	if(!active)
 		return false;
 
-	if(music != NULL)
+	if(music != nullptr)
 	{
 		if(fade_time > 0.0f)
-		{
 			Mix_FadeOutMusic(int(fade_time * 1000.0f));
-		}
 		else
-		{
 			Mix_HaltMusic();
-		}
 
 		// this call blocks until fade out is done
 		Mix_FreeMusic(music);
@@ -105,7 +101,7 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 
 	music = Mix_LoadMUS_RW(App->fs->Load(path), 1);
 
-	if(music == NULL)
+	if(music == nullptr)
 	{
 		LOG("Cannot load music %s. Mix_GetError(): %s\n", path, Mix_GetError());
 		ret = false;
@@ -145,9 +141,7 @@ unsigned int j1Audio::LoadFx(const char* path)
 	Mix_Chunk* chunk = Mix_LoadWAV_RW(App->fs->Load(path), 1);
 
 	if(chunk == NULL)
-	{
 		LOG("Cannot load wav %s. Mix_GetError(): %s", path, Mix_GetError());
-	}
 	else
 	{
 		fx.add(chunk);
@@ -166,9 +160,7 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 		return false;
 
 	if(id > 0 && id <= fx.count())
-	{
 		Mix_PlayChannel(-1, fx[id - 1], repeat);
-	}
 
 	return ret;
 }

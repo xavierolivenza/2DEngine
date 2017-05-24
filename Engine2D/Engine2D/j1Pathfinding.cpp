@@ -76,7 +76,7 @@ p2List_item<PathNode>* PathList::Find(const iPoint& point) const
 			return item;
 		item = item->next;
 	}
-	return NULL;
+	return nullptr;
 }
 
 // PathList ------------------------------------------------------------------------
@@ -84,7 +84,7 @@ p2List_item<PathNode>* PathList::Find(const iPoint& point) const
 // ---------------------------------------------------------------------------------
 p2List_item<PathNode>* PathList::GetNodeLowestScore() const
 {
-	p2List_item<PathNode>* ret = NULL;
+	p2List_item<PathNode>* ret = nullptr;
 	int min = 65535;
 
 	p2List_item<PathNode>* item = list.end;
@@ -103,7 +103,7 @@ p2List_item<PathNode>* PathList::GetNodeLowestScore() const
 // PathNode -------------------------------------------------------------------------
 // Convenient constructors
 // ----------------------------------------------------------------------------------
-PathNode::PathNode() : g(-1), h(-1), pos(-1, -1), parent(NULL)
+PathNode::PathNode() : g(-1), h(-1), pos(-1, -1), parent(nullptr)
 {}
 
 PathNode::PathNode(int g, int h, const iPoint& pos, const PathNode* parent) : g(g), h(h), pos(pos), parent(parent)

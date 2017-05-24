@@ -21,7 +21,7 @@ enum MainState
 	EXIT
 };
 
-j1App* App = NULL;
+j1App* App = nullptr;
 
 int main(int argc, char* args[])
 {

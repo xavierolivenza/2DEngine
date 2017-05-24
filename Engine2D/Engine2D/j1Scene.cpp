@@ -35,7 +35,7 @@ bool j1Scene::Start()
 	if(App->map->Load("iso_walk.tmx") == true)
 	{
 		int w, h;
-		uchar* data = NULL;
+		uchar* data = nullptr;
 		if(App->map->CreateWalkabilityMap(w, h, &data))
 			App->pathfinding->SetMap(w, h, data);
 

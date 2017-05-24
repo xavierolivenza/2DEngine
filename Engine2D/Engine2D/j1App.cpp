@@ -100,9 +100,7 @@ bool j1App::Awake()
 		int cap = app_config.attribute("framerate_cap").as_int(-1);
 
 		if(cap > 0)
-		{
 			capped_ms = 1000 / cap;
-		}
 	}
 
 	if(ret == true)
@@ -232,17 +230,16 @@ void j1App::FinishUpdate()
 bool j1App::PreUpdate()
 {
 	bool ret = true;
-	p2List_item<j1Module*>* item;
+	p2List_item<j1Module*>* item = nullptr;
 	item = modules.start;
-	j1Module* pModule = NULL;
+	j1Module* pModule = nullptr;
 
-	for(item = modules.start; item != NULL && ret == true; item = item->next)
+	for(item = modules.start; item != nullptr && ret == true; item = item->next)
 	{
 		pModule = item->data;
 
-		if(pModule->active == false) {
+		if(pModule->active == false)
 			continue;
-		}
 
 		ret = item->data->PreUpdate();
 	}
@@ -256,15 +253,14 @@ bool j1App::DoUpdate()
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.start;
-	j1Module* pModule = NULL;
+	j1Module* pModule = nullptr;
 
-	for(item = modules.start; item != NULL && ret == true; item = item->next)
+	for(item = modules.start; item != nullptr && ret == true; item = item->next)
 	{
 		pModule = item->data;
 
-		if(pModule->active == false) {
+		if(pModule->active == false)
 			continue;
-		}
 
 		ret = item->data->Update(dt);
 	}
@@ -277,15 +273,14 @@ bool j1App::PostUpdate()
 {
 	bool ret = true;
 	p2List_item<j1Module*>* item;
-	j1Module* pModule = NULL;
+	j1Module* pModule = nullptr;
 
-	for(item = modules.start; item != NULL && ret == true; item = item->next)
+	for(item = modules.start; item != nullptr && ret == true; item = item->next)
 	{
 		pModule = item->data;
 
-		if(pModule->active == false) {
+		if(pModule->active == false)
 			continue;
-		}
 
 		ret = item->data->PostUpdate();
 	}
@@ -298,10 +293,10 @@ bool j1App::CleanUp()
 {
 	PERF_START(ptimer);
 	bool ret = true;
-	p2List_item<j1Module*>* item;
+	p2List_item<j1Module*>* item = nullptr;
 	item = modules.end;
 
-	while(item != NULL && ret == true)
+	while(item != nullptr && ret == true)
 	{
 		ret = item->data->CleanUp();
 		item = item->prev;
@@ -323,7 +318,7 @@ const char* j1App::GetArgv(int index) const
 	if(index < argc)
 		return args[index];
 	else
-		return NULL;
+		return nullptr;
 }
 
 // ---------------------------------------
@@ -393,7 +388,7 @@ bool j1App::LoadGameNow()
 			p2List_item<j1Module*>* item = modules.start;
 			ret = true;
 
-			while(item != NULL && ret == true)
+			while(item != nullptr && ret == true)
 			{
 				ret = item->data->Load(root.child(item->data->name.c_str()));
 				item = item->next;
@@ -403,7 +398,7 @@ bool j1App::LoadGameNow()
 			if(ret == true)
 				LOG("...finished loading");
 			else
-				LOG("...loading process interrupted with error on module %s", (item != NULL) ? item->data->name.c_str() : "unknown");
+				LOG("...loading process interrupted with error on module %s", (item != nullptr) ? item->data->name.c_str() : "unknown");
 		}
 		else
 			LOG("Could not parse game state xml file %s. pugi error: %s", load_game.c_str(), result.description());
@@ -429,7 +424,7 @@ bool j1App::SavegameNow() const
 
 	p2List_item<j1Module*>* item = modules.start;
 
-	while(item != NULL && ret == true)
+	while(item != nullptr && ret == true)
 	{
 		ret = item->data->Save(root.append_child(item->data->name.c_str()));
 		item = item->next;
@@ -445,7 +440,7 @@ bool j1App::SavegameNow() const
 		LOG("... finished saving", save_game.c_str());
 	}
 	else
-		LOG("Save process halted from an error in module %s", (item != NULL) ? item->data->name.c_str() : "unknown");
+		LOG("Save process halted from an error in module %s", (item != nullptr) ? item->data->name.c_str() : "unknown");
 
 	data.reset();
 	want_to_save = false;

@@ -45,7 +45,7 @@ bool j1Fonts::CleanUp()
 	LOG("Freeing True Type fonts and library");
 	p2List_item<TTF_Font*>* item;
 
-	for(item = fonts.start; item != NULL; item = item->next)
+	for(item = fonts.start; item != nullptr; item = item->next)
 	{
 		TTF_CloseFont(item->data);
 	}
@@ -60,7 +60,7 @@ TTF_Font* const j1Fonts::Load(const char* path, int size)
 {
 	TTF_Font* font = TTF_OpenFontRW(App->fs->Load(path), 1, size);
 
-	if(font == NULL)
+	if(font == nullptr)
 	{
 		LOG("Could not load TTF font with path: %s. TTF_OpenFont: %s", path, TTF_GetError());
 	}
@@ -76,10 +76,10 @@ TTF_Font* const j1Fonts::Load(const char* path, int size)
 // Print text using font
 SDL_Texture* j1Fonts::Print(const char* text, SDL_Color color, TTF_Font* font)
 {
-	SDL_Texture* ret = NULL;
+	SDL_Texture* ret = nullptr;
 	SDL_Surface* surface = TTF_RenderText_Blended((font) ? font : default, text, color);
 
-	if(surface == NULL)
+	if(surface == nullptr)
 	{
 		LOG("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
 	}

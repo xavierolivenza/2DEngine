@@ -50,9 +50,7 @@ bool j1Textures::CleanUp()
 	p2List_item<SDL_Texture*>* item;
 
 	for(item = textures.start; item != NULL; item = item->next)
-	{
 		SDL_DestroyTexture(item->data);
-	}
 
 	textures.clear();
 	IMG_Quit();
@@ -62,13 +60,11 @@ bool j1Textures::CleanUp()
 // Load new texture from file path
 SDL_Texture* const j1Textures::Load(const char* path)
 {
-	SDL_Texture* texture = NULL;
+	SDL_Texture* texture = nullptr;
 	SDL_Surface* surface = IMG_Load_RW(App->fs->Load(path), 1);
 
-	if(surface == NULL)
-	{
+	if(surface == nullptr)
 		LOG("Could not load surface with path: %s. IMG_Load: %s", path, IMG_GetError());
-	}
 	else
 	{
 		texture = LoadSurface(surface);
@@ -81,17 +77,15 @@ SDL_Texture* const j1Textures::Load(const char* path)
 // Unload texture
 bool j1Textures::UnLoad(SDL_Texture* texture)
 {
-	p2List_item<SDL_Texture*>* item;
+	p2List_item<SDL_Texture*>* item = nullptr;
 
-	for(item = textures.start; item != NULL; item = item->next)
-	{
+	for(item = textures.start; item != nullptr; item = item->next)
 		if(texture == item->data)
 		{
 			SDL_DestroyTexture(item->data);
 			textures.del(item);
 			return true;
 		}
-	}
 
 	return false;
 }
@@ -101,14 +95,10 @@ SDL_Texture* const j1Textures::LoadSurface(SDL_Surface* surface)
 {
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(App->render->renderer, surface);
 
-	if(texture == NULL)
-	{
+	if(texture == nullptr)
 		LOG("Unable to create texture from surface! SDL Error: %s\n", SDL_GetError());
-	}
 	else
-	{
 		textures.add(texture);
-	}
 
 	return texture;
 }

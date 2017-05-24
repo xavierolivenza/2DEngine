@@ -83,23 +83,23 @@ private:
 public:
 
 	// Modules
-	j1Window*			win = NULL;
-	j1Input*			input = NULL;
-	j1Render*			render = NULL;
-	j1Textures*			tex = NULL;
-	j1Audio*			audio = NULL;
-	j1Scene*			scene = NULL;
-	j1FileSystem*		fs = NULL;
-	j1Map*				map = NULL;
-	j1PathFinding*		pathfinding = NULL;
-	j1Fonts*			font = NULL;
-	j1Gui*				gui = NULL;
+	j1Window*			win = nullptr;
+	j1Input*			input = nullptr;
+	j1Render*			render = nullptr;
+	j1Textures*			tex = nullptr;
+	j1Audio*			audio = nullptr;
+	j1Scene*			scene = nullptr;
+	j1FileSystem*		fs = nullptr;
+	j1Map*				map = nullptr;
+	j1PathFinding*		pathfinding = nullptr;
+	j1Fonts*			font = nullptr;
+	j1Gui*				gui = nullptr;
 
 private:
 
 	p2List<j1Module*>	modules;
-	int					argc;
-	char**				args;
+	int					argc = 0;
+	char**				args = nullptr;
 
 	std::string			title;
 	std::string			organization;
@@ -120,6 +120,6 @@ private:
 	int					capped_ms = -1;
 };
 
-extern j1App* App; // No student is asking me about that ... odd :-S
+extern j1App* App;
 
 #endif
