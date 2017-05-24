@@ -167,7 +167,7 @@ pugi::xml_node j1App::LoadConfig(pugi::xml_document& config_file) const
 {
 	pugi::xml_node ret;
 
-	char* buf;
+	char* buf = nullptr;
 	int size = App->fs->Load("config.xml", &buf);
 	pugi::xml_parse_result result = config_file.load_buffer(buf, size);
 	RELEASE(buf);
@@ -237,10 +237,8 @@ bool j1App::PreUpdate()
 	for(item = modules.start; item != nullptr && ret == true; item = item->next)
 	{
 		pModule = item->data;
-
 		if(pModule->active == false)
 			continue;
-
 		ret = item->data->PreUpdate();
 	}
 
@@ -258,10 +256,8 @@ bool j1App::DoUpdate()
 	for(item = modules.start; item != nullptr && ret == true; item = item->next)
 	{
 		pModule = item->data;
-
 		if(pModule->active == false)
 			continue;
-
 		ret = item->data->Update(dt);
 	}
 
@@ -278,10 +274,8 @@ bool j1App::PostUpdate()
 	for(item = modules.start; item != nullptr && ret == true; item = item->next)
 	{
 		pModule = item->data;
-
 		if(pModule->active == false)
 			continue;
-
 		ret = item->data->PostUpdate();
 	}
 
@@ -368,7 +362,7 @@ bool j1App::LoadGameNow()
 {
 	bool ret = false;
 
-	char* buffer;
+	char* buffer = nullptr;
 	uint size = fs->Load(load_game.c_str(), &buffer);
 
 	if(size > 0)

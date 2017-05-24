@@ -138,20 +138,20 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	rect.x = (int)(camera.x * speed) + x * scale;
 	rect.y = (int)(camera.y * speed) + y * scale;
 
-	if(section != NULL)
+	if(section != nullptr)
 	{
 		rect.w = section->w;
 		rect.h = section->h;
 	}
 	else
 	{
-		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
+		SDL_QueryTexture(texture, nullptr, nullptr, &rect.w, &rect.h);
 	}
 
 	rect.w *= scale;
 	rect.h *= scale;
 
-	SDL_Point* p = NULL;
+	SDL_Point* p = nullptr;
 	SDL_Point pivot;
 
 	if(pivot_x != INT_MAX && pivot_y != INT_MAX)

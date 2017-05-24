@@ -25,7 +25,6 @@ bool j1Scene::Awake()
 {
 	LOG("Loading Scene");
 	bool ret = true;
-
 	return ret;
 }
 
@@ -34,14 +33,13 @@ bool j1Scene::Start()
 {
 	if(App->map->Load("iso_walk.tmx") == true)
 	{
-		int w, h;
+		int w = 0;
+		int h = 0;
 		uchar* data = nullptr;
 		if(App->map->CreateWalkabilityMap(w, h, &data))
 			App->pathfinding->SetMap(w, h, data);
-
 		RELEASE_ARRAY(data);
 	}
-
 	debug_tex = App->tex->Load("maps/path2.png");
 
 	return true;
@@ -55,7 +53,8 @@ bool j1Scene::PreUpdate()
 	static iPoint origin;
 	static bool origin_selected = false;
 
-	int x, y;
+	int x = 0;
+	int y = 0;
 	App->input->GetMousePosition(x, y);
 	iPoint p = App->render->ScreenToWorld(x, y);
 	p = App->map->WorldToMap(p.x, p.y);
@@ -103,18 +102,11 @@ bool j1Scene::Update(float dt)
 
 	App->map->Draw();
 
-	int x, y;
+	int x = 0;
+	int y = 0;
 	App->input->GetMousePosition(x, y);
 	iPoint map_coordinates = App->map->WorldToMap(x - App->render->camera.x, y - App->render->camera.y);
-	/*
-	std::string title("Map:%dx%d Tiles:%dx%d Tilesets:%d Tile:%d,%d",
-					App->map->data.width, App->map->data.height,
-					App->map->data.tile_width, App->map->data.tile_height,
-					App->map->data.tilesets.count(),
-					map_coordinates.x, map_coordinates.y);
-	*/
-	//App->win->SetTitle(title.GetString());
-
+	
 	// Debug pathfinding ------------------------------
 	//int x, y;
 	App->input->GetMousePosition(x, y);
@@ -139,10 +131,8 @@ bool j1Scene::Update(float dt)
 bool j1Scene::PostUpdate()
 {
 	bool ret = true;
-
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
-
 	return ret;
 }
 
@@ -150,6 +140,5 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
-
 	return true;
 }

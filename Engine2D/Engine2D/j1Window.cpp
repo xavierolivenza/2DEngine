@@ -78,9 +78,7 @@ bool j1Window::CleanUp()
 
 	//Destroy window
 	if(window != nullptr)
-	{
 		SDL_DestroyWindow(window);
-	}
 
 	//Quit SDL subsystems
 	SDL_Quit();

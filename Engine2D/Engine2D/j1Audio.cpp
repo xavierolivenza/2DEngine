@@ -63,9 +63,7 @@ bool j1Audio::CleanUp()
 	LOG("Freeing sound FX, closing Mixer and Audio subsystem");
 
 	if(music != nullptr)
-	{
 		Mix_FreeMusic(music);
-	}
 
 	p2List_item<Mix_Chunk*>* item;
 	for(item = fx.start; item != nullptr; item = item->next)
