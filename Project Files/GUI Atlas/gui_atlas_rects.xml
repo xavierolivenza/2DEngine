@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<gui_atlas_rects>
+  <GUI_Image>
+    <image>
+      <state x="" y="" w="" h=""/>
+      <state x="" y="" w="" h=""/>
+      <state x="" y="" w="" h=""/>
+    </image>
+  </GUI_Image>
+	
+  <GUI_Label>
+    <label>
+      <state x="" y="" w="" h=""/>
+    </label>
+  </GUI_Label>
+  
+  <GUI_Button>
+    <button>
+      <state x="" y="" w="" h=""/>
+      <state x="" y="" w="" h=""/>
+      <state x="" y="" w="" h=""/>
+    </button>
+    <button>
+      <state x="" y="" w="" h=""/>
+      <state x="" y="" w="" h=""/>
+      <state x="" y="" w="" h=""/>
+    </button>
+  </GUI_Button>
+  
+  <GUI_Window>
+    <window>
+      <state x="" y="" w="" h=""/>
+    </window>
+  </GUI_Window>
+  
+  <GUI_Scrollbar_Vertical>
+    <scrollbar_vertical>
+      <scrollbar_vertical_background>
+        <state x="" y="" w="" h=""/>
+      </scrollbar_vertical_background>
+      <scrollbar_vertical_line>
+        <state x="" y="" w="" h=""/>
+      </scrollbar_vertical_line>
+      <scrollbar_vertical_button>
+        <state x="" y="" w="" h=""/>
+      </scrollbar_vertical_button>
+    </scrollbar_vertical>
+  </GUI_Scrollbar_Vertical>
+  
+  <GUI_Scrollbar_Horitzontal>
+    <scrollbar_horitzontal>
+      <scrollbar_horitzontal_background>
+        <state x="" y="" w="" h=""/>
+      </scrollbar_horitzontal_background>
+      <scrollbar_horitzontal_line>
+        <state x="" y="" w="" h=""/>
+      </scrollbar_horitzontal_line>
+      <scrollbar_horitzontal_button>
+        <state x="" y="" w="" h=""/>
+      </scrollbar_horitzontal_button>
+    </scrollbar_horitzontal>
+  </GUI_Scrollbar_Horitzontal>
+
+  <GUI_Check>
+    <check_unchecked_background>
+      <state x="" y="" w="" h=""/>
+    </check_unchecked_background>
+    <check_checked_background>
+      <state x="" y="" w="" h=""/>
+    </check_checked_background>
+    <check_check>
+      <state x="" y="" w="" h=""/>
+    </check_check>
+    <check_checked_backed_check>
+      <state x="" y="" w="" h=""/>
+    </check_checked_backed_check>
+  </GUI_Check>
+  
+  <!-- Something in project-->
+  <GUI_Bar>
+    <bar x="" y="" w="" h=""/>
+  </GUI_Bar>
+  
+</gui_atlas_rects>
