@@ -2,7 +2,8 @@
 
 <gui_atlas_rects>
   <GUI_Image>
-    <image>
+    <!-- GUI_Image Type 1-->
+    <image animation_loop="true" animation_speed="1.0">
       <state x="0" y="0" w="328" h="103"/>
       <state x="0" y="103" w="328" h="103"/>
       <state x="0" y="206" w="328" h="103"/>
@@ -10,46 +11,68 @@
   </GUI_Image>
 	
   <GUI_Label>
-    <label>
+    <!-- GUI_Image Type 1-->
+    <label animation_loop="false" animation_speed="0.0">
       <state x="0" y="309" w="322" h="50"/>
     </label>
   </GUI_Label>
   
   <GUI_Button>
+    <!-- GUI_Button Type 1-->
     <button>
-      <state x="0" y="359" w="218" h="57"/>
-      <state x="0" y="416" w="218" h="57"/>
-      <state x="0" y="473" w="218" h="57"/>
+      <state_idle animation_loop="false" animation_speed="0.0">
+        <state x="0" y="359" w="218" h="57"/>
+      </state_idle>
+      <state_hover animation_loop="false" animation_speed="0.0">
+        <state x="0" y="416" w="218" h="57"/>
+      </state_hover>
+      <state_pressed animation_loop="false" animation_speed="0.0">
+        <state x="0" y="473" w="218" h="57"/>
+      </state_pressed>
     </button>
+    <!-- GUI_Button Type 2-->
     <button>
-      <state x="218" y="359" w="129" h="41"/>
-      <state x="218" y="400" w="129" h="41"/>
-      <state x="218" y="441" w="129" h="41"/>
+      <state_idle animation_loop="false" animation_speed="0.0">
+        <state x="218" y="359" w="129" h="41"/>
+      </state_idle>
+      <state_hover animation_loop="false" animation_speed="0.0">
+        <state x="218" y="400" w="129" h="41"/>
+      </state_hover>
+      <state_pressed animation_loop="false" animation_speed="0.0">
+        <state x="218" y="441" w="129" h="41"/>
+      </state_pressed>
     </button>
   </GUI_Button>
   
   <GUI_Window>
-    <window>
+    <!-- GUI_Window Type 1-->
+    <window animation_loop="false" animation_speed="0.0">
       <state x="364" y="16" w="420" h="452"/>
     </window>
   </GUI_Window>
   
   <GUI_Scrollbar_Vertical>
+    <!-- GUI_Scrollbar_Vertical Type 1-->
     <scrollbar_vertical>
-      <scrollbar_vertical_background>
+      <scrollbar_vertical_background animation_loop="true" animation_speed="1.0">
         <state x="328" y="0" w="11" h="150"/>
       </scrollbar_vertical_background>
-      <scrollbar_vertical_line>
+      <scrollbar_vertical_line animation_loop="true" animation_speed="1.0">
         <state x="339" y="0" w="5" h="152"/>
       </scrollbar_vertical_line>
       <scrollbar_vertical_button>
-        <state x="344" y="31" w="15" h="10"/>
-        <state x="344" y="41" w="15" h="10"/>
+        <state_idle animation_loop="false" animation_speed="0.0">
+          <state x="344" y="31" w="15" h="10"/>
+        </state_idle>
+        <state_pressed animation_loop="false" animation_speed="0.0">
+          <state x="344" y="41" w="15" h="10"/>
+        </state_pressed>
       </scrollbar_vertical_button>
     </scrollbar_vertical>
   </GUI_Scrollbar_Vertical>
   
   <GUI_Scrollbar_Horitzontal>
+    <!-- GUI_Scrollbar_Horitzontal Type 1-->
     <scrollbar_horitzontal>
       <scrollbar_horitzontal_background>
         <state x="344" y="0" w="307" h="11"/>
@@ -58,24 +81,29 @@
         <state x="344" y="11" w="332" h="5"/>
       </scrollbar_horitzontal_line>
       <scrollbar_horitzontal_button>
-        <state x="344" y="16" w="10" h="15"/>
-        <state x="354" y="16" w="10" h="15"/>
+        <state_idle animation_loop="false" animation_speed="0.0">
+          <state x="344" y="16" w="10" h="15"/>
+        </state_idle>
+        <state_pressed animation_loop="false" animation_speed="0.0">
+          <state x="354" y="16" w="10" h="15"/>
+        </state_pressed>
       </scrollbar_horitzontal_button>
     </scrollbar_horitzontal>
   </GUI_Scrollbar_Horitzontal>
 
   <GUI_Check>
+    <!-- GUI_Check Type 1-->
     <check>
-      <check_unchecked_background>
+      <check_unchecked_background animation_loop="false" animation_speed="0.0">
         <state x="218" y="482" w="38" h="38"/>
       </check_unchecked_background>
-      <check_checked_background>
+      <check_checked_background animation_loop="false" animation_speed="0.0">
         <state x="256" y="482" w="38" h="38"/>
       </check_checked_background>
-      <check_check>
+      <check_check animation_loop="false" animation_speed="0.0">
         <state x="294" y="482" w="38" h="38"/>
       </check_check>
-      <check_checked_backed_check>
+      <check_checked_backed_check animation_loop="false" animation_speed="0.0">
         <state x="332" y="482" w="38" h="38"/>
       </check_checked_backed_check>
     </check>
