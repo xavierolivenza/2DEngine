@@ -7,6 +7,8 @@
 #define __j1MODULE_H__
 
 #include "PugiXml\src\pugixml.hpp"
+#include <list>
+#include <vector>
 
 class j1App;
 

@@ -116,11 +116,11 @@ bool j1Scene::Update(float dt)
 
 	App->render->Blit(debug_tex, p.x, p.y);
 
-	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+	const std::vector<iPoint>* path = App->pathfinding->GetLastPath();
 
-	for(uint i = 0; i < path->Count(); ++i)
+	for (std::vector<iPoint>::const_iterator item = path->begin(); item != path->cend(); ++item)
 	{
-		iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+		iPoint pos = App->map->MapToWorld((*item).x, (*item).y);
 		App->render->Blit(debug_tex, pos.x, pos.y);
 	}
 
