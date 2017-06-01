@@ -59,13 +59,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 j1App::~j1App()
 {
 	// release modules
-	p2List_item<j1Module*>* item = modules.end;
-
-	while(item != NULL)
-	{
-		RELEASE(item->data);
-		item = item->prev;
-	}
+	for (std::list<j1Module*>::reverse_iterator item = modules.rbegin(); item != modules.crend(); ++item)
+		RELEASE((*item));
 
 	modules.clear();
 }
@@ -73,7 +68,7 @@ j1App::~j1App()
 void j1App::AddModule(j1Module* module)
 {
 	module->Init();
-	modules.add(module);
+	modules.push_back(module);
 }
 
 // Called before render is available
@@ -104,16 +99,8 @@ bool j1App::Awake()
 	}
 
 	if(ret == true)
-	{
-		p2List_item<j1Module*>* item;
-		item = modules.start;
-
-		while(item != NULL && ret == true)
-		{
-			ret = item->data->Awake(config.child(item->data->name.c_str()));
-			item = item->next;
-		}
-	}
+		for (std::list<j1Module*>::iterator item = modules.begin(); item != modules.cend() && ret == true; ++item)
+			ret = (*item)->Awake(config.child((*item)->name.c_str()));
 
 	PERF_PEEK(ptimer);
 
@@ -125,14 +112,10 @@ bool j1App::Start()
 {
 	PERF_START(ptimer);
 	bool ret = true;
-	p2List_item<j1Module*>* item;
-	item = modules.start;
 
-	while(item != NULL && ret == true)
-	{
-		ret = item->data->Start();
-		item = item->next;
-	}
+	for (std::list<j1Module*>::iterator item = modules.begin(); item != modules.cend() && ret == true; ++item)
+		ret = (*item)->IsEnabled() ? (*item)->Start() : true;
+
 	startup_time.Start();
 
 	PERF_PEEK(ptimer);
@@ -230,16 +213,14 @@ void j1App::FinishUpdate()
 bool j1App::PreUpdate()
 {
 	bool ret = true;
-	p2List_item<j1Module*>* item = nullptr;
-	item = modules.start;
 	j1Module* pModule = nullptr;
 
-	for(item = modules.start; item != nullptr && ret == true; item = item->next)
+	for (std::list<j1Module*>::iterator item = modules.begin(); item != modules.cend() && ret == true; ++item)
 	{
-		pModule = item->data;
-		if(pModule->active == false)
+		pModule = *item;
+		if (pModule->active == false)
 			continue;
-		ret = item->data->PreUpdate();
+		ret = (*item)->PreUpdate();
 	}
 
 	return ret;
@@ -249,16 +230,15 @@ bool j1App::PreUpdate()
 bool j1App::DoUpdate()
 {
 	bool ret = true;
-	p2List_item<j1Module*>* item;
-	item = modules.start;
+
 	j1Module* pModule = nullptr;
 
-	for(item = modules.start; item != nullptr && ret == true; item = item->next)
+	for (std::list<j1Module*>::iterator item = modules.begin(); item != modules.cend() && ret == true; ++item)
 	{
-		pModule = item->data;
-		if(pModule->active == false)
+		pModule = *item;
+		if (pModule->active == false)
 			continue;
-		ret = item->data->Update(dt);
+		ret = (*item)->Update(dt);
 	}
 
 	return ret;
@@ -268,16 +248,18 @@ bool j1App::DoUpdate()
 bool j1App::PostUpdate()
 {
 	bool ret = true;
-	p2List_item<j1Module*>* item;
+
 	j1Module* pModule = nullptr;
 
-	for(item = modules.start; item != nullptr && ret == true; item = item->next)
-	{
-		pModule = item->data;
-		if(pModule->active == false)
+	for (std::list<j1Module*>::iterator item = modules.begin(); item != modules.cend() && ret == true; ++item) {
+		pModule = *item;
+		if (pModule->active == false) {
 			continue;
-		ret = item->data->PostUpdate();
+		}
+		ret = (*item)->PostUpdate();
 	}
+
+	ret &= !wanttoquit;
 
 	return ret;
 }
@@ -287,14 +269,9 @@ bool j1App::CleanUp()
 {
 	PERF_START(ptimer);
 	bool ret = true;
-	p2List_item<j1Module*>* item = nullptr;
-	item = modules.end;
 
-	while(item != nullptr && ret == true)
-	{
-		ret = item->data->CleanUp();
-		item = item->prev;
-	}
+	for (std::list<j1Module*>::iterator item = modules.begin(); item != modules.cend() && ret == true; ++item)
+		ret = (*item)->CleanUp();
 
 	PERF_PEEK(ptimer);
 	return ret;
@@ -379,20 +356,15 @@ bool j1App::LoadGameNow()
 
 			root = data.child("game_state");
 
-			p2List_item<j1Module*>* item = modules.start;
-			ret = true;
-
-			while(item != nullptr && ret == true)
-			{
-				ret = item->data->Load(root.child(item->data->name.c_str()));
-				item = item->next;
-			}
+			std::list<j1Module*>::const_iterator item = modules.cbegin();
+			for (; item != modules.cend() && ret == true; ++item)
+					ret = (*item)->Load(root.child((*item)->name.c_str()));
 
 			data.reset();
 			if(ret == true)
 				LOG("...finished loading");
 			else
-				LOG("...loading process interrupted with error on module %s", (item != nullptr) ? item->data->name.c_str() : "unknown");
+				LOG("...loading process interrupted with error on module %s", (*item != nullptr) ? (*item)->name.c_str() : "unknown");
 		}
 		else
 			LOG("Could not parse game state xml file %s. pugi error: %s", load_game.c_str(), result.description());
@@ -416,13 +388,9 @@ bool j1App::SavegameNow() const
 	
 	root = data.append_child("game_state");
 
-	p2List_item<j1Module*>* item = modules.start;
-
-	while(item != nullptr && ret == true)
-	{
-		ret = item->data->Save(root.append_child(item->data->name.c_str()));
-		item = item->next;
-	}
+	std::list<j1Module*>::const_iterator item = modules.cbegin();
+	for (; item != modules.cend() && ret == true; ++item)
+			ret = (*item)->Save(root.append_child((*item)->name.c_str()));
 
 	if(ret == true)
 	{
@@ -434,9 +402,14 @@ bool j1App::SavegameNow() const
 		LOG("... finished saving", save_game.c_str());
 	}
 	else
-		LOG("Save process halted from an error in module %s", (item != nullptr) ? item->data->name.c_str() : "unknown");
+		LOG("Save process halted from an error in module %s", (*item != nullptr) ? (*item)->name.c_str() : "unknown");
 
 	data.reset();
 	want_to_save = false;
 	return ret;
+}
+
+void j1App::WantToQuit()
+{
+	wanttoquit = true;
 }

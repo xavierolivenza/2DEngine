@@ -65,10 +65,8 @@ bool j1Audio::CleanUp()
 	if(music != nullptr)
 		Mix_FreeMusic(music);
 
-	p2List_item<Mix_Chunk*>* item;
-	for(item = fx.start; item != nullptr; item = item->next)
-		Mix_FreeChunk(item->data);
-
+	for (std::list<Mix_Chunk*>::const_iterator item = fx.begin(); item != fx.cend(); ++item)
+		Mix_FreeChunk(*item);
 	fx.clear();
 
 	Mix_CloseAudio();
@@ -142,8 +140,8 @@ unsigned int j1Audio::LoadFx(const char* path)
 		LOG("Cannot load wav %s. Mix_GetError(): %s", path, Mix_GetError());
 	else
 	{
-		fx.add(chunk);
-		ret = fx.count();
+		fx.push_back(chunk);
+		ret = fx.size();
 	}
 
 	return ret;
@@ -157,8 +155,11 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 	if(!active)
 		return false;
 
-	if(id > 0 && id <= fx.count())
-		Mix_PlayChannel(-1, fx[id - 1], repeat);
-
+	if (id > 0 && id <= fx.size())
+	{
+		std::list<Mix_Chunk*>::iterator item = fx.begin();
+		for (int n_mus = 0; item != fx.cend() && n_mus < id - 1; ++item, ++n_mus)
+		Mix_PlayChannel(-1, (*item), repeat);
+	}
 	return ret;
 }

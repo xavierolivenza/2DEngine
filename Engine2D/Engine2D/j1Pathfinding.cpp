@@ -3,7 +3,7 @@
 #include "j1App.h"
 #include "j1PathFinding.h"
 
-j1PathFinding::j1PathFinding() : j1Module(), map(NULL), last_path(DEFAULT_PATH_LENGTH),width(0), height(0)
+j1PathFinding::j1PathFinding() : j1Module(), map(nullptr),width(0), height(0)
 {
 	name = "pathfinding";
 }
@@ -139,6 +139,22 @@ uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const
 	if(App->pathfinding->IsWalkable(cell))
 		list_to_fill.list.add(PathNode(-1, -1, cell, this));
 
+	cell.create(pos.x + 1, pos.y + 1);
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+
+	cell.create(pos.x - 1, pos.y - 1);
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+
+	cell.create(pos.x + 1, pos.y - 1);
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+
+	cell.create(pos.x - 1, pos.y + 1);
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+
 	return list_to_fill.list.count();
 }
 
@@ -156,7 +172,7 @@ int PathNode::Score() const
 int PathNode::CalculateF(const iPoint& destination)
 {
 	g = parent->g + 1;
-	h = pos.DistanceTo(destination);
+	h = pos.DistanceManhattan(destination);
 
 	return g + h;
 }
@@ -166,10 +182,62 @@ int PathNode::CalculateF(const iPoint& destination)
 // ----------------------------------------------------------------------------------
 int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 {
-	int ret = -1;
+	// If origin or destination are not walkable, return -1
+	if (IsWalkable(origin) == false || IsWalkable(destination) == false) {
+		return -1;
+	}
+	// Create two lists: open, close
+	// Add the origin tile to open
+	// Iterate while we have tile in the open list
+	PathList open;
+	PathNode originNode;
+	originNode.pos.x = origin.x;
+	originNode.pos.y = origin.y;
+	open.list.add(originNode);
+	PathList close;
+	while (open.list.count() != 0) {
+		// Move the lowest score cell from open list to the closed list
+		p2List_item<PathNode>*activeNode;
+		activeNode = close.list.add(open.GetNodeLowestScore()->data);
+		open.list.del(open.GetNodeLowestScore());
+		// If we just added the destination, we are done!
+		// Backtrack to create the final path
+		// Use the Pathnode::parent and Flip() the path when you are finish
+		if (close.list.end->data.pos == destination) {
+			last_path.clear();
+			PathNode item = activeNode->data;
+			while (item.parent != nullptr) {
+				last_path.push_back(item.pos);
+				item = *item.parent;
+			}
+			last_path.push_back(iPoint(origin.x, origin.y));
+			std::reverse(last_path.begin(), last_path.end());
+			return 1;
+		}
+		// Fill a list of all adjancent nodes
+		PathList pathtemp;
+		activeNode->data.FindWalkableAdjacents(pathtemp);
+		// Iterate adjancent nodes:
+		// ignore nodes in the closed list
+		// If it is NOT found, calculate its F and add it to the open list
+		// If it is already in the open list, check if it is a better path (compare G)
+		// If it is a better path, Update the parent
+		for (p2List_item<PathNode> *neitemp = pathtemp.list.start; neitemp != nullptr; neitemp = neitemp->next) {
+			if (close.Find(neitemp->data.pos) == NULL) {
+				neitemp->data.CalculateF(destination);
+				if (p2List_item<PathNode> *otherneitemp = open.Find(neitemp->data.pos)) {
+					if (neitemp->data.g < otherneitemp->data.g) {
+						otherneitemp->data.parent = neitemp->data.parent;
+					}
+				}
+				else {
+					open.list.add(neitemp->data);
+				}
 
-	// Nice try :)
+			}
+		}
+	}
 
-	return ret;
+	return -1;
 }
 

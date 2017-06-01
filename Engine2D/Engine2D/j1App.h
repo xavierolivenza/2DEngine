@@ -56,6 +56,8 @@ public:
 	void SaveGame(const char* file) const;
 	void GetSaveGames(p2List<std::string>& list_to_fill) const;
 
+	void WantToQuit();
+
 private:
 
 	// Load config file
@@ -97,7 +99,7 @@ public:
 
 private:
 
-	p2List<j1Module*>	modules;
+	std::list<j1Module*>	modules;
 	int					argc = 0;
 	char**				args = nullptr;
 
@@ -118,6 +120,8 @@ private:
 	uint32				prev_last_sec_frame_count = 0;
 	float				dt = 0.0f;
 	int					capped_ms = -1;
+
+	bool				wanttoquit = false;
 };
 
 extern j1App* App;
