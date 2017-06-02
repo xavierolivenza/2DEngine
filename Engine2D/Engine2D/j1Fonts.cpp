@@ -43,12 +43,11 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 bool j1Fonts::CleanUp()
 {
 	LOG("Freeing True Type fonts and library");
-	p2List_item<TTF_Font*>* item;
 
-	for(item = fonts.start; item != nullptr; item = item->next)
-		TTF_CloseFont(item->data);
-
+	for (std::list<TTF_Font*>::const_iterator item = fonts.begin(); item != fonts.cend(); ++item)
+		TTF_CloseFont(*item);
 	fonts.clear();
+
 	TTF_Quit();
 	return true;
 }
@@ -63,7 +62,7 @@ TTF_Font* const j1Fonts::Load(const char* path, int size)
 	else
 	{
 		LOG("Successfully loaded font %s size %d", path, size);
-		fonts.add(font);
+		fonts.push_back(font);
 	}
 
 	return font;
