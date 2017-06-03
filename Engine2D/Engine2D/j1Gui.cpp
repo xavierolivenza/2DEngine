@@ -30,12 +30,23 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 // Called before the first frame
 bool j1Gui::Start()
 {
-	atlas = App->tex->Load(atlas_file_name.c_str());
+	std::pair<SDL_Texture*, GUIAtlas> new_atlas;
+
+	new_atlas.first = App->tex->Load(atlas_file_name.c_str());
+	new_atlas.second = GUIAtlas::default;
+	atlas_multimap.insert(new_atlas);
+
 	return true;
 }
 
 // Update all guis
 bool j1Gui::PreUpdate()
+{
+	return true;
+}
+
+// Called each loop iteration
+bool j1Gui::Update(float dt)
 {
 	return true;
 }
@@ -51,14 +62,19 @@ bool j1Gui::CleanUp()
 {
 	LOG("Freeing GUI");
 
+	for (std::multimap<SDL_Texture*, GUIAtlas>::const_iterator item = atlas_multimap.begin(); item != atlas_multimap.cend(); ++item)
+		App->tex->UnLoad((*item).first);
+	atlas_multimap.clear();
+
 	return true;
 }
 
 // const getter for atlas
-const SDL_Texture* j1Gui::GetAtlas() const
+SDL_Texture* j1Gui::GetAtlas(GUIAtlas atlas) const
 {
-	return atlas;
+	for (std::multimap<SDL_Texture*, GUIAtlas>::const_iterator item = atlas_multimap.begin(); item != atlas_multimap.cend(); ++item)
+		if ((*item).second == atlas)
+			return (*item).first;
+
+	return nullptr;
 }
-
-// class Gui ---------------------------------------------------
-

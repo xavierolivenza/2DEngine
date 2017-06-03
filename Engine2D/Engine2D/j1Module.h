@@ -9,6 +9,7 @@
 #include "PugiXml\src\pugixml.hpp"
 #include <list>
 #include <vector>
+#include <map>
 
 class j1App;
 

@@ -5,7 +5,10 @@
 
 #define CURSOR_WIDTH 2
 
-// TODO 1: Create your structure of classes
+enum GUIAtlas
+{
+	default
+};
 
 // ---------------------------------------------------
 class j1Gui : public j1Module
@@ -26,20 +29,24 @@ public:
 	// Called before all Updates
 	bool PreUpdate();
 
+	// Called each loop iteration
+	bool Update(float dt);
+
 	// Called after all Updates
 	bool PostUpdate();
 
 	// Called before quitting
 	bool CleanUp();
 
-	// TODO 2: Create the factory methods
 	// Gui creation functions
-
-	const SDL_Texture* GetAtlas() const;
+	SDL_Texture* GetAtlas(GUIAtlas atlas) const;
 
 private:
 
-	SDL_Texture* atlas = nullptr;
+
+private:
+
+	std::multimap<SDL_Texture*, GUIAtlas> atlas_multimap;
 	std::string atlas_file_name;
 };
 
