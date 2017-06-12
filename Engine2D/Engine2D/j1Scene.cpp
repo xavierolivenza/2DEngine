@@ -9,7 +9,10 @@
 #include "j1Map.h"
 #include "j1PathFinding.h"
 #include "j1Gui.h"
+#include "j1FileSystem.h"
 #include "j1Scene.h"
+
+#include "S_TestScene_1.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -31,6 +34,44 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
+	bool ret = false;
+	MainScene* new_scene = nullptr;
+
+	new_scene = new S_TestScene_1;
+	scene_list.push_back(new_scene);
+	active_scene = new_scene;
+
+	//XML congig read
+	pugi::xml_document	config_file;
+	pugi::xml_node		config;
+
+	//Load XML
+	char* buf = nullptr;
+	int size = App->fs->Load("scenes/scenes_config.xml", &buf);
+	pugi::xml_parse_result result = config_file.load_buffer(buf, size);
+	RELEASE(buf);
+
+	if (result == NULL)
+		LOG("Could not load map xml file gui_config.xml. pugi error: %s", result.description());
+	else
+		config = config_file.child("gui_config");
+
+	//Set config
+	if (config.empty() == false)
+		ret = true;
+
+	if (ret == true)
+	{
+		for (std::list<MainScene*>::iterator item = scene_list.begin(); item != scene_list.cend() && ret == true; ++item)
+		{
+			ret = (*item)->Awake(config.child((*item)->scene_name.c_str()));
+			/*
+			if ((*item)->scene_name == Scene_ID::introvideo)
+				main_active_scene = (*item);
+			*/
+		}
+	}
+
 	if(App->map->Load("iso_walk.tmx") == true)
 	{
 		int w = 0;
@@ -42,13 +83,12 @@ bool j1Scene::Start()
 	}
 	debug_tex = App->tex->Load("maps/path2.png");
 
-	return true;
+	return ret;
 }
 
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
-
 	// debug pathfing ------------------
 	static iPoint origin;
 	static bool origin_selected = false;
@@ -141,4 +181,22 @@ bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
 	return true;
+}
+
+bool j1Scene::ChangeScene(std::string& scene_name)
+{
+	for (std::list<MainScene*>::iterator item = scene_list.begin(); item != scene_list.cend(); ++item)
+		if ((*item)->scene_name == scene_name)
+		{
+			if (*item != active_scene)
+				active_scene->CleanUp();
+			active_scene = *item;
+			return true;
+		}
+	return false;
+}
+
+const MainScene* j1Scene::GetActiveScene() const
+{
+	return active_scene;
 }

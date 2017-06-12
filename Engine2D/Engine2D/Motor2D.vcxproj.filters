@@ -52,6 +52,12 @@
     <ClCompile Include="j1Gui.cpp">
       <Filter>Desenvolupament  ========\Main Modules</Filter>
     </ClCompile>
+    <ClCompile Include="MainScene.cpp">
+      <Filter>Desenvolupament  ========\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="S_TestScene_1.cpp">
+      <Filter>Desenvolupament  ========\Scenes\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -114,6 +120,12 @@
     <ClInclude Include="j1Gui.h">
       <Filter>Desenvolupament  ========\Main Modules</Filter>
     </ClInclude>
+    <ClInclude Include="MainScene.h">
+      <Filter>Desenvolupament  ========\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="S_TestScene_1.h">
+      <Filter>Desenvolupament  ========\Scenes\Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">
@@ -136,6 +148,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\GUI">
       <UniqueIdentifier>{b1593921-f978-4f36-9a10-a6c87595e3ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Scenes\Scenes">
+      <UniqueIdentifier>{52f60fd1-de41-4394-9152-4b50d8493b71}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
