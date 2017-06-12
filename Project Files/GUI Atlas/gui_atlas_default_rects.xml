@@ -3,7 +3,7 @@
 <gui_atlas_rects>
   <GUI_Image>
     <!-- GUI_Image Type 1-->
-    <image animation_loop="true" animation_speed="1.0">
+    <image name="default_image" animation_loop="true" animation_speed="1.0">
       <state x="0" y="0" w="328" h="103"/>
       <state x="0" y="103" w="328" h="103"/>
       <state x="0" y="206" w="328" h="103"/>
@@ -11,15 +11,15 @@
   </GUI_Image>
 	
   <GUI_Label>
-    <!-- GUI_Image Type 1-->
-    <label animation_loop="false" animation_speed="0.0">
+    <!-- GUI_Label Type 1-->
+    <label name="default_label" animation_loop="false" animation_speed="0.0">
       <state x="0" y="309" w="322" h="50"/>
     </label>
   </GUI_Label>
   
   <GUI_Button>
     <!-- GUI_Button Type 1-->
-    <button>
+    <button name="default_button_big">
       <state_idle animation_loop="false" animation_speed="0.0">
         <state x="0" y="359" w="218" h="57"/>
       </state_idle>
@@ -31,7 +31,7 @@
       </state_pressed>
     </button>
     <!-- GUI_Button Type 2-->
-    <button>
+    <button name="default_button_small">
       <state_idle animation_loop="false" animation_speed="0.0">
         <state x="218" y="359" w="129" h="41"/>
       </state_idle>
@@ -46,14 +46,14 @@
   
   <GUI_Window>
     <!-- GUI_Window Type 1-->
-    <window animation_loop="false" animation_speed="0.0">
+    <window name="default_window" animation_loop="false" animation_speed="0.0">
       <state x="364" y="16" w="420" h="452"/>
     </window>
   </GUI_Window>
   
   <GUI_Scrollbar_Vertical>
     <!-- GUI_Scrollbar_Vertical Type 1-->
-    <scrollbar_vertical>
+    <scrollbar_vertical name="default_scrollbar_vertical">
       <scrollbar_vertical_background animation_loop="true" animation_speed="1.0">
         <state x="328" y="0" w="11" h="150"/>
       </scrollbar_vertical_background>
@@ -73,7 +73,7 @@
   
   <GUI_Scrollbar_Horitzontal>
     <!-- GUI_Scrollbar_Horitzontal Type 1-->
-    <scrollbar_horitzontal>
+    <scrollbar_horitzontal name="default_scrollbar_horitzontal">
       <scrollbar_horitzontal_background>
         <state x="344" y="0" w="307" h="11"/>
       </scrollbar_horitzontal_background>
@@ -93,7 +93,7 @@
 
   <GUI_Check>
     <!-- GUI_Check Type 1-->
-    <check>
+    <check name="default_check_three_tex" >
       <check_unchecked_background animation_loop="false" animation_speed="0.0">
         <state x="218" y="482" w="38" h="38"/>
       </check_unchecked_background>
@@ -103,6 +103,12 @@
       <check_check animation_loop="false" animation_speed="0.0">
         <state x="294" y="482" w="38" h="38"/>
       </check_check>
+    </check>
+    <!-- GUI_Check Type 2-->
+    <check name="default_check_two_tex" >
+      <check_unchecked_background animation_loop="false" animation_speed="0.0">
+        <state x="218" y="482" w="38" h="38"/>
+      </check_unchecked_background>
       <check_checked_backed_check animation_loop="false" animation_speed="0.0">
         <state x="332" y="482" w="38" h="38"/>
       </check_checked_backed_check>
