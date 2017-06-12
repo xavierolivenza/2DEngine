@@ -7,7 +7,8 @@
 
 enum GUIAtlas
 {
-	default
+	default,
+	over
 };
 
 // ---------------------------------------------------
@@ -47,7 +48,8 @@ private:
 private:
 
 	std::multimap<SDL_Texture*, GUIAtlas> atlas_multimap;
-	std::string atlas_file_name;
+	std::string default_atlas_file_name;
+	std::string over_atlas_file_name;
 };
 
 #endif // __j1GUI_H__

@@ -58,6 +58,18 @@
     <ClCompile Include="S_TestScene_1.cpp">
       <Filter>Desenvolupament  ========\Scenes\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="S_TestScene_2.cpp">
+      <Filter>Desenvolupament  ========\Scenes\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="S_TestScene_3.cpp">
+      <Filter>Desenvolupament  ========\Scenes\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="S_TestScene_4.cpp">
+      <Filter>Desenvolupament  ========\Scenes\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="S_TestScene_5.cpp">
+      <Filter>Desenvolupament  ========\Scenes\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -124,6 +136,18 @@
       <Filter>Desenvolupament  ========\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="S_TestScene_1.h">
+      <Filter>Desenvolupament  ========\Scenes\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="S_TestScene_2.h">
+      <Filter>Desenvolupament  ========\Scenes\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="S_TestScene_3.h">
+      <Filter>Desenvolupament  ========\Scenes\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="S_TestScene_4.h">
+      <Filter>Desenvolupament  ========\Scenes\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="S_TestScene_5.h">
       <Filter>Desenvolupament  ========\Scenes\Scenes</Filter>
     </ClInclude>
   </ItemGroup>

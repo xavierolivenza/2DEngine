@@ -1,8 +1,10 @@
 #ifndef _MAINSCENE_
 #define _MAINSCENE_
 
-#include "j1App.h"
 #include "SDL\include\SDL.h"
+#include "j1App.h"
+#include "j1Map.h"
+#include "j1Pathfinding.h"
 #include "p2Log.h"
 
 class MainScene {

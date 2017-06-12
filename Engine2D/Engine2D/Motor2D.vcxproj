@@ -94,6 +94,10 @@
     <ClCompile Include="j1Window.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
     <ClCompile Include="S_TestScene_1.cpp" />
+    <ClCompile Include="S_TestScene_2.cpp" />
+    <ClCompile Include="S_TestScene_3.cpp" />
+    <ClCompile Include="S_TestScene_4.cpp" />
+    <ClCompile Include="S_TestScene_5.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1FileSystem.h" />
@@ -118,6 +122,10 @@
     <ClInclude Include="PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
     <ClInclude Include="S_TestScene_1.h" />
+    <ClInclude Include="S_TestScene_2.h" />
+    <ClInclude Include="S_TestScene_3.h" />
+    <ClInclude Include="S_TestScene_4.h" />
+    <ClInclude Include="S_TestScene_5.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

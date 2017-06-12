@@ -39,6 +39,7 @@ public:
 
 private:
 	MainScene* active_scene = nullptr;
+	MainScene* prev_active_scene = nullptr;
 	std::list<MainScene*> scene_list;
 
 	SDL_Texture* debug_tex = nullptr;

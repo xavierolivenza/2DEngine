@@ -22,7 +22,8 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 	LOG("Loading GUI atlas");
 	bool ret = true;
 
-	atlas_file_name = conf.child("atlas").attribute("file").as_string("");
+	default_atlas_file_name = conf.child("default_atlas").attribute("file").as_string("");
+	over_atlas_file_name = conf.child("over_atlas").attribute("file").as_string("");
 
 	return ret;
 }
@@ -32,8 +33,12 @@ bool j1Gui::Start()
 {
 	std::pair<SDL_Texture*, GUIAtlas> new_atlas;
 
-	new_atlas.first = App->tex->Load(atlas_file_name.c_str());
+	new_atlas.first = App->tex->Load(default_atlas_file_name.c_str());
 	new_atlas.second = GUIAtlas::default;
+	atlas_multimap.insert(new_atlas);
+
+	new_atlas.first = App->tex->Load(over_atlas_file_name.c_str());
+	new_atlas.second = GUIAtlas::over;
 	atlas_multimap.insert(new_atlas);
 
 	return true;

@@ -13,6 +13,10 @@
 #include "j1Scene.h"
 
 #include "S_TestScene_1.h"
+#include "S_TestScene_2.h"
+#include "S_TestScene_3.h"
+#include "S_TestScene_4.h"
+#include "S_TestScene_5.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -41,6 +45,18 @@ bool j1Scene::Start()
 	scene_list.push_back(new_scene);
 	active_scene = new_scene;
 
+	new_scene = new S_TestScene_2;
+	scene_list.push_back(new_scene);
+
+	new_scene = new S_TestScene_3;
+	scene_list.push_back(new_scene);
+
+	new_scene = new S_TestScene_4;
+	scene_list.push_back(new_scene);
+
+	new_scene = new S_TestScene_5;
+	scene_list.push_back(new_scene);
+
 	//XML congig read
 	pugi::xml_document	config_file;
 	pugi::xml_node		config;
@@ -54,33 +70,16 @@ bool j1Scene::Start()
 	if (result == NULL)
 		LOG("Could not load map xml file gui_config.xml. pugi error: %s", result.description());
 	else
-		config = config_file.child("gui_config");
+		config = config_file.child("scenes_config");
 
 	//Set config
 	if (config.empty() == false)
 		ret = true;
 
 	if (ret == true)
-	{
 		for (std::list<MainScene*>::iterator item = scene_list.begin(); item != scene_list.cend() && ret == true; ++item)
-		{
 			ret = (*item)->Awake(config.child((*item)->scene_name.c_str()));
-			/*
-			if ((*item)->scene_name == Scene_ID::introvideo)
-				main_active_scene = (*item);
-			*/
-		}
-	}
 
-	if(App->map->Load("iso_walk.tmx") == true)
-	{
-		int w = 0;
-		int h = 0;
-		uchar* data = nullptr;
-		if(App->map->CreateWalkabilityMap(w, h, &data))
-			App->pathfinding->SetMap(w, h, data);
-		RELEASE_ARRAY(data);
-	}
 	debug_tex = App->tex->Load("maps/path2.png");
 
 	return ret;
@@ -89,6 +88,13 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
+	if (active_scene != prev_active_scene)
+	{
+		active_scene->Start();
+		prev_active_scene = active_scene;
+	}
+	active_scene->PreUpdate();
+
 	// debug pathfing ------------------
 	static iPoint origin;
 	static bool origin_selected = false;
@@ -119,8 +125,21 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-	// Gui ---
-	
+	active_scene->Update();
+
+	//---------------------------------------------------------------------------------------------------------//
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+		ChangeScene(std::string("S_TestScene_1"));
+	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+		ChangeScene(std::string("S_TestScene_2"));
+	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+		ChangeScene(std::string("S_TestScene_3"));
+	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
+		ChangeScene(std::string("S_TestScene_4"));
+	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
+		ChangeScene(std::string("S_TestScene_5"));
+	//---------------------------------------------------------------------------------------------------------//
+
 	// -------
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
@@ -171,8 +190,12 @@ bool j1Scene::Update(float dt)
 bool j1Scene::PostUpdate()
 {
 	bool ret = true;
+
+	active_scene->PostUpdate();
+
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
+
 	return ret;
 }
 
@@ -180,6 +203,9 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
+
+	active_scene->CleanUp();
+
 	return true;
 }
 
