@@ -147,24 +147,7 @@ bool j1Map::CleanUp()
 {
 	LOG("Unloading map");
 
-	// Remove all tilesets
-	for (std::list <TileSet*>::iterator item = data.tilesets.begin(); item != data.tilesets.cend(); ++item)
-		if (*item) {
-			App->tex->UnLoad((*item)->texture);
-			RELEASE(*item);
-		}
-	data.tilesets.clear();
-
-	// Remove all layers
-	for (std::list <MapLayer*>::iterator item = data.layers.begin(); item != data.layers.cend(); ++item)
-		if (*item) {
-			RELEASE((*item)->data);
-			RELEASE(*item);
-		}
-	data.layers.clear();
-
-	// Clean up the pugui tree
-	map_file.reset();
+	UnLoadMap();
 
 	return true;
 }
@@ -173,6 +156,9 @@ bool j1Map::CleanUp()
 bool j1Map::Load(const char* file_name)
 {
 	bool ret = true;
+
+	UnLoadMap();
+
 	static char tmp_string[4096];
 	sprintf_s(tmp_string, 4096, "%s%s", folder.c_str(), file_name);
 
@@ -455,4 +441,28 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 	}
 
 	return ret;
+}
+
+bool j1Map::UnLoadMap()
+{
+	// Remove all tilesets
+	for (std::list <TileSet*>::iterator item = data.tilesets.begin(); item != data.tilesets.cend(); ++item)
+		if (*item) {
+			App->tex->UnLoad((*item)->texture);
+			RELEASE(*item);
+		}
+	data.tilesets.clear();
+
+	// Remove all layers
+	for (std::list <MapLayer*>::iterator item = data.layers.begin(); item != data.layers.cend(); ++item)
+		if (*item) {
+			RELEASE((*item)->data);
+			RELEASE(*item);
+		}
+	data.layers.clear();
+
+	// Clean up the pugui tree
+	map_file.reset();
+
+	return true;
 }

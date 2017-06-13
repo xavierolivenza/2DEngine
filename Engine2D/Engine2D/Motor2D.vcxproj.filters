@@ -49,9 +49,6 @@
     <ClCompile Include="j1Fonts.cpp">
       <Filter>Desenvolupament  ========\Main Modules</Filter>
     </ClCompile>
-    <ClCompile Include="j1Gui.cpp">
-      <Filter>Desenvolupament  ========\Main Modules</Filter>
-    </ClCompile>
     <ClCompile Include="MainScene.cpp">
       <Filter>Desenvolupament  ========\Scenes</Filter>
     </ClCompile>
@@ -69,6 +66,9 @@
     </ClCompile>
     <ClCompile Include="S_TestScene_5.cpp">
       <Filter>Desenvolupament  ========\Scenes\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Gui.cpp">
+      <Filter>Desenvolupament  ========\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -129,9 +129,6 @@
     <ClInclude Include="j1Fonts.h">
       <Filter>Desenvolupament  ========\Main Modules</Filter>
     </ClInclude>
-    <ClInclude Include="j1Gui.h">
-      <Filter>Desenvolupament  ========\Main Modules</Filter>
-    </ClInclude>
     <ClInclude Include="MainScene.h">
       <Filter>Desenvolupament  ========\Scenes</Filter>
     </ClInclude>
@@ -149,6 +146,9 @@
     </ClInclude>
     <ClInclude Include="S_TestScene_5.h">
       <Filter>Desenvolupament  ========\Scenes\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Gui.h">
+      <Filter>Desenvolupament  ========\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +175,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\Scenes\Scenes">
       <UniqueIdentifier>{52f60fd1-de41-4394-9152-4b50d8493b71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\GUI\GUI Elements">
+      <UniqueIdentifier>{7ca25647-72cd-4bdf-b3c7-5dfe294f88bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
