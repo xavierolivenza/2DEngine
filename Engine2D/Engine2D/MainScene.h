@@ -10,26 +10,43 @@
 class MainScene {
 public:
 
-	MainScene() {};
-	~MainScene() {};
+	MainScene() {}
 
-	virtual bool Awake(pugi::xml_node& conf) {
+	~MainScene() {}
+
+	virtual bool Awake(pugi::xml_node& conf)
+	{
 		return true;
-	};
-	virtual bool Start() {
+	}
+
+	virtual bool Start()
+	{
 		return true;
-	};
-	virtual bool PreUpdate() {
+	}
+
+	virtual bool PreUpdate()
+	{
 		return true;
-	};
-	virtual bool Update() {
+	}
+
+	virtual bool Update()
+	{
 		return true;
-	};
-	virtual bool PostUpdate() {
+	}
+
+	virtual bool PostUpdate()
+	{
 		return true;
-	};
-	virtual bool CleanUp() {
+	}
+
+	virtual bool CleanUp()
+	{
 		return true;
+	}
+
+	virtual void OnGui(Gui* ui, GuiEvent event)
+	{
+
 	}
 
 public:

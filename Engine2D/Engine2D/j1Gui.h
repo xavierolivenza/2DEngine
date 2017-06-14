@@ -2,6 +2,7 @@
 #define __j1GUI_H__
 
 #include "j1Module.h"
+#include "Gui.h"
 
 #define CURSOR_WIDTH 2
 
@@ -14,6 +15,7 @@ enum GUIAtlas
 // ---------------------------------------------------
 class j1Gui : public j1Module
 {
+	friend class Gui;
 public:
 
 	j1Gui();
@@ -43,13 +45,16 @@ public:
 	SDL_Texture* GetAtlas(GUIAtlas atlas) const;
 
 private:
-
-
-private:
+	bool Gui_DebugDraw = false;
 
 	std::multimap<SDL_Texture*, GUIAtlas> atlas_multimap;
 	std::string default_atlas_file_name;
 	std::string over_atlas_file_name;
+
+	std::list<Gui*> GuiElements;
+	std::list<Gui*> ConsoleElements;
+
+	Gui* focus = nullptr;
 };
 
 #endif // __j1GUI_H__

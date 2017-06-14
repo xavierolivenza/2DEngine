@@ -74,7 +74,7 @@ class MainScene;
 
 class Gui
 {
-	friend class j1Gui;
+	//friend class j1Gui;
 public:
 	Gui(iPoint position, GuiType type, bool movable, AddGuiTo purpose);
 	virtual ~Gui() {}
@@ -94,10 +94,14 @@ public:
 	void SetVisible(bool visible);
 	void SetOpacity(int alpha);
 	int GetOpacity() const;
-	void SetOpacityOverTime(int initialalpha, int finalalpha, int transitionmilisec);
-	void SetOpacityOverTime(int finalalpha, int transitionmilisec); //Starts at actual alpha
+	void GainOpacityOverTime(int initialalpha, int finalalpha, int transitionmilisec);
+	void GainOpacityOverTime(int finalalpha, int transitionmilisec); //Starts at actual alpha
+	void LossOpacityOverTime(int initialalpha, int finalalpha, int transitionmilisec);
+	void LossOpacityOverTime(int finalalpha, int transitionmilisec); //Starts at actual alpha
 
-	void Focusable(bool value);
+	void SetFocus(bool value);
+	Gui* GetFocus() const;
+	bool Focusable() const;
 	
 	AddGuiTo GetPurpose() const;
 	bool InFOV();
@@ -113,7 +117,7 @@ protected:
 	AddGuiTo purpose;
 	GuiType type = GuiType::null_GuiType;
 	iPoint position = { 0,0 };
-	fPoint drag_vel = { 1.0f, 1.0f };
+	fPoint drag_vel = { 0.0f, 0.0f };
 	bool visible = true;
 	bool movable = false;
 	uint opacity = 255; //0-255
