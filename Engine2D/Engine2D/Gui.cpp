@@ -61,52 +61,53 @@ bool Gui::IsMovable() const
 
 void Gui::SetVisible(bool visible)
 {
-
+	this->visible = visible;
 }
 
-void Gui::SetOpacity(int alpha)
+void Gui::SetOpacity(uint alpha)
 {
-
+	if ((alpha >= 0) && (alpha <= 255))
+		opacity = alpha;
 }
 
 int Gui::GetOpacity() const
 {
-	return 0;
+	return opacity;
 }
 
-void Gui::GainOpacityOverTime(int initialalpha, int finalalpha, int transitionmilisec)
+void Gui::GainOpacityOverTime(uint initialalpha, uint finalalpha, uint transitionmilisec)
+{
+	//Waiting to be implemented when gui elements are implemented and working
+}
+
+void Gui::GainOpacityOverTime(uint finalalpha, uint transitionmilisec)
+{
+	//Waiting to be implemented when gui elements are implemented and working
+}
+
+void Gui::LossOpacityOverTime(uint initialalpha, uint finalalpha, uint transitionmilisec)
+{
+	//Waiting to be implemented when gui elements are implemented and working
+}
+
+void Gui::LossOpacityOverTime(uint finalalpha, uint transitionmilisec)
 {
 
 }
 
-void Gui::GainOpacityOverTime(int finalalpha, int transitionmilisec)
-{
-
-}
-
-void Gui::LossOpacityOverTime(int initialalpha, int finalalpha, int transitionmilisec)
-{
-
-}
-
-void Gui::LossOpacityOverTime(int finalalpha, int transitionmilisec)
-{
-
-}
-
-void Gui::SetFocus(bool value)
+void Gui::Focusable(bool value)
 {
 	can_focus = value;
+}
+
+bool Gui::FocusableStat() const
+{
+	return can_focus;
 }
 
 Gui* Gui::GetFocus() const
 {
 	return App->gui->focus;
-}
-
-bool Gui::Focusable() const
-{
-	return can_focus;
 }
 
 AddGuiTo Gui::GetPurpose() const

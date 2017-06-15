@@ -92,16 +92,16 @@ public:
 	bool IsMovable() const;
 
 	void SetVisible(bool visible);
-	void SetOpacity(int alpha);
+	void SetOpacity(uint alpha);
 	int GetOpacity() const;
-	void GainOpacityOverTime(int initialalpha, int finalalpha, int transitionmilisec);
-	void GainOpacityOverTime(int finalalpha, int transitionmilisec); //Starts at actual alpha
-	void LossOpacityOverTime(int initialalpha, int finalalpha, int transitionmilisec);
-	void LossOpacityOverTime(int finalalpha, int transitionmilisec); //Starts at actual alpha
+	void GainOpacityOverTime(uint initialalpha, uint finalalpha, uint transitionmilisec);
+	void GainOpacityOverTime(uint finalalpha, uint transitionmilisec); //Starts at actual alpha
+	void LossOpacityOverTime(uint initialalpha, uint finalalpha, uint transitionmilisec);
+	void LossOpacityOverTime(uint finalalpha, uint transitionmilisec); //Starts at actual alpha
 
-	void SetFocus(bool value);
+	void Focusable(bool value);
+	bool FocusableStat() const;
 	Gui* GetFocus() const;
-	bool Focusable() const;
 	
 	AddGuiTo GetPurpose() const;
 	bool InFOV();
