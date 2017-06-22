@@ -3,6 +3,7 @@
 
 #include "j1Module.h"
 #include "Gui.h"
+#include "GuiXMLStorage.h"
 
 #define CURSOR_WIDTH 2
 
@@ -47,10 +48,18 @@ public:
 private:
 	bool Gui_DebugDraw = false;
 
+	//All atlas stored
 	std::multimap<SDL_Texture*, GUIAtlas> atlas_multimap;
-	std::string default_atlas_file_name;
-	std::string over_atlas_file_name;
 
+	//Default Atlas
+	std::string default_atlas_file_name;
+	std::list<atlas_element*> default_atlas_content;
+
+	//Over Atlas
+	std::string over_atlas_file_name;
+	std::list<atlas_element*> over_atlas_content;
+
+	//Gui/Console Elements Lists
 	std::list<Gui*> GuiElements;
 	std::list<Gui*> ConsoleElements;
 

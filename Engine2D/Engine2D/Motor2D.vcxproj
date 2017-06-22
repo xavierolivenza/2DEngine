@@ -104,6 +104,7 @@
   <ItemGroup>
     <ClInclude Include="Color.h" />
     <ClInclude Include="Gui.h" />
+    <ClInclude Include="GuiXMLStorage.h" />
     <ClInclude Include="j1FileSystem.h" />
     <ClInclude Include="j1Fonts.h" />
     <ClInclude Include="j1Gui.h" />
