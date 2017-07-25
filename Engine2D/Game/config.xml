@@ -16,7 +16,9 @@
 
   <gui>
     <default_atlas file="gui/gui_atlas_default.png"/>
-	<over_atlas file="gui/gui_atlas_over.png"/>
+    <default_atlas_rects file="gui/gui_atlas_default_rects.xml"/>
+	  <over_atlas file="gui/gui_atlas_over.png"/>
+    <over_atlas_rects file="gui/gui_atlas_over_rects.xml"/>
   </gui>
     
   <window>

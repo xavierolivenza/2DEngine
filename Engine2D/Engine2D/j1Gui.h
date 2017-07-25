@@ -13,6 +13,19 @@ enum GUIAtlas
 	over
 };
 
+struct Atlas
+{
+	Atlas(std::string file_name, std::string rects_file_name, GUIAtlas enum_value) : atlas_file_name(file_name), atlas_rects_file_name(rects_file_name), atlas_type(enum_value)
+	{
+
+	}
+	GUIAtlas atlas_type = GUIAtlas::default;
+	std::string atlas_file_name;
+	std::string atlas_rects_file_name;
+	SDL_Texture* texture = nullptr;
+	std::list<atlas_element*>* atlas_content = nullptr;
+};
+
 // ---------------------------------------------------
 class j1Gui : public j1Module
 {
@@ -46,18 +59,29 @@ public:
 	SDL_Texture* GetAtlas(GUIAtlas atlas) const;
 
 private:
+	void PushBackNewAtlas(pugi::xml_node& conf, char* atlas_file_name, char* atlas_rects_file_name, GUIAtlas AtalsEnum);
+	std::list<atlas_element*>* LoadAtlasRectsXML(std::string* file);
+
+private:
 	bool Gui_DebugDraw = false;
 
+	//All atlas stored
+	std::list<Atlas*> gui_atlas_list;
+
+	/*
 	//All atlas stored
 	std::multimap<SDL_Texture*, GUIAtlas> atlas_multimap;
 
 	//Default Atlas
 	std::string default_atlas_file_name;
-	std::list<atlas_element*> default_atlas_content;
+	std::string default_atlas_rects_file_name;
+	std::list<atlas_element*>* default_atlas_content = nullptr;
 
 	//Over Atlas
 	std::string over_atlas_file_name;
-	std::list<atlas_element*> over_atlas_content;
+	std::string over_atlas_rects_file_name;
+	std::list<atlas_element*>* over_atlas_content = nullptr;
+	*/
 
 	//Gui/Console Elements Lists
 	std::list<Gui*> GuiElements;
