@@ -65,33 +65,11 @@ private:
 	atlas_button* AllocateNewButton(pugi::xml_node& NewButton);
 	atlas_check* AllocateNewCheck(pugi::xml_node& NewCheck);
 
-	/*
-	atlas_image_label_window* Create_atlas_image_label_window();
-	atlas_button* Create_atlas_button();
-	atlas_scrollbar_vertical* Create_atlas_scrollbar_vertical();
-	atlas_scrollbar_horitzontal* Create_atlas_scrollbar_horitzontal();
-	atlas_check* Create_atlas_check();
-	*/
 private:
 	bool Gui_DebugDraw = false;
 
 	//All atlas stored
 	std::list<Atlas*> gui_atlas_list;
-
-	/*
-	//All atlas stored
-	std::multimap<SDL_Texture*, GUIAtlas> atlas_multimap;
-
-	//Default Atlas
-	std::string default_atlas_file_name;
-	std::string default_atlas_rects_file_name;
-	std::list<atlas_element*>* default_atlas_content = nullptr;
-
-	//Over Atlas
-	std::string over_atlas_file_name;
-	std::string over_atlas_rects_file_name;
-	std::list<atlas_element*>* over_atlas_content = nullptr;
-	*/
 
 	//Gui/Console Elements Lists
 	std::list<Gui*> GuiElements;

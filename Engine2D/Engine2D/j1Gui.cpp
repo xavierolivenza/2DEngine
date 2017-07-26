@@ -8,6 +8,24 @@
 #include "j1Gui.h"
 #include "j1FileSystem.h"
 
+//Just an example of how multimap work, just in case that i need it
+/*
+for (std::multimap<SDL_Texture*, GUIAtlas>::const_iterator item = atlas_multimap.begin(); item != atlas_multimap.cend(); ++item)
+	if ((*item).second == atlas)
+return (*item).first;
+*/
+/*
+std::pair<SDL_Texture*, GUIAtlas> new_atlas;
+new_atlas.first = App->tex->Load(default_atlas_file_name.c_str());
+new_atlas.second = GUIAtlas::default;
+atlas_multimap.insert(new_atlas);
+*/
+/*
+for (std::multimap<SDL_Texture*, GUIAtlas>::const_iterator item = atlas_multimap.begin(); item != atlas_multimap.cend(); ++item)
+	App->tex->UnLoad((*item).first);
+atlas_multimap.clear();
+*/
+
 j1Gui::j1Gui() : j1Module()
 {
 	name = "gui";
@@ -26,12 +44,6 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 	PushBackNewAtlas(conf, "default_atlas", "default_atlas_rects", GUIAtlas::default);
 	PushBackNewAtlas(conf, "over_atlas", "over_atlas_rects", GUIAtlas::over);
 
-	/*
-	default_atlas_file_name = conf.child("default_atlas").attribute("file").as_string("");
-	default_atlas_rects_file_name = conf.child("default_atlas_rects").attribute("file").as_string("");
-	over_atlas_file_name = conf.child("over_atlas").attribute("file").as_string("");
-	over_atlas_rects_file_name = conf.child("over_atlas_rects").attribute("file").as_string("");
-	*/
 	return ret;
 }
 
@@ -44,20 +56,6 @@ bool j1Gui::Start()
 		(item._Ptr->_Myval)->texture = App->tex->Load((item._Ptr->_Myval)->atlas_file_name.c_str());
 		(item._Ptr->_Myval)->atlas_content = LoadAtlasRectsXML(&(item._Ptr->_Myval)->atlas_rects_file_name);
 	}
-
-	/*
-	std::pair<SDL_Texture*, GUIAtlas> new_atlas;
-
-	new_atlas.first = App->tex->Load(default_atlas_file_name.c_str());
-	new_atlas.second = GUIAtlas::default;
-	atlas_multimap.insert(new_atlas);
-	default_atlas_content = LoadAtlasRectsXML(&default_atlas_rects_file_name);
-
-	new_atlas.first = App->tex->Load(over_atlas_file_name.c_str());
-	new_atlas.second = GUIAtlas::over;
-	atlas_multimap.insert(new_atlas);
-	over_atlas_content = LoadAtlasRectsXML(&over_atlas_rects_file_name);
-	*/
 
 	return true;
 }
@@ -90,6 +88,7 @@ bool j1Gui::CleanUp()
 		if ((item._Ptr->_Myval)->texture != nullptr)
 			App->tex->UnLoad((item._Ptr->_Myval)->texture);
 		if ((item._Ptr->_Myval)->atlas_content != nullptr)
+		{
 			for (std::list<atlas_element*>::iterator item2 = ((item._Ptr->_Myval)->atlas_content)->begin(); item2 != ((item._Ptr->_Myval)->atlas_content)->cend(); ++item2)
 			{
 				switch (item2._Ptr->_Myval->type)
@@ -129,16 +128,12 @@ bool j1Gui::CleanUp()
 					break;
 				}
 				RELEASE((item2._Ptr->_Myval));
-			}	
+			}
+			RELEASE((item._Ptr->_Myval)->atlas_content);
+		}
 		RELEASE((item._Ptr->_Myval));
 	}
 	gui_atlas_list.clear();
-
-	/*
-	for (std::multimap<SDL_Texture*, GUIAtlas>::const_iterator item = atlas_multimap.begin(); item != atlas_multimap.cend(); ++item)
-		App->tex->UnLoad((*item).first);
-	atlas_multimap.clear();
-	*/
 
 	//TO CLEAN
 	/*
@@ -156,12 +151,6 @@ SDL_Texture* j1Gui::GetAtlas(GUIAtlas atlas) const
 	for (std::list<Atlas*>::const_iterator item = gui_atlas_list.begin(); item != gui_atlas_list.cend(); ++item)
 		if (item._Ptr->_Myval->atlas_type == atlas)
 			return item._Ptr->_Myval->texture;
-
-	/*
-	for (std::multimap<SDL_Texture*, GUIAtlas>::const_iterator item = atlas_multimap.begin(); item != atlas_multimap.cend(); ++item)
-		if ((*item).second == atlas)
-			return (*item).first;
-	*/
 
 	return nullptr;
 }
@@ -247,12 +236,18 @@ atlas_image_label_window* j1Gui::AllocateNewImageLabelWindow(pugi::xml_node& New
 		SDL_Rect newrect = { newstate.attribute("x").as_int(0),newstate.attribute("y").as_int(0),newstate.attribute("w").as_int(0),newstate.attribute("h").as_int(0) };
 		atlas_element_state_rects.push_back(newrect);
 	}
+
+	//this is usefull for thing like the Checkbox which you have the option of making it in two ways.
+	//1. With check_unchecked_background, check_checked_background and check_check.
+	//2. With check_unchecked_background and check_checked_backed_check.
+	//So from code is usefull to know if some image is in fact null
+	if (((char*)NewImageLabelWindow.attribute("name").as_string("") == "") && !NewImageLabelWindow.attribute("animation_loop").as_bool(false) &&
+		(NewImageLabelWindow.attribute("animation_speed").as_float(0.0f) == 0.0f) && atlas_element_state_rects.empty())
+		return nullptr;
+
 	atlas_image_label_window* newtoadd = new atlas_image_label_window((char*)NewImageLabelWindow.attribute("name").as_string(""),
 		type, NewImageLabelWindow.attribute("animation_loop").as_bool(false), NewImageLabelWindow.attribute("animation_speed").as_float(0.0f),
 		&atlas_element_state_rects);
-
-	if ((newtoadd->name == "") && !newtoadd->animation_loop && (newtoadd->animation_speed == 0.0f) && newtoadd->atlas_element_state_rects.empty())
-		return nullptr;
 
 	return newtoadd;
 }
