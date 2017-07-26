@@ -64,6 +64,7 @@ private:
 	atlas_image_label_window* AllocateNewImageLabelWindow(pugi::xml_node& NewImageLabelWindow, atlas_element_type type);
 	atlas_button* AllocateNewButton(pugi::xml_node& NewButton);
 	atlas_check* AllocateNewCheck(pugi::xml_node& NewCheck);
+	atlas_scrollbar* AllocateNewScrollbar(pugi::xml_node& NewCheck, atlas_element_type type);
 
 private:
 	bool Gui_DebugDraw = false;

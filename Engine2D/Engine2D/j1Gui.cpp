@@ -103,20 +103,13 @@ bool j1Gui::CleanUp()
 					RELEASE(((atlas_button*)item2._Ptr->_Myval)->state_pressed);
 					break;
 				case atlas_element_type::enum_atlas_scrollbar_vertical:
-					RELEASE(((atlas_scrollbar_vertical*)item2._Ptr->_Myval)->scrollbar_vertical_background);
-					RELEASE(((atlas_scrollbar_vertical*)item2._Ptr->_Myval)->scrollbar_vertical_line);
-					RELEASE(((atlas_button*)((atlas_scrollbar_vertical*)item2._Ptr->_Myval)->scrollbar_vertical_button)->state_idle);
-					RELEASE(((atlas_button*)((atlas_scrollbar_vertical*)item2._Ptr->_Myval)->scrollbar_vertical_button)->state_hover);
-					RELEASE(((atlas_button*)((atlas_scrollbar_vertical*)item2._Ptr->_Myval)->scrollbar_vertical_button)->state_pressed);
-					RELEASE(((atlas_scrollbar_vertical*)item2._Ptr->_Myval)->scrollbar_vertical_button);
-					break;
 				case atlas_element_type::enum_atlas_scrollbar_horitzontal:
-					RELEASE(((atlas_scrollbar_horitzontal*)item2._Ptr->_Myval)->scrollbar_horitzontal_background);
-					RELEASE(((atlas_scrollbar_horitzontal*)item2._Ptr->_Myval)->scrollbar_horitzontal_line);
-					RELEASE(((atlas_button*)((atlas_scrollbar_horitzontal*)item2._Ptr->_Myval)->scrollbar_horitzontal_button)->state_idle);
-					RELEASE(((atlas_button*)((atlas_scrollbar_horitzontal*)item2._Ptr->_Myval)->scrollbar_horitzontal_button)->state_hover);
-					RELEASE(((atlas_button*)((atlas_scrollbar_horitzontal*)item2._Ptr->_Myval)->scrollbar_horitzontal_button)->state_pressed);
-					RELEASE(((atlas_scrollbar_horitzontal*)item2._Ptr->_Myval)->scrollbar_horitzontal_button);
+					RELEASE(((atlas_scrollbar*)item2._Ptr->_Myval)->scrollbar_background);
+					RELEASE(((atlas_scrollbar*)item2._Ptr->_Myval)->scrollbar_line);
+					RELEASE(((atlas_button*)((atlas_scrollbar*)item2._Ptr->_Myval)->scrollbar_button)->state_idle);
+					RELEASE(((atlas_button*)((atlas_scrollbar*)item2._Ptr->_Myval)->scrollbar_button)->state_hover);
+					RELEASE(((atlas_button*)((atlas_scrollbar*)item2._Ptr->_Myval)->scrollbar_button)->state_pressed);
+					RELEASE(((atlas_scrollbar*)item2._Ptr->_Myval)->scrollbar_button);
 					break;
 				case atlas_element_type::enum_atlas_check:
 					RELEASE(((atlas_check*)item2._Ptr->_Myval)->check_unchecked_background);
@@ -210,13 +203,13 @@ std::list<atlas_element*>* j1Gui::LoadAtlasRectsXML(std::string* file)
 		//Iterate all vertical scrollbars stored in XML file
 		for (pugi::xml_node newverticalscrollbar = atlas_config.child("GUI_Scrollbar_Vertical").child("scrollbar_vertical"); newverticalscrollbar; newverticalscrollbar = newverticalscrollbar.next_sibling("scrollbar_vertical"))
 		{
-
+			temp->push_back(AllocateNewScrollbar(newverticalscrollbar, atlas_element_type::enum_atlas_scrollbar_vertical));
 		}
 
 		//Iterate all horitzontal scrollbars stored in XML file
 		for (pugi::xml_node newhoritzontalscrollbar = atlas_config.child("GUI_Scrollbar_Horitzontal").child("scrollbar_horitzontal"); newhoritzontalscrollbar; newhoritzontalscrollbar = newhoritzontalscrollbar.next_sibling("scrollbar_horitzontal"))
 		{
-
+			temp->push_back(AllocateNewScrollbar(newhoritzontalscrollbar, atlas_element_type::enum_atlas_scrollbar_horitzontal));
 		}
 
 		//Iterate all checks stored in XML file
@@ -230,6 +223,9 @@ std::list<atlas_element*>* j1Gui::LoadAtlasRectsXML(std::string* file)
 
 atlas_image_label_window* j1Gui::AllocateNewImageLabelWindow(pugi::xml_node& NewImageLabelWindow, atlas_element_type type)
 {
+	if ((type != atlas_element_type::enum_atlas_image) && (type != atlas_element_type::enum_atlas_label) && (type != atlas_element_type::enum_atlas_window))
+		return nullptr;
+
 	std::list<SDL_Rect> atlas_element_state_rects;
 	for (pugi::xml_node newstate = NewImageLabelWindow.child("state"); newstate; newstate = newstate.next_sibling("state"))
 	{
@@ -237,7 +233,7 @@ atlas_image_label_window* j1Gui::AllocateNewImageLabelWindow(pugi::xml_node& New
 		atlas_element_state_rects.push_back(newrect);
 	}
 
-	//this is usefull for thing like the Checkbox which you have the option of making it in two ways.
+	//this is usefull for thing like the Checkbox which you have the option of making it in two ways, or buttons with less than 3 states.
 	//1. With check_unchecked_background, check_checked_background and check_check.
 	//2. With check_unchecked_background and check_checked_backed_check.
 	//So from code is usefull to know if some image is in fact null
@@ -257,7 +253,8 @@ atlas_button* j1Gui::AllocateNewButton(pugi::xml_node& NewButton)
 	atlas_image_label_window* state_idle = AllocateNewImageLabelWindow(NewButton.child("state_idle"), atlas_element_type::enum_atlas_image);
 	atlas_image_label_window* state_hover = AllocateNewImageLabelWindow(NewButton.child("state_hover"), atlas_element_type::enum_atlas_image);
 	atlas_image_label_window* state_pressed = AllocateNewImageLabelWindow(NewButton.child("state_pressed"), atlas_element_type::enum_atlas_image);
-	atlas_button* newbuttontoadd = new atlas_button((char*)NewButton.attribute("name").as_string(""), atlas_element_type::enum_atlas_button, state_idle, state_hover, state_pressed);
+	atlas_button* newbuttontoadd = new atlas_button((char*)NewButton.attribute("name").as_string(""), atlas_element_type::enum_atlas_button, state_idle,
+		state_hover, state_pressed);
 	return newbuttontoadd;
 }
 
@@ -267,6 +264,32 @@ atlas_check* j1Gui::AllocateNewCheck(pugi::xml_node& NewCheck)
 	atlas_image_label_window* check_checked_background = AllocateNewImageLabelWindow(NewCheck.child("check_checked_background"), atlas_element_type::enum_atlas_image);
 	atlas_image_label_window* check_check = AllocateNewImageLabelWindow(NewCheck.child("check_check"), atlas_element_type::enum_atlas_image);
 	atlas_image_label_window* check_checked_backed_check = AllocateNewImageLabelWindow(NewCheck.child("check_checked_backed_check"), atlas_element_type::enum_atlas_image);
-	atlas_check* newchecktoadd = new atlas_check((char*)NewCheck.attribute("name").as_string(""), atlas_element_type::enum_atlas_check, check_unchecked_background, check_checked_background, check_check, check_checked_backed_check);
+	atlas_check* newchecktoadd = new atlas_check((char*)NewCheck.attribute("name").as_string(""), atlas_element_type::enum_atlas_check, check_unchecked_background,
+		check_checked_background, check_check, check_checked_backed_check);
 	return newchecktoadd;
+}
+
+atlas_scrollbar* j1Gui::AllocateNewScrollbar(pugi::xml_node& NewScrollbar, atlas_element_type type)
+{
+	if ((type != atlas_element_type::enum_atlas_scrollbar_vertical) && (type != atlas_element_type::enum_atlas_scrollbar_horitzontal))
+		return nullptr;
+
+	char* scrollbar_background_str = "scrollbar_vertical_background";
+	char* scrollbar_line_str = "scrollbar_vertical_line";
+	char* scrollbar_button_str = "scrollbar_vertical_button";
+
+	if (type == atlas_element_type::enum_atlas_scrollbar_horitzontal)
+	{
+		scrollbar_background_str = "scrollbar_horitzontal_background";
+		scrollbar_line_str = "scrollbar_horitzontal_line";
+		scrollbar_button_str = "scrollbar_horitzontal_button";
+	}
+
+	atlas_image_label_window* scrollbar_background = AllocateNewImageLabelWindow(NewScrollbar.child(scrollbar_background_str), atlas_element_type::enum_atlas_image);
+	atlas_image_label_window* scrollbar_line = AllocateNewImageLabelWindow(NewScrollbar.child(scrollbar_line_str), atlas_element_type::enum_atlas_image);
+	atlas_button* scrollbar_button = AllocateNewButton(NewScrollbar.child(scrollbar_button_str));
+
+	atlas_scrollbar* newscrollbartoadd = new atlas_scrollbar((char*)NewScrollbar.attribute("name").as_string(""), type,
+		scrollbar_background, scrollbar_line, scrollbar_button);
+	return newscrollbartoadd;
 }

@@ -54,18 +54,18 @@ struct atlas_button : public atlas_element
 	atlas_image_label_window* state_pressed = nullptr;
 };
 
-struct atlas_scrollbar_vertical : public atlas_element
+struct atlas_scrollbar : public atlas_element
 {
-	atlas_image_label_window* scrollbar_vertical_background = nullptr;
-	atlas_image_label_window* scrollbar_vertical_line = nullptr;
-	atlas_button* scrollbar_vertical_button = nullptr;
-};
+	atlas_scrollbar(char* name, atlas_element_type type, atlas_image_label_window* scrollbar_background, atlas_image_label_window* scrollbar_line, atlas_button* scrollbar_button) :
+		scrollbar_background(scrollbar_background), scrollbar_line(scrollbar_line), scrollbar_button(scrollbar_button),
+		atlas_element(name, type)
+	{
 
-struct atlas_scrollbar_horitzontal : public atlas_element
-{
-	atlas_image_label_window* scrollbar_horitzontal_background = nullptr;
-	atlas_image_label_window* scrollbar_horitzontal_line = nullptr;
-	atlas_button* scrollbar_horitzontal_button = nullptr;
+	}
+
+	atlas_image_label_window* scrollbar_background = nullptr;
+	atlas_image_label_window* scrollbar_line = nullptr;
+	atlas_button* scrollbar_button = nullptr;
 };
 
 struct atlas_check : public atlas_element
