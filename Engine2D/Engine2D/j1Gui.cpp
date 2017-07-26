@@ -91,7 +91,45 @@ bool j1Gui::CleanUp()
 			App->tex->UnLoad((item._Ptr->_Myval)->texture);
 		if ((item._Ptr->_Myval)->atlas_content != nullptr)
 			for (std::list<atlas_element*>::iterator item2 = ((item._Ptr->_Myval)->atlas_content)->begin(); item2 != ((item._Ptr->_Myval)->atlas_content)->cend(); ++item2)
+			{
+				switch (item2._Ptr->_Myval->type)
+				{
+				case atlas_element_type::enum_atlas_image:
+				case atlas_element_type::enum_atlas_label:
+				case atlas_element_type::enum_atlas_window:
+					break;
+				case atlas_element_type::enum_atlas_button:
+					RELEASE(((atlas_button*)item2._Ptr->_Myval)->state_idle);
+					RELEASE(((atlas_button*)item2._Ptr->_Myval)->state_hover);
+					RELEASE(((atlas_button*)item2._Ptr->_Myval)->state_pressed);
+					break;
+				case atlas_element_type::enum_atlas_scrollbar_vertical:
+					RELEASE(((atlas_scrollbar_vertical*)item2._Ptr->_Myval)->scrollbar_vertical_background);
+					RELEASE(((atlas_scrollbar_vertical*)item2._Ptr->_Myval)->scrollbar_vertical_line);
+					RELEASE(((atlas_button*)((atlas_scrollbar_vertical*)item2._Ptr->_Myval)->scrollbar_vertical_button)->state_idle);
+					RELEASE(((atlas_button*)((atlas_scrollbar_vertical*)item2._Ptr->_Myval)->scrollbar_vertical_button)->state_hover);
+					RELEASE(((atlas_button*)((atlas_scrollbar_vertical*)item2._Ptr->_Myval)->scrollbar_vertical_button)->state_pressed);
+					RELEASE(((atlas_scrollbar_vertical*)item2._Ptr->_Myval)->scrollbar_vertical_button);
+					break;
+				case atlas_element_type::enum_atlas_scrollbar_horitzontal:
+					RELEASE(((atlas_scrollbar_horitzontal*)item2._Ptr->_Myval)->scrollbar_horitzontal_background);
+					RELEASE(((atlas_scrollbar_horitzontal*)item2._Ptr->_Myval)->scrollbar_horitzontal_line);
+					RELEASE(((atlas_button*)((atlas_scrollbar_horitzontal*)item2._Ptr->_Myval)->scrollbar_horitzontal_button)->state_idle);
+					RELEASE(((atlas_button*)((atlas_scrollbar_horitzontal*)item2._Ptr->_Myval)->scrollbar_horitzontal_button)->state_hover);
+					RELEASE(((atlas_button*)((atlas_scrollbar_horitzontal*)item2._Ptr->_Myval)->scrollbar_horitzontal_button)->state_pressed);
+					RELEASE(((atlas_scrollbar_horitzontal*)item2._Ptr->_Myval)->scrollbar_horitzontal_button);
+					break;
+				case atlas_element_type::enum_atlas_check:
+					RELEASE(((atlas_check*)item2._Ptr->_Myval)->check_unchecked_background);
+					RELEASE(((atlas_check*)item2._Ptr->_Myval)->check_checked_background);
+					RELEASE(((atlas_check*)item2._Ptr->_Myval)->check_check);
+					RELEASE(((atlas_check*)item2._Ptr->_Myval)->check_checked_backed_check);
+					break;
+				default:
+					break;
+				}
 				RELEASE((item2._Ptr->_Myval));
+			}	
 		RELEASE((item._Ptr->_Myval));
 	}
 	gui_atlas_list.clear();
@@ -172,6 +210,16 @@ std::list<atlas_element*>* j1Gui::LoadAtlasRectsXML(std::string* file)
 		for (pugi::xml_node newwindow = atlas_config.child("GUI_Window").child("window"); newwindow; newwindow = newwindow.next_sibling("window"))
 		{
 			temp->push_back(AllocateNewImageLabelWindow(newwindow, atlas_element_type::enum_atlas_window));
+		}
+
+		//Iterate all buttons stored in XML file
+		for (pugi::xml_node newbutton = atlas_config.child("GUI_Button").child("button"); newbutton; newbutton = newbutton.next_sibling("button"))
+		{
+			atlas_image_label_window* state_idle = AllocateNewImageLabelWindow(newbutton.child("state_idle"), atlas_element_type::enum_atlas_image);
+			atlas_image_label_window* state_hover = AllocateNewImageLabelWindow(newbutton.child("state_hover"), atlas_element_type::enum_atlas_image);
+			atlas_image_label_window* state_pressed = AllocateNewImageLabelWindow(newbutton.child("state_pressed"), atlas_element_type::enum_atlas_image);
+			atlas_button* newbuttontoadd = new atlas_button((char*)newbutton.attribute("name").as_string(""), atlas_element_type::enum_atlas_button, state_idle, state_hover, state_pressed);
+			temp->push_back(newbuttontoadd);
 		}
 
 		//Iterate all vertical scrollbars stored in XML file

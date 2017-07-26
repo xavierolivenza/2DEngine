@@ -42,6 +42,13 @@ struct atlas_image_label_window : public atlas_element
 
 struct atlas_button : public atlas_element
 {
+	atlas_button(char* name, atlas_element_type type, atlas_image_label_window* state_idle, atlas_image_label_window* state_hover, atlas_image_label_window* state_pressed):
+		state_idle(state_idle), state_hover(state_hover), state_pressed(state_pressed),
+		atlas_element(name, type)
+	{
+
+	}
+
 	atlas_image_label_window* state_idle = nullptr;
 	atlas_image_label_window* state_hover = nullptr;
 	atlas_image_label_window* state_pressed = nullptr;
