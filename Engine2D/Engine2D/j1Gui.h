@@ -61,7 +61,13 @@ public:
 private:
 	void PushBackNewAtlas(pugi::xml_node& conf, char* atlas_file_name, char* atlas_rects_file_name, GUIAtlas AtalsEnum);
 	std::list<atlas_element*>* LoadAtlasRectsXML(std::string* file);
-
+	/*
+	atlas_image_label_window* Create_atlas_image_label_window();
+	atlas_button* Create_atlas_button();
+	atlas_scrollbar_vertical* Create_atlas_scrollbar_vertical();
+	atlas_scrollbar_horitzontal* Create_atlas_scrollbar_horitzontal();
+	atlas_check* Create_atlas_check();
+	*/
 private:
 	bool Gui_DebugDraw = false;
 

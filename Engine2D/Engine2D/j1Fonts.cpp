@@ -45,7 +45,7 @@ bool j1Fonts::CleanUp()
 	LOG("Freeing True Type fonts and library");
 
 	for (std::list<TTF_Font*>::const_iterator item = fonts.begin(); item != fonts.cend(); ++item)
-		TTF_CloseFont(*item);
+		TTF_CloseFont(item._Ptr->_Myval);
 	fonts.clear();
 
 	TTF_Quit();

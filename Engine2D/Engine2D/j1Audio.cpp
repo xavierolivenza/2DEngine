@@ -66,7 +66,7 @@ bool j1Audio::CleanUp()
 		Mix_FreeMusic(music);
 
 	for (std::list<Mix_Chunk*>::const_iterator item = fx.begin(); item != fx.cend(); ++item)
-		Mix_FreeChunk(*item);
+		Mix_FreeChunk(item._Ptr->_Myval);
 	fx.clear();
 
 	Mix_CloseAudio();
@@ -159,7 +159,7 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 	{
 		std::list<Mix_Chunk*>::iterator item = fx.begin();
 		for (int n_mus = 0; item != fx.cend() && n_mus < id - 1; ++item, ++n_mus)
-		Mix_PlayChannel(-1, (*item), repeat);
+			Mix_PlayChannel(-1, (item._Ptr->_Myval), repeat);
 	}
 	return ret;
 }

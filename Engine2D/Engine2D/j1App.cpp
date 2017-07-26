@@ -60,7 +60,7 @@ j1App::~j1App()
 {
 	// release modules
 	for (std::list<j1Module*>::reverse_iterator item = modules.rbegin(); item != modules.crend(); ++item)
-		RELEASE((*item));
+		RELEASE(*item);
 
 	modules.clear();
 }
@@ -100,7 +100,7 @@ bool j1App::Awake()
 
 	if(ret == true)
 		for (std::list<j1Module*>::iterator item = modules.begin(); item != modules.cend() && ret == true; ++item)
-			ret = (*item)->Awake(config.child((*item)->name.c_str()));
+			ret = (item._Ptr->_Myval)->Awake(config.child((item._Ptr->_Myval)->name.c_str()));
 
 	PERF_PEEK(ptimer);
 
@@ -114,7 +114,7 @@ bool j1App::Start()
 	bool ret = true;
 
 	for (std::list<j1Module*>::iterator item = modules.begin(); item != modules.cend() && ret == true; ++item)
-		ret = (*item)->IsEnabled() ? (*item)->Start() : true;
+		ret = (item._Ptr->_Myval)->IsEnabled() ? (item._Ptr->_Myval)->Start() : true;
 
 	startup_time.Start();
 
@@ -217,10 +217,10 @@ bool j1App::PreUpdate()
 
 	for (std::list<j1Module*>::iterator item = modules.begin(); item != modules.cend() && ret == true; ++item)
 	{
-		pModule = *item;
+		pModule = item._Ptr->_Myval;
 		if (pModule->active == false)
 			continue;
-		ret = (*item)->PreUpdate();
+		ret = (item._Ptr->_Myval)->PreUpdate();
 	}
 
 	return ret;
@@ -235,10 +235,10 @@ bool j1App::DoUpdate()
 
 	for (std::list<j1Module*>::iterator item = modules.begin(); item != modules.cend() && ret == true; ++item)
 	{
-		pModule = *item;
+		pModule = item._Ptr->_Myval;
 		if (pModule->active == false)
 			continue;
-		ret = (*item)->Update(dt);
+		ret = (item._Ptr->_Myval)->Update(dt);
 	}
 
 	return ret;
@@ -252,11 +252,11 @@ bool j1App::PostUpdate()
 	j1Module* pModule = nullptr;
 
 	for (std::list<j1Module*>::iterator item = modules.begin(); item != modules.cend() && ret == true; ++item) {
-		pModule = *item;
+		pModule = item._Ptr->_Myval;
 		if (pModule->active == false) {
 			continue;
 		}
-		ret = (*item)->PostUpdate();
+		ret = (item._Ptr->_Myval)->PostUpdate();
 	}
 
 	ret &= !wanttoquit;
@@ -271,7 +271,7 @@ bool j1App::CleanUp()
 	bool ret = true;
 
 	for (std::list<j1Module*>::iterator item = modules.begin(); item != modules.cend() && ret == true; ++item)
-		ret = (*item)->CleanUp();
+		ret = (item._Ptr->_Myval)->CleanUp();
 
 	PERF_PEEK(ptimer);
 	return ret;
@@ -390,7 +390,7 @@ bool j1App::SavegameNow() const
 
 	std::list<j1Module*>::const_iterator item = modules.cbegin();
 	for (; item != modules.cend() && ret == true; ++item)
-			ret = (*item)->Save(root.append_child((*item)->name.c_str()));
+			ret = (item._Ptr->_Myval)->Save(root.append_child((item._Ptr->_Myval)->name.c_str()));
 
 	if(ret == true)
 	{
@@ -402,7 +402,7 @@ bool j1App::SavegameNow() const
 		LOG("... finished saving", save_game.c_str());
 	}
 	else
-		LOG("Save process halted from an error in module %s", (*item != nullptr) ? (*item)->name.c_str() : "unknown");
+		LOG("Save process halted from an error in module %s", (item._Ptr->_Myval != nullptr) ? (item._Ptr->_Myval)->name.c_str() : "unknown");
 
 	data.reset();
 	want_to_save = false;

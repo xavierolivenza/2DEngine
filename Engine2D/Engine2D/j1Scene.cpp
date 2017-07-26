@@ -78,7 +78,7 @@ bool j1Scene::Start()
 
 	if (ret == true)
 		for (std::list<MainScene*>::iterator item = scene_list.begin(); item != scene_list.cend() && ret == true; ++item)
-			ret = (*item)->Awake(config.child((*item)->scene_name.c_str()));
+			ret = (item._Ptr->_Myval)->Awake(config.child((item._Ptr->_Myval)->scene_name.c_str()));
 
 	debug_tex = App->tex->Load("maps/path2.png");
 
@@ -190,7 +190,7 @@ bool j1Scene::Update(float dt)
 
 	for (std::vector<iPoint>::const_iterator item = path->begin(); item != path->cend(); ++item)
 	{
-		iPoint pos = App->map->MapToWorld((*item).x, (*item).y);
+		iPoint pos = App->map->MapToWorld(item._Ptr->x, item._Ptr->y);
 		App->render->Blit(debug_tex, pos.x, pos.y);
 	}
 
@@ -217,17 +217,20 @@ bool j1Scene::CleanUp()
 
 	active_scene->CleanUp();
 
+	for (std::list<MainScene*>::iterator item = scene_list.begin(); item != scene_list.cend(); ++item)
+		RELEASE(item._Ptr->_Myval);
+
 	return true;
 }
 
 bool j1Scene::ChangeScene(std::string& scene_name)
 {
 	for (std::list<MainScene*>::iterator item = scene_list.begin(); item != scene_list.cend(); ++item)
-		if ((*item)->scene_name == scene_name)
+		if ((item._Ptr->_Myval)->scene_name == scene_name)
 		{
-			if (*item != active_scene)
+			if (item._Ptr->_Myval != active_scene)
 				active_scene->CleanUp();
-			active_scene = *item;
+			active_scene = item._Ptr->_Myval;
 			return true;
 		}
 	return false;

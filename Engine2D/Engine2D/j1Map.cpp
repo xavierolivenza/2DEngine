@@ -35,7 +35,7 @@ void j1Map::Draw()
 	std::list<MapLayer*>::iterator item = data.layers.begin();
 	for (; item != data.layers.cend(); ++item)
 	{
-		MapLayer* layer = *item;
+		MapLayer* layer = item._Ptr->_Myval;
 
 		if(layer->properties.Get("Nodraw") != 0)
 			continue;
@@ -60,8 +60,8 @@ void j1Map::Draw()
 int Properties::Get(const char* value, int default_value) const
 {
 	for (std::list<Property*>::const_iterator item = list.begin(); item != list.cend(); ++item) {
-		if ((*item)->name == value)
-			return (*item)->value;
+		if ((item._Ptr->_Myval)->name == value)
+			return (item._Ptr->_Myval)->value;
 	}
 
 	return default_value;
@@ -70,14 +70,14 @@ int Properties::Get(const char* value, int default_value) const
 TileSet* j1Map::GetTilesetFromTileId(int id) const
 {
 	std::list<TileSet*>::const_iterator item = data.tilesets.begin();
-	TileSet* set = (*item);
+	TileSet* set = item._Ptr->_Myval;
 	for (; item != data.tilesets.cend(); ++item) {
-		if (id < (*item)->firstgid)
+		if (id < (item._Ptr->_Myval)->firstgid)
 		{
-			set = (*--item);
+			set = ((--item)._Ptr->_Myval);
 			break;
 		}
-		set = (*item);
+		set = (item._Ptr->_Myval);
 	}
 	return set;
 }
@@ -405,7 +405,7 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 	std::list<MapLayer*>::const_iterator item = data.layers.begin();
 	for (int i = 0; i < data.layers.size(); item++, i++)
 	{
-		MapLayer* layer = *item;
+		MapLayer* layer = item._Ptr->_Myval;
 
 		if(layer->properties.Get("Navigation", 0) == 0)
 			continue;
@@ -447,17 +447,17 @@ bool j1Map::UnLoadMap()
 {
 	// Remove all tilesets
 	for (std::list <TileSet*>::iterator item = data.tilesets.begin(); item != data.tilesets.cend(); ++item)
-		if (*item) {
-			App->tex->UnLoad((*item)->texture);
-			RELEASE(*item);
+		if (item._Ptr->_Myval) {
+			App->tex->UnLoad((item._Ptr->_Myval)->texture);
+			RELEASE(item._Ptr->_Myval);
 		}
 	data.tilesets.clear();
 
 	// Remove all layers
 	for (std::list <MapLayer*>::iterator item = data.layers.begin(); item != data.layers.cend(); ++item)
-		if (*item) {
-			RELEASE((*item)->data);
-			RELEASE(*item);
+		if (item._Ptr->_Myval) {
+			RELEASE((item._Ptr->_Myval)->data);
+			RELEASE(item._Ptr->_Myval);
 		}
 	data.layers.clear();
 

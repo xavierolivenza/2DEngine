@@ -69,8 +69,8 @@ const std::vector<iPoint>* j1PathFinding::GetLastPath() const
 PathNode* PathList::Find(const iPoint& point) const
 {
 	for (std::list<PathNode>::const_iterator item = list.begin(); item != list.cend(); ++item)
-		if ((*item).pos == point)
-			return &const_cast<PathNode&>(*item);
+		if ((item._Ptr->_Myval).pos == point)
+			return &const_cast<PathNode&>(item._Ptr->_Myval);
 	return nullptr;
 }
 

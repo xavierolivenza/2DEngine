@@ -5,7 +5,9 @@
 
 enum atlas_element_type
 {
-	enum_atlas_image_label_window,
+	enum_atlas_image,
+	enum_atlas_label,
+	enum_atlas_window,
 	enum_atlas_button,
 	enum_atlas_scrollbar_vertical,
 	enum_atlas_scrollbar_horitzontal,
