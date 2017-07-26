@@ -41,8 +41,8 @@ bool j1Gui::Start()
 	LOG("Loading Gui Atlas");
 	for (std::list<Atlas*>::iterator item = gui_atlas_list.begin(); item != gui_atlas_list.cend(); ++item)
 	{
-		(*item)->texture = App->tex->Load((*item)->atlas_file_name.c_str());
-		(*item)->atlas_content = LoadAtlasRectsXML(&(*item)->atlas_rects_file_name);
+		(item._Ptr->_Myval)->texture = App->tex->Load((item._Ptr->_Myval)->atlas_file_name.c_str());
+		(item._Ptr->_Myval)->atlas_content = LoadAtlasRectsXML(&(item._Ptr->_Myval)->atlas_rects_file_name);
 	}
 
 	/*
@@ -130,7 +130,7 @@ SDL_Texture* j1Gui::GetAtlas(GUIAtlas atlas) const
 
 void j1Gui::PushBackNewAtlas(pugi::xml_node& conf, char* atlas_file_name, char* atlas_rects_file_name, GUIAtlas AtalsEnum)
 {
-	gui_atlas_list.push_back(new Atlas(conf.child("atlas_file_name").attribute("file").as_string(""), conf.child("atlas_rects_file_name").attribute("file").as_string(""), AtalsEnum));
+	gui_atlas_list.push_back(new Atlas(conf.child(atlas_file_name).attribute("file").as_string(""), conf.child(atlas_rects_file_name).attribute("file").as_string(""), AtalsEnum));
 }
 
 std::list<atlas_element*>* j1Gui::LoadAtlasRectsXML(std::string* file)
@@ -159,89 +159,52 @@ std::list<atlas_element*>* j1Gui::LoadAtlasRectsXML(std::string* file)
 		//Iterate all images stored in XML file
 		for (pugi::xml_node newimage = atlas_config.child("GUI_Image").child("image"); newimage; newimage = newimage.next_sibling("image"))
 		{
-			
+			temp->push_back(AllocateNewImageLabelWindow(newimage, atlas_element_type::enum_atlas_image));
 		}
 
 		//Iterate all labels stored in XML file
-		for (pugi::xml_node newimage = atlas_config.child("GUI_Label").child("label"); newimage; newimage = newimage.next_sibling("label"))
+		for (pugi::xml_node newlabel = atlas_config.child("GUI_Label").child("label"); newlabel; newlabel = newlabel.next_sibling("label"))
 		{
-
+			temp->push_back(AllocateNewImageLabelWindow(newlabel, atlas_element_type::enum_atlas_label));
 		}
 
 		//Iterate all windows stored in XML file
-		for (pugi::xml_node newimage = atlas_config.child("GUI_Window").child("window"); newimage; newimage = newimage.next_sibling("window"))
+		for (pugi::xml_node newwindow = atlas_config.child("GUI_Window").child("window"); newwindow; newwindow = newwindow.next_sibling("window"))
 		{
-
+			temp->push_back(AllocateNewImageLabelWindow(newwindow, atlas_element_type::enum_atlas_window));
 		}
 
 		//Iterate all vertical scrollbars stored in XML file
-		for (pugi::xml_node newimage = atlas_config.child("GUI_Scrollbar_Vertical").child("scrollbar_vertical"); newimage; newimage = newimage.next_sibling("scrollbar_vertical"))
+		for (pugi::xml_node newverticalscrollbar = atlas_config.child("GUI_Scrollbar_Vertical").child("scrollbar_vertical"); newverticalscrollbar; newverticalscrollbar = newverticalscrollbar.next_sibling("scrollbar_vertical"))
 		{
 
 		}
 
 		//Iterate all horitzontal scrollbars stored in XML file
-		for (pugi::xml_node newimage = atlas_config.child("GUI_Scrollbar_Horitzontal").child("scrollbar_horitzontal"); newimage; newimage = newimage.next_sibling("scrollbar_horitzontal"))
+		for (pugi::xml_node newhoritzontalscrollbar = atlas_config.child("GUI_Scrollbar_Horitzontal").child("scrollbar_horitzontal"); newhoritzontalscrollbar; newhoritzontalscrollbar = newhoritzontalscrollbar.next_sibling("scrollbar_horitzontal"))
 		{
 
 		}
 
 		//Iterate all checks stored in XML file
-		for (pugi::xml_node newimage = atlas_config.child("GUI_Check").child("check"); newimage; newimage = newimage.next_sibling("check"))
+		for (pugi::xml_node newcheck = atlas_config.child("GUI_Check").child("check"); newcheck; newcheck = newcheck.next_sibling("check"))
 		{
 
 		}
-
 	}
-
-
-
-
-	/*
-	for (pugi::xml_node newcharacterrect = dialoguenode.child("Rects").child("rect"); newcharacterrect; newcharacterrect = newcharacterrect.next_sibling("rect"), sprite_id++)
-	{
-		CharaterSprite* newCharaterSprite = new CharaterSprite();
-		newCharaterSprite->sprite_id = (CharaterSpriteRect_ID)sprite_id;
-		newCharaterSprite->CharaterSpriteRect = { newcharacterrect.attribute("x").as_int(0) ,newcharacterrect.attribute("y").as_int(0) ,newcharacterrect.attribute("w").as_int(0) ,newcharacterrect.attribute("h").as_int(0) };
-		CharaterSpritesVec.push_back(newCharaterSprite);
-	}
-	*/
-
-	/*
-	dialogues.push_back(new Dialogue());
-	Dialogue* newdialogue = dialogues.back();
-	newdialogue->id = (DialogueID)dialoguenode.attribute("enum_value").as_int();
-	newdialogue->type = type;
-	for (pugi::xml_node newstep = dialoguenode.child("step"); newstep; newstep = newstep.next_sibling("step"))
-	{
-		newdialogue->DialogueSteps.push_back(new DialogueStep());
-		DialogueStep* newdialoguestep = newdialogue->DialogueSteps.back();
-		newdialoguestep->SpeakerDialogueCharacter = new DialogueCharacter();
-		newdialoguestep->SpeakerDialogueCharacter->DialogueCharacter_id = CheckInterlocutor(&std::string(newstep.attribute("speaker").as_string()));
-		if (newdialoguestep->SpeakerDialogueCharacter->DialogueCharacter_id == DialogueInterlucutor::item_nullinterlucutor)
-			newdialoguestep->SpeakerDialogueCharacter->DialogueCharacter_str = std::string("");
-		else
-			newdialoguestep->SpeakerDialogueCharacter->DialogueCharacter_str = std::string(newstep.attribute("speaker").as_string());
-		newdialoguestep->SpeakerDialogueCharacter->DialogueCharacter_pos = CheckInterlocutorPosition(&std::string(newstep.attribute("speaker_pos").as_string()));
-		newdialoguestep->SpeakerDialogueCharacter->Character_Atlas = CheckInterlocutorAtlas(newdialoguestep->SpeakerDialogueCharacter->DialogueCharacter_id);
-		newdialoguestep->SpeakerDialogueCharacter->Character_Expression_Rect = CheckExpressionRect((CharaterSpriteRect_ID)newstep.attribute("speaker_expression").as_int(0));
-		newdialoguestep->ListenerDialogueCharacter = new DialogueCharacter();
-		newdialoguestep->ListenerDialogueCharacter->DialogueCharacter_id = CheckInterlocutor(&std::string(newstep.attribute("listener").as_string()));
-		if (newdialoguestep->ListenerDialogueCharacter->DialogueCharacter_id == DialogueInterlucutor::item_nullinterlucutor)
-			newdialoguestep->ListenerDialogueCharacter->DialogueCharacter_str = std::string("");
-		else
-			newdialoguestep->ListenerDialogueCharacter->DialogueCharacter_str = std::string(newstep.attribute("listener").as_string());
-		newdialoguestep->ListenerDialogueCharacter->DialogueCharacter_pos = CheckInterlocutorPosition(&std::string(newstep.attribute("listener_pos").as_string()));
-		newdialoguestep->ListenerDialogueCharacter->Character_Atlas = CheckInterlocutorAtlas(newdialoguestep->ListenerDialogueCharacter->DialogueCharacter_id);
-		newdialoguestep->ListenerDialogueCharacter->Character_Expression_Rect = CheckExpressionRect((CharaterSpriteRect_ID)newstep.attribute("listener_expression").as_int(0));
-		int y = 0;
-		for (pugi::xml_node newsteplines = newstep.child("line"); newsteplines; newsteplines = newsteplines.next_sibling("line"), y += 30)
-		{
-			newdialoguestep->lines.push_back(App->gui->CreateLabel({ TextBackgroundPos->x + 60,TextBackgroundPos->y + 60 + y }, &std::string(newsteplines.child_value()), false, AddGuiTo::none));
-			newdialoguestep->lines.back()->SetFont(App->font->ReturnofGanon36);
-		}
-	}
-	*/
-
 	return temp;
+}
+
+atlas_image_label_window* j1Gui::AllocateNewImageLabelWindow(pugi::xml_node& NewImageLabelWindow, atlas_element_type type)
+{
+	std::list<SDL_Rect> atlas_element_state_rects;
+	for (pugi::xml_node newstate = NewImageLabelWindow.child("state"); newstate; newstate = newstate.next_sibling("state"))
+	{
+		SDL_Rect newrect = { newstate.attribute("x").as_int(0),newstate.attribute("y").as_int(0),newstate.attribute("w").as_int(0),newstate.attribute("h").as_int(0) };
+		atlas_element_state_rects.push_back(newrect);
+	}
+	atlas_image_label_window* newtoadd = new atlas_image_label_window((char*)NewImageLabelWindow.attribute("name").as_string(""),
+		type, NewImageLabelWindow.attribute("animation_loop").as_bool(false), NewImageLabelWindow.attribute("animation_speed").as_float(0.0f),
+		&atlas_element_state_rects);
+	return newtoadd;
 }

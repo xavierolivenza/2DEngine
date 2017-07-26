@@ -17,12 +17,24 @@ enum atlas_element_type
 
 struct atlas_element
 {
+	atlas_element(char* name, atlas_element_type type) : name(name), type(type)
+	{
+
+	}
+
 	std::string name;
 	atlas_element_type type = atlas_element_type::null_atlas_element_type;
 };
 
 struct atlas_image_label_window : public atlas_element
 {
+	atlas_image_label_window(char* name, atlas_element_type type, bool animation_loop, float animation_speed, std::list<SDL_Rect>* atlas_element_state_rects) :
+		animation_loop(animation_loop), animation_speed(animation_speed), atlas_element_state_rects(*atlas_element_state_rects),
+		atlas_element(name, type)
+	{
+
+	}
+
 	bool animation_loop = false;
 	float animation_speed = 0.0f;
 	std::list<SDL_Rect> atlas_element_state_rects;
