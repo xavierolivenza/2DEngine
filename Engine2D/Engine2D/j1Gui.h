@@ -66,6 +66,16 @@ private:
 	atlas_check* AllocateNewCheck(pugi::xml_node& NewCheck);
 	atlas_scrollbar* AllocateNewScrollbar(pugi::xml_node& NewCheck, atlas_element_type type);
 
+	atlas_image_label_window* GetImageType(std::string* image_label_window_name);
+	atlas_image_label_window* GetLabelType(std::string* image_label_window_name);
+	atlas_image_label_window* GetWindowType(std::string* image_label_window_name);
+	atlas_button* GetButtonType(std::string* image_label_window_name);
+	atlas_check* GetCheckType(std::string* image_label_window_name);
+	atlas_scrollbar* GetVerticalScrollbarType(std::string* image_label_window_name);
+	atlas_scrollbar* GetHoritzontalScrollbarType(std::string* image_label_window_name);
+
+	atlas_element* GetTypeIteratorFunction(atlas_element_type type, std::string* name);
+
 private:
 	bool Gui_DebugDraw = false;
 

@@ -293,3 +293,49 @@ atlas_scrollbar* j1Gui::AllocateNewScrollbar(pugi::xml_node& NewScrollbar, atlas
 		scrollbar_background, scrollbar_line, scrollbar_button);
 	return newscrollbartoadd;
 }
+
+atlas_image_label_window* j1Gui::GetImageType(std::string* image_label_window_name)
+{
+	return (atlas_image_label_window*)GetTypeIteratorFunction(atlas_element_type::enum_atlas_image, image_label_window_name);
+}
+
+atlas_image_label_window* j1Gui::GetLabelType(std::string* image_label_window_name)
+{
+	return (atlas_image_label_window*)GetTypeIteratorFunction(atlas_element_type::enum_atlas_label, image_label_window_name);
+}
+
+atlas_image_label_window* j1Gui::GetWindowType(std::string* image_label_window_name)
+{
+	return (atlas_image_label_window*)GetTypeIteratorFunction(atlas_element_type::enum_atlas_window, image_label_window_name);
+}
+
+atlas_button* j1Gui::GetButtonType(std::string* image_label_window_name)
+{
+	return (atlas_button*)GetTypeIteratorFunction(atlas_element_type::enum_atlas_button, image_label_window_name);
+}
+
+atlas_check* j1Gui::GetCheckType(std::string* image_label_window_name)
+{
+	return (atlas_check*)GetTypeIteratorFunction(atlas_element_type::enum_atlas_check, image_label_window_name);
+}
+
+atlas_scrollbar* j1Gui::GetVerticalScrollbarType(std::string* image_label_window_name)
+{
+	return (atlas_scrollbar*)GetTypeIteratorFunction(atlas_element_type::enum_atlas_scrollbar_vertical, image_label_window_name);
+}
+
+atlas_scrollbar* j1Gui::GetHoritzontalScrollbarType(std::string* image_label_window_name)
+{
+	return (atlas_scrollbar*)GetTypeIteratorFunction(atlas_element_type::enum_atlas_scrollbar_horitzontal, image_label_window_name);
+}
+
+atlas_element* j1Gui::GetTypeIteratorFunction(atlas_element_type type, std::string* name)
+{
+	for (std::list<Atlas*>::iterator item = gui_atlas_list.begin(); item != gui_atlas_list.cend(); ++item)
+		if ((item._Ptr->_Myval)->atlas_content != nullptr)
+			for (std::list<atlas_element*>::iterator item2 = ((item._Ptr->_Myval)->atlas_content)->begin(); item2 != ((item._Ptr->_Myval)->atlas_content)->cend(); ++item2)
+				if ((item2._Ptr->_Myval)->type == type)
+					if ((item2._Ptr->_Myval)->name == *name)
+						return item2._Ptr->_Myval;
+	return nullptr;
+}
