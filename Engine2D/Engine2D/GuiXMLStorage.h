@@ -70,6 +70,13 @@ struct atlas_scrollbar_horitzontal : public atlas_element
 
 struct atlas_check : public atlas_element
 {
+	atlas_check(char* name, atlas_element_type type, atlas_image_label_window* check_unchecked_background, atlas_image_label_window* check_checked_background, atlas_image_label_window* check_check, atlas_image_label_window* check_checked_backed_check) :
+		check_unchecked_background(check_unchecked_background), check_checked_background(check_checked_background), check_check(check_check), check_checked_backed_check(check_checked_backed_check),
+		atlas_element(name, type)
+	{
+
+	}
+
 	atlas_image_label_window* check_unchecked_background = nullptr;
 	atlas_image_label_window* check_checked_background = nullptr;
 	atlas_image_label_window* check_check = nullptr;

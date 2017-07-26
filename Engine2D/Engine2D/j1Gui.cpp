@@ -215,11 +215,7 @@ std::list<atlas_element*>* j1Gui::LoadAtlasRectsXML(std::string* file)
 		//Iterate all buttons stored in XML file
 		for (pugi::xml_node newbutton = atlas_config.child("GUI_Button").child("button"); newbutton; newbutton = newbutton.next_sibling("button"))
 		{
-			atlas_image_label_window* state_idle = AllocateNewImageLabelWindow(newbutton.child("state_idle"), atlas_element_type::enum_atlas_image);
-			atlas_image_label_window* state_hover = AllocateNewImageLabelWindow(newbutton.child("state_hover"), atlas_element_type::enum_atlas_image);
-			atlas_image_label_window* state_pressed = AllocateNewImageLabelWindow(newbutton.child("state_pressed"), atlas_element_type::enum_atlas_image);
-			atlas_button* newbuttontoadd = new atlas_button((char*)newbutton.attribute("name").as_string(""), atlas_element_type::enum_atlas_button, state_idle, state_hover, state_pressed);
-			temp->push_back(newbuttontoadd);
+			temp->push_back(AllocateNewButton(newbutton));
 		}
 
 		//Iterate all vertical scrollbars stored in XML file
@@ -237,7 +233,7 @@ std::list<atlas_element*>* j1Gui::LoadAtlasRectsXML(std::string* file)
 		//Iterate all checks stored in XML file
 		for (pugi::xml_node newcheck = atlas_config.child("GUI_Check").child("check"); newcheck; newcheck = newcheck.next_sibling("check"))
 		{
-
+			temp->push_back(AllocateNewCheck(newcheck));
 		}
 	}
 	return temp;
@@ -254,5 +250,28 @@ atlas_image_label_window* j1Gui::AllocateNewImageLabelWindow(pugi::xml_node& New
 	atlas_image_label_window* newtoadd = new atlas_image_label_window((char*)NewImageLabelWindow.attribute("name").as_string(""),
 		type, NewImageLabelWindow.attribute("animation_loop").as_bool(false), NewImageLabelWindow.attribute("animation_speed").as_float(0.0f),
 		&atlas_element_state_rects);
+
+	if ((newtoadd->name == "") && !newtoadd->animation_loop && (newtoadd->animation_speed == 0.0f) && newtoadd->atlas_element_state_rects.empty())
+		return nullptr;
+
 	return newtoadd;
+}
+
+atlas_button* j1Gui::AllocateNewButton(pugi::xml_node& NewButton)
+{
+	atlas_image_label_window* state_idle = AllocateNewImageLabelWindow(NewButton.child("state_idle"), atlas_element_type::enum_atlas_image);
+	atlas_image_label_window* state_hover = AllocateNewImageLabelWindow(NewButton.child("state_hover"), atlas_element_type::enum_atlas_image);
+	atlas_image_label_window* state_pressed = AllocateNewImageLabelWindow(NewButton.child("state_pressed"), atlas_element_type::enum_atlas_image);
+	atlas_button* newbuttontoadd = new atlas_button((char*)NewButton.attribute("name").as_string(""), atlas_element_type::enum_atlas_button, state_idle, state_hover, state_pressed);
+	return newbuttontoadd;
+}
+
+atlas_check* j1Gui::AllocateNewCheck(pugi::xml_node& NewCheck)
+{
+	atlas_image_label_window* check_unchecked_background = AllocateNewImageLabelWindow(NewCheck.child("check_unchecked_background"), atlas_element_type::enum_atlas_image);
+	atlas_image_label_window* check_checked_background = AllocateNewImageLabelWindow(NewCheck.child("check_checked_background"), atlas_element_type::enum_atlas_image);
+	atlas_image_label_window* check_check = AllocateNewImageLabelWindow(NewCheck.child("check_check"), atlas_element_type::enum_atlas_image);
+	atlas_image_label_window* check_checked_backed_check = AllocateNewImageLabelWindow(NewCheck.child("check_checked_backed_check"), atlas_element_type::enum_atlas_image);
+	atlas_check* newchecktoadd = new atlas_check((char*)NewCheck.attribute("name").as_string(""), atlas_element_type::enum_atlas_check, check_unchecked_background, check_checked_background, check_check, check_checked_backed_check);
+	return newchecktoadd;
 }
