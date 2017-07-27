@@ -2,7 +2,6 @@
 #define __j1GUI_H__
 
 #include "j1Module.h"
-#include "Gui.h"
 #include "GuiXMLStorage.h"
 
 #define CURSOR_WIDTH 2
@@ -58,23 +57,15 @@ public:
 	// Gui creation functions
 	SDL_Texture* GetAtlas(GUIAtlas atlas) const;
 
+	const atlas_element* GetAtlasPrefab(atlas_element_type type, std::string* name) const;
+
 private:
 	void PushBackNewAtlas(pugi::xml_node& conf, char* atlas_file_name, char* atlas_rects_file_name, GUIAtlas AtalsEnum);
-	std::list<atlas_element*>* LoadAtlasRectsXML(std::string* file);
-	atlas_image_label_window* AllocateNewImageLabelWindow(pugi::xml_node& NewImageLabelWindow, atlas_element_type type);
-	atlas_button* AllocateNewButton(pugi::xml_node& NewButton);
-	atlas_check* AllocateNewCheck(pugi::xml_node& NewCheck);
-	atlas_scrollbar* AllocateNewScrollbar(pugi::xml_node& NewCheck, atlas_element_type type);
-
-	atlas_image_label_window* GetImageType(std::string* image_label_window_name);
-	atlas_image_label_window* GetLabelType(std::string* image_label_window_name);
-	atlas_image_label_window* GetWindowType(std::string* image_label_window_name);
-	atlas_button* GetButtonType(std::string* image_label_window_name);
-	atlas_check* GetCheckType(std::string* image_label_window_name);
-	atlas_scrollbar* GetVerticalScrollbarType(std::string* image_label_window_name);
-	atlas_scrollbar* GetHoritzontalScrollbarType(std::string* image_label_window_name);
-
-	atlas_element* GetTypeIteratorFunction(atlas_element_type type, std::string* name);
+	std::list<atlas_element*>* LoadAtlasRectsXML(std::string* file, SDL_Texture* atlas_texture);
+	atlas_image_label_window* AllocateNewImageLabelWindow(pugi::xml_node& NewImageLabelWindow, atlas_element_type type, SDL_Texture* atlas_texture);
+	atlas_button* AllocateNewButton(pugi::xml_node& NewButton, SDL_Texture* atlas_texture);
+	atlas_check* AllocateNewCheck(pugi::xml_node& NewCheck, SDL_Texture* atlas_texture);
+	atlas_scrollbar* AllocateNewScrollbar(pugi::xml_node& NewCheck, atlas_element_type type, SDL_Texture* atlas_texture);
 
 private:
 	bool Gui_DebugDraw = false;

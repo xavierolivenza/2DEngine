@@ -77,6 +77,7 @@
   <ItemGroup>
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Gui.cpp" />
+    <ClCompile Include="GuiImage.cpp" />
     <ClCompile Include="j1FileSystem.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
     <ClCompile Include="j1Gui.cpp" />
@@ -102,8 +103,10 @@
     <ClCompile Include="S_TestScene_5.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Gui.h" />
+    <ClInclude Include="GuiImage.h" />
     <ClInclude Include="GuiXMLStorage.h" />
     <ClInclude Include="j1FileSystem.h" />
     <ClInclude Include="j1Fonts.h" />

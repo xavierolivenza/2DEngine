@@ -76,6 +76,9 @@
     <ClCompile Include="Color.cpp">
       <Filter>Desenvolupament  ========\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="GuiImage.cpp">
+      <Filter>Desenvolupament  ========\GUI\GUI Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -164,6 +167,12 @@
     </ClInclude>
     <ClInclude Include="GuiXMLStorage.h">
       <Filter>Desenvolupament  ========\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiImage.h">
+      <Filter>Desenvolupament  ========\GUI\GUI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Desenvolupament  ========\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

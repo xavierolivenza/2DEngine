@@ -1,11 +1,14 @@
 #ifndef __GUI_H__
 #define __GUI_H__
 
-#include "p2Log.h"
+#include "j1App.h"
 #include "j1Module.h"
+#include "p2Log.h"
 #include "p2Point.h"
-#include "SDL\include\SDL.h"
 #include "Color.h"
+#include "SDL\include\SDL.h"
+#include "j1Gui.h"
+#include "GuiXMLStorage.h"
 
 enum GuiType
 {
@@ -76,7 +79,8 @@ class Gui
 {
 	//friend class j1Gui;
 public:
-	Gui(iPoint position, GuiType type, bool movable, AddGuiTo purpose);
+	Gui(iPoint position, GuiType type, bool movable, bool can_focus, j1Module* module_listener, AddGuiTo purpose);
+	Gui(iPoint position, GuiType type, bool movable, bool can_focus, MainScene* scene_listener, AddGuiTo purpose);
 	virtual ~Gui() {}
 	virtual void Update(const Gui* mouse_hover, const Gui* focus) {}
 	virtual void Draw() {}

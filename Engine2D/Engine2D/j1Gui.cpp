@@ -54,7 +54,7 @@ bool j1Gui::Start()
 	for (std::list<Atlas*>::iterator item = gui_atlas_list.begin(); item != gui_atlas_list.cend(); ++item)
 	{
 		(item._Ptr->_Myval)->texture = App->tex->Load((item._Ptr->_Myval)->atlas_file_name.c_str());
-		(item._Ptr->_Myval)->atlas_content = LoadAtlasRectsXML(&(item._Ptr->_Myval)->atlas_rects_file_name);
+		(item._Ptr->_Myval)->atlas_content = LoadAtlasRectsXML(&(item._Ptr->_Myval)->atlas_rects_file_name, (item._Ptr->_Myval)->texture);
 	}
 
 	return true;
@@ -153,7 +153,7 @@ void j1Gui::PushBackNewAtlas(pugi::xml_node& conf, char* atlas_file_name, char* 
 	gui_atlas_list.push_back(new Atlas(conf.child(atlas_file_name).attribute("file").as_string(""), conf.child(atlas_rects_file_name).attribute("file").as_string(""), AtalsEnum));
 }
 
-std::list<atlas_element*>* j1Gui::LoadAtlasRectsXML(std::string* file)
+std::list<atlas_element*>* j1Gui::LoadAtlasRectsXML(std::string* file, SDL_Texture* atlas_texture)
 {
 	std::list<atlas_element*>* temp = nullptr;
 
@@ -179,97 +179,110 @@ std::list<atlas_element*>* j1Gui::LoadAtlasRectsXML(std::string* file)
 		//Iterate all images stored in XML file
 		for (pugi::xml_node newimage = atlas_config.child("GUI_Image").child("image"); newimage; newimage = newimage.next_sibling("image"))
 		{
-			temp->push_back(AllocateNewImageLabelWindow(newimage, atlas_element_type::enum_atlas_image));
+			temp->push_back(AllocateNewImageLabelWindow(newimage, atlas_element_type::enum_atlas_image, atlas_texture));
 		}
 
 		//Iterate all labels stored in XML file
 		for (pugi::xml_node newlabel = atlas_config.child("GUI_Label").child("label"); newlabel; newlabel = newlabel.next_sibling("label"))
 		{
-			temp->push_back(AllocateNewImageLabelWindow(newlabel, atlas_element_type::enum_atlas_label));
+			temp->push_back(AllocateNewImageLabelWindow(newlabel, atlas_element_type::enum_atlas_label, atlas_texture));
 		}
 
 		//Iterate all windows stored in XML file
 		for (pugi::xml_node newwindow = atlas_config.child("GUI_Window").child("window"); newwindow; newwindow = newwindow.next_sibling("window"))
 		{
-			temp->push_back(AllocateNewImageLabelWindow(newwindow, atlas_element_type::enum_atlas_window));
+			temp->push_back(AllocateNewImageLabelWindow(newwindow, atlas_element_type::enum_atlas_window, atlas_texture));
 		}
 
 		//Iterate all buttons stored in XML file
 		for (pugi::xml_node newbutton = atlas_config.child("GUI_Button").child("button"); newbutton; newbutton = newbutton.next_sibling("button"))
 		{
-			temp->push_back(AllocateNewButton(newbutton));
+			temp->push_back(AllocateNewButton(newbutton, atlas_texture));
 		}
 
 		//Iterate all vertical scrollbars stored in XML file
 		for (pugi::xml_node newverticalscrollbar = atlas_config.child("GUI_Scrollbar_Vertical").child("scrollbar_vertical"); newverticalscrollbar; newverticalscrollbar = newverticalscrollbar.next_sibling("scrollbar_vertical"))
 		{
-			temp->push_back(AllocateNewScrollbar(newverticalscrollbar, atlas_element_type::enum_atlas_scrollbar_vertical));
+			temp->push_back(AllocateNewScrollbar(newverticalscrollbar, atlas_element_type::enum_atlas_scrollbar_vertical, atlas_texture));
 		}
 
 		//Iterate all horitzontal scrollbars stored in XML file
 		for (pugi::xml_node newhoritzontalscrollbar = atlas_config.child("GUI_Scrollbar_Horitzontal").child("scrollbar_horitzontal"); newhoritzontalscrollbar; newhoritzontalscrollbar = newhoritzontalscrollbar.next_sibling("scrollbar_horitzontal"))
 		{
-			temp->push_back(AllocateNewScrollbar(newhoritzontalscrollbar, atlas_element_type::enum_atlas_scrollbar_horitzontal));
+			temp->push_back(AllocateNewScrollbar(newhoritzontalscrollbar, atlas_element_type::enum_atlas_scrollbar_horitzontal, atlas_texture));
 		}
 
 		//Iterate all checks stored in XML file
 		for (pugi::xml_node newcheck = atlas_config.child("GUI_Check").child("check"); newcheck; newcheck = newcheck.next_sibling("check"))
 		{
-			temp->push_back(AllocateNewCheck(newcheck));
+			temp->push_back(AllocateNewCheck(newcheck, atlas_texture));
 		}
 	}
 	return temp;
 }
 
-atlas_image_label_window* j1Gui::AllocateNewImageLabelWindow(pugi::xml_node& NewImageLabelWindow, atlas_element_type type)
+atlas_image_label_window* j1Gui::AllocateNewImageLabelWindow(pugi::xml_node& NewImageLabelWindow, atlas_element_type type, SDL_Texture* atlas_texture)
 {
 	if ((type != atlas_element_type::enum_atlas_image) && (type != atlas_element_type::enum_atlas_label) && (type != atlas_element_type::enum_atlas_window))
 		return nullptr;
 
-	std::list<SDL_Rect> atlas_element_state_rects;
+	std::vector<Frame> atlas_element_state_frames;
 	for (pugi::xml_node newstate = NewImageLabelWindow.child("state"); newstate; newstate = newstate.next_sibling("state"))
 	{
-		SDL_Rect newrect = { newstate.attribute("x").as_int(0),newstate.attribute("y").as_int(0),newstate.attribute("w").as_int(0),newstate.attribute("h").as_int(0) };
-		atlas_element_state_rects.push_back(newrect);
+		Frame newframe;
+		newframe.rect = { newstate.attribute("x").as_int(0),newstate.attribute("y").as_int(0),newstate.attribute("w").as_int(0),newstate.attribute("h").as_int(0) };
+		newframe.pivot = { newstate.attribute("pivot_x").as_int(0),newstate.attribute("pivot_y").as_int(0) };
+		atlas_element_state_frames.push_back(newframe);
 	}
 
+	SDL_Rect collider = { NewImageLabelWindow.child("collider").attribute("x").as_int(0),NewImageLabelWindow.child("collider").attribute("y").as_int(0),
+		NewImageLabelWindow.child("collider").attribute("w").as_int(0) ,NewImageLabelWindow.child("collider").attribute("h").as_int(0) };
+	
 	//this is usefull for thing like the Checkbox which you have the option of making it in two ways, or buttons with less than 3 states.
 	//1. With check_unchecked_background, check_checked_background and check_check.
 	//2. With check_unchecked_background and check_checked_backed_check.
 	//So from code is usefull to know if some image is in fact null
 	if (((char*)NewImageLabelWindow.attribute("name").as_string("") == "") && !NewImageLabelWindow.attribute("animation_loop").as_bool(false) &&
-		(NewImageLabelWindow.attribute("animation_speed").as_float(0.0f) == 0.0f) && atlas_element_state_rects.empty())
+		(NewImageLabelWindow.attribute("animation_speed").as_float(0.0f) == 0.0f) && atlas_element_state_frames.empty())
 		return nullptr;
 
 	atlas_image_label_window* newtoadd = new atlas_image_label_window((char*)NewImageLabelWindow.attribute("name").as_string(""),
 		type, NewImageLabelWindow.attribute("animation_loop").as_bool(false), NewImageLabelWindow.attribute("animation_speed").as_float(0.0f),
-		&atlas_element_state_rects);
+		&atlas_element_state_frames, &collider, atlas_texture);
 
 	return newtoadd;
 }
 
-atlas_button* j1Gui::AllocateNewButton(pugi::xml_node& NewButton)
+atlas_button* j1Gui::AllocateNewButton(pugi::xml_node& NewButton, SDL_Texture* atlas_texture)
 {
-	atlas_image_label_window* state_idle = AllocateNewImageLabelWindow(NewButton.child("state_idle"), atlas_element_type::enum_atlas_image);
-	atlas_image_label_window* state_hover = AllocateNewImageLabelWindow(NewButton.child("state_hover"), atlas_element_type::enum_atlas_image);
-	atlas_image_label_window* state_pressed = AllocateNewImageLabelWindow(NewButton.child("state_pressed"), atlas_element_type::enum_atlas_image);
+	atlas_image_label_window* state_idle = AllocateNewImageLabelWindow(NewButton.child("state_idle"), atlas_element_type::enum_atlas_image, atlas_texture);
+	atlas_image_label_window* state_hover = AllocateNewImageLabelWindow(NewButton.child("state_hover"), atlas_element_type::enum_atlas_image, atlas_texture);
+	atlas_image_label_window* state_pressed = AllocateNewImageLabelWindow(NewButton.child("state_pressed"), atlas_element_type::enum_atlas_image, atlas_texture);
+
+	SDL_Rect collider = { NewButton.child("collider").attribute("x").as_int(0),NewButton.child("collider").attribute("y").as_int(0),
+		NewButton.child("collider").attribute("w").as_int(0) ,NewButton.child("collider").attribute("h").as_int(0) };
+
 	atlas_button* newbuttontoadd = new atlas_button((char*)NewButton.attribute("name").as_string(""), atlas_element_type::enum_atlas_button, state_idle,
-		state_hover, state_pressed);
+		state_hover, state_pressed, &collider, atlas_texture);
 	return newbuttontoadd;
 }
 
-atlas_check* j1Gui::AllocateNewCheck(pugi::xml_node& NewCheck)
+atlas_check* j1Gui::AllocateNewCheck(pugi::xml_node& NewCheck, SDL_Texture* atlas_texture)
 {
-	atlas_image_label_window* check_unchecked_background = AllocateNewImageLabelWindow(NewCheck.child("check_unchecked_background"), atlas_element_type::enum_atlas_image);
-	atlas_image_label_window* check_checked_background = AllocateNewImageLabelWindow(NewCheck.child("check_checked_background"), atlas_element_type::enum_atlas_image);
-	atlas_image_label_window* check_check = AllocateNewImageLabelWindow(NewCheck.child("check_check"), atlas_element_type::enum_atlas_image);
-	atlas_image_label_window* check_checked_backed_check = AllocateNewImageLabelWindow(NewCheck.child("check_checked_backed_check"), atlas_element_type::enum_atlas_image);
+	atlas_image_label_window* check_unchecked_background = AllocateNewImageLabelWindow(NewCheck.child("check_unchecked_background"), atlas_element_type::enum_atlas_image, atlas_texture);
+	atlas_image_label_window* check_checked_background = AllocateNewImageLabelWindow(NewCheck.child("check_checked_background"), atlas_element_type::enum_atlas_image, atlas_texture);
+	atlas_image_label_window* check_check = AllocateNewImageLabelWindow(NewCheck.child("check_check"), atlas_element_type::enum_atlas_image, atlas_texture);
+	atlas_image_label_window* check_checked_backed_check = AllocateNewImageLabelWindow(NewCheck.child("check_checked_backed_check"), atlas_element_type::enum_atlas_image, atlas_texture);
+
+	SDL_Rect collider = { NewCheck.child("collider").attribute("x").as_int(0),NewCheck.child("collider").attribute("y").as_int(0),
+		NewCheck.child("collider").attribute("w").as_int(0) ,NewCheck.child("collider").attribute("h").as_int(0) };
+
 	atlas_check* newchecktoadd = new atlas_check((char*)NewCheck.attribute("name").as_string(""), atlas_element_type::enum_atlas_check, check_unchecked_background,
-		check_checked_background, check_check, check_checked_backed_check);
+		check_checked_background, check_check, check_checked_backed_check, &collider, atlas_texture);
 	return newchecktoadd;
 }
 
-atlas_scrollbar* j1Gui::AllocateNewScrollbar(pugi::xml_node& NewScrollbar, atlas_element_type type)
+atlas_scrollbar* j1Gui::AllocateNewScrollbar(pugi::xml_node& NewScrollbar, atlas_element_type type, SDL_Texture* atlas_texture)
 {
 	if ((type != atlas_element_type::enum_atlas_scrollbar_vertical) && (type != atlas_element_type::enum_atlas_scrollbar_horitzontal))
 		return nullptr;
@@ -285,53 +298,21 @@ atlas_scrollbar* j1Gui::AllocateNewScrollbar(pugi::xml_node& NewScrollbar, atlas
 		scrollbar_button_str = "scrollbar_horitzontal_button";
 	}
 
-	atlas_image_label_window* scrollbar_background = AllocateNewImageLabelWindow(NewScrollbar.child(scrollbar_background_str), atlas_element_type::enum_atlas_image);
-	atlas_image_label_window* scrollbar_line = AllocateNewImageLabelWindow(NewScrollbar.child(scrollbar_line_str), atlas_element_type::enum_atlas_image);
-	atlas_button* scrollbar_button = AllocateNewButton(NewScrollbar.child(scrollbar_button_str));
+	atlas_image_label_window* scrollbar_background = AllocateNewImageLabelWindow(NewScrollbar.child(scrollbar_background_str), atlas_element_type::enum_atlas_image, atlas_texture);
+	atlas_image_label_window* scrollbar_line = AllocateNewImageLabelWindow(NewScrollbar.child(scrollbar_line_str), atlas_element_type::enum_atlas_image, atlas_texture);
+	atlas_button* scrollbar_button = AllocateNewButton(NewScrollbar.child(scrollbar_button_str), atlas_texture);
+
+	SDL_Rect collider = { NewScrollbar.child("collider").attribute("x").as_int(0),NewScrollbar.child("collider").attribute("y").as_int(0),
+		NewScrollbar.child("collider").attribute("w").as_int(0) ,NewScrollbar.child("collider").attribute("h").as_int(0) };
 
 	atlas_scrollbar* newscrollbartoadd = new atlas_scrollbar((char*)NewScrollbar.attribute("name").as_string(""), type,
-		scrollbar_background, scrollbar_line, scrollbar_button);
+		scrollbar_background, scrollbar_line, scrollbar_button, &collider, atlas_texture);
 	return newscrollbartoadd;
 }
 
-atlas_image_label_window* j1Gui::GetImageType(std::string* image_label_window_name)
+const atlas_element* j1Gui::GetAtlasPrefab(atlas_element_type type, std::string* name) const
 {
-	return (atlas_image_label_window*)GetTypeIteratorFunction(atlas_element_type::enum_atlas_image, image_label_window_name);
-}
-
-atlas_image_label_window* j1Gui::GetLabelType(std::string* image_label_window_name)
-{
-	return (atlas_image_label_window*)GetTypeIteratorFunction(atlas_element_type::enum_atlas_label, image_label_window_name);
-}
-
-atlas_image_label_window* j1Gui::GetWindowType(std::string* image_label_window_name)
-{
-	return (atlas_image_label_window*)GetTypeIteratorFunction(atlas_element_type::enum_atlas_window, image_label_window_name);
-}
-
-atlas_button* j1Gui::GetButtonType(std::string* image_label_window_name)
-{
-	return (atlas_button*)GetTypeIteratorFunction(atlas_element_type::enum_atlas_button, image_label_window_name);
-}
-
-atlas_check* j1Gui::GetCheckType(std::string* image_label_window_name)
-{
-	return (atlas_check*)GetTypeIteratorFunction(atlas_element_type::enum_atlas_check, image_label_window_name);
-}
-
-atlas_scrollbar* j1Gui::GetVerticalScrollbarType(std::string* image_label_window_name)
-{
-	return (atlas_scrollbar*)GetTypeIteratorFunction(atlas_element_type::enum_atlas_scrollbar_vertical, image_label_window_name);
-}
-
-atlas_scrollbar* j1Gui::GetHoritzontalScrollbarType(std::string* image_label_window_name)
-{
-	return (atlas_scrollbar*)GetTypeIteratorFunction(atlas_element_type::enum_atlas_scrollbar_horitzontal, image_label_window_name);
-}
-
-atlas_element* j1Gui::GetTypeIteratorFunction(atlas_element_type type, std::string* name)
-{
-	for (std::list<Atlas*>::iterator item = gui_atlas_list.begin(); item != gui_atlas_list.cend(); ++item)
+	for (std::list<Atlas*>::const_iterator item = gui_atlas_list.begin(); item != gui_atlas_list.cend(); ++item)
 		if ((item._Ptr->_Myval)->atlas_content != nullptr)
 			for (std::list<atlas_element*>::iterator item2 = ((item._Ptr->_Myval)->atlas_content)->begin(); item2 != ((item._Ptr->_Myval)->atlas_content)->cend(); ++item2)
 				if ((item2._Ptr->_Myval)->type == type)

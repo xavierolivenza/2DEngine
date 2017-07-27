@@ -6,9 +6,17 @@
 #include "j1Render.h"
 #include "MainScene.h"
 
-Gui::Gui(iPoint position, GuiType type, bool movable, AddGuiTo purpose) : position(position), movable(movable), type(type), purpose(purpose)
+Gui::Gui(iPoint position, GuiType type, bool movable, bool can_focus, j1Module* module_listener, AddGuiTo purpose) :
+	position(position), movable(movable), type(type), can_focus(can_focus), module_listener(module_listener), purpose(purpose)
 {
-	if (movable == true)
+	if (movable)
+		SetDragVelocity(1.0f, 1.0f);
+}
+
+Gui::Gui(iPoint position, GuiType type, bool movable, bool can_focus, MainScene* scene_listener, AddGuiTo purpose) :
+	position(position), movable(movable), type(type), can_focus(can_focus), scene_listener(scene_listener), purpose(purpose)
+{
+	if (movable)
 		SetDragVelocity(1.0f, 1.0f);
 }
 
