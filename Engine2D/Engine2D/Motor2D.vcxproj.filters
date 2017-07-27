@@ -79,6 +79,12 @@
     <ClCompile Include="GuiImage.cpp">
       <Filter>Desenvolupament  ========\GUI\GUI Elements</Filter>
     </ClCompile>
+    <ClCompile Include="j1Console.cpp">
+      <Filter>Desenvolupament  ========\Console</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleCommandCVar.cpp">
+      <Filter>Desenvolupament  ========\Console</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -174,6 +180,12 @@
     <ClInclude Include="Animation.h">
       <Filter>Desenvolupament  ========\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="j1Console.h">
+      <Filter>Desenvolupament  ========\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleCommandCVar.h">
+      <Filter>Desenvolupament  ========\Console</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">
@@ -202,6 +214,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\GUI\GUI Elements">
       <UniqueIdentifier>{7ca25647-72cd-4bdf-b3c7-5dfe294f88bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Console">
+      <UniqueIdentifier>{16ac3f2e-b939-48ee-9a10-e39814a15696}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

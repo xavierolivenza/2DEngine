@@ -6,10 +6,14 @@
 #ifndef __j1MODULE_H__
 #define __j1MODULE_H__
 
-#include "PugiXml\src\pugixml.hpp"
 #include <list>
 #include <vector>
 #include <map>
+
+#include "PugiXml\src\pugixml.hpp"
+#include "p2Defs.h"
+#include "p2Point.h"
+#include "p2Log.h"
 
 class j1App;
 class Gui;

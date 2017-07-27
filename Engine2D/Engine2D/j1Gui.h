@@ -2,9 +2,16 @@
 #define __j1GUI_H__
 
 #include "j1Module.h"
-#include "GuiXMLStorage.h"
+#include "SDL\include\SDL.h"
 
 #define CURSOR_WIDTH 2
+
+enum atlas_element_type;
+struct atlas_element;
+struct atlas_image_label_window;
+struct atlas_button;
+struct atlas_check;
+struct atlas_scrollbar;
 
 enum GUIAtlas
 {
@@ -58,6 +65,8 @@ public:
 	SDL_Texture* GetAtlas(GUIAtlas atlas) const;
 
 	const atlas_element* GetAtlasPrefab(atlas_element_type type, std::string* name) const;
+
+	bool isDebugDrawActive() const;
 
 private:
 	void PushBackNewAtlas(pugi::xml_node& conf, char* atlas_file_name, char* atlas_rects_file_name, GUIAtlas AtalsEnum);

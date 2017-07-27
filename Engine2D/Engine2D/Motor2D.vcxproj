@@ -76,8 +76,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="ConsoleCommandCVar.cpp" />
     <ClCompile Include="Gui.cpp" />
     <ClCompile Include="GuiImage.cpp" />
+    <ClCompile Include="j1Console.cpp" />
     <ClCompile Include="j1FileSystem.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
     <ClCompile Include="j1Gui.cpp" />
@@ -105,9 +107,11 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="ConsoleCommandCVar.h" />
     <ClInclude Include="Gui.h" />
     <ClInclude Include="GuiImage.h" />
     <ClInclude Include="GuiXMLStorage.h" />
+    <ClInclude Include="j1Console.h" />
     <ClInclude Include="j1FileSystem.h" />
     <ClInclude Include="j1Fonts.h" />
     <ClInclude Include="j1Gui.h" />

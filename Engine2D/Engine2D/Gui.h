@@ -3,11 +3,9 @@
 
 #include "j1App.h"
 #include "j1Module.h"
-#include "p2Log.h"
-#include "p2Point.h"
 #include "Color.h"
-#include "SDL\include\SDL.h"
 #include "j1Gui.h"
+#include "Animation.h"
 #include "GuiXMLStorage.h"
 
 enum GuiType

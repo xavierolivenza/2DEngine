@@ -1,4 +1,3 @@
-#include "p2Defs.h"
 #include "p2Log.h"
 #include "j1App.h"
 #include "j1Render.h"
@@ -7,6 +6,9 @@
 #include "j1Input.h"
 #include "j1Gui.h"
 #include "j1FileSystem.h"
+#include "Gui.h"
+#include "j1Scene.h"
+#include "GuiXMLStorage.h"
 
 //Just an example of how multimap work, just in case that i need it
 /*
@@ -63,18 +65,88 @@ bool j1Gui::Start()
 // Update all guis
 bool j1Gui::PreUpdate()
 {
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		Gui_DebugDraw = !Gui_DebugDraw;
 	return true;
 }
 
 // Called each loop iteration
 bool j1Gui::Update(float dt)
 {
+	// Draw all guis
+	for (std::list<Gui*>::iterator item = GuiElements.begin(); item != GuiElements.cend(); ++item)
+		if ((item._Ptr->_Myval)->GetPurpose() != AddGuiTo::viewport_purpose)
+		{
+			if ((item._Ptr->_Myval)->GetModuleListener() != nullptr)
+				(item._Ptr->_Myval)->Draw();
+			if ((item._Ptr->_Myval)->GetSceneListener() != nullptr)//if is scene
+				if ((item._Ptr->_Myval)->GetSceneListener() == App->scene->GetActiveScene())
+					(item._Ptr->_Myval)->Draw();
+		}
+	/*
+	if (App->console->IsActive())
+	{
+		App->render->DrawQuad(App->console->ConsoleBackground, Black(0), Black(1), Black(2), CONSOLE_ALPHA, true, true, false);
+		App->render->DrawQuad(App->console->ConsoleInputTextBackground, Gray(0), Gray(1), Gray(2), CONSOLE_ALPHA, true, true, false);
+		for (std::list<Gui*>::iterator item = ConsoleElements.begin(); item != ConsoleElements.cend(); ++item)
+		{
+			if ((*item)->type == GuiType::gui_label)// && (InFOV(*item)
+				if ((*item)->type == GuiType::gui_label)
+				{
+					SDL_Rect ViewportRect = { 0,0,App->console->ConsoleBackground.w,App->console->ConsoleBackground.h };
+					SDL_RenderSetViewport(App->render->renderer, &ViewportRect);
+					(*item)->Draw();
+					SDL_RenderSetViewport(App->render->renderer, NULL);
+				}
+			if ((*item)->type == GuiType::gui_inputtext)
+				(*item)->Draw();
+		}
+	}
+	*/
 	return true;
 }
 
 // Called after all Updates
 bool j1Gui::PostUpdate()
 {
+	/*
+	// Update all guis
+	std::list<Gui*>* list_to_iterate = nullptr;
+	if (App->console->IsActive())
+		list_to_iterate = &ConsoleElements;
+	else
+		list_to_iterate = &GuiElements;
+
+	const Gui* mouse_hover = FindMouseHover();
+	if (mouse_hover && mouse_hover->can_focus == true)
+		if (mouse_hover->GetSceneListener() == App->scene->GetActiveScene())
+			SetFocus(mouse_hover);
+
+	//if (mouse_hover && mouse_hover->can_focus == true && App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == j1KeyState::KEY_DOWN)
+	//	SetFocus(mouse_hover);
+	
+	for (std::list<Gui*>::iterator item = list_to_iterate->begin(); item != list_to_iterate->cend(); ++item)
+	{
+		if ((*item)->GetModuleListener() != nullptr)
+		{
+			(*item)->CheckInput(mouse_hover, focus);
+			(*item)->Update(mouse_hover, focus);
+		}
+		if ((*item)->GetSceneListener() != nullptr)//if is scene
+		{
+			if ((*item)->GetSceneListener() == App->scene->GetActiveScene())
+			{
+				(*item)->CheckInput(mouse_hover, focus);
+				(*item)->Update(mouse_hover, focus);
+			}
+		}
+		if (App->console->IsActive())
+		{
+			(*item)->CheckInput(mouse_hover, focus);
+			(*item)->Update(mouse_hover, focus);
+		}
+	}
+	*/
 	return true;
 }
 
@@ -319,4 +391,9 @@ const atlas_element* j1Gui::GetAtlasPrefab(atlas_element_type type, std::string*
 					if ((item2._Ptr->_Myval)->name == *name)
 						return item2._Ptr->_Myval;
 	return nullptr;
+}
+
+bool j1Gui::isDebugDrawActive() const
+{
+	return Gui_DebugDraw;
 }

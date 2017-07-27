@@ -19,6 +19,7 @@ void GuiImage::CommonConstructor(std::string* elementname)
 	ImageAnimation.speed = ImageType->animation_speed;
 	ImageAnimation.frames = ImageType->atlas_element_state_frames;
 	Atlas = ImageType->Atlas_texture;
+	Gui_Collider = ImageType->Collider;
 }
 
 GuiImage::~GuiImage()
