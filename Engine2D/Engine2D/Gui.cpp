@@ -113,11 +113,6 @@ bool Gui::FocusableStat() const
 	return can_focus;
 }
 
-Gui* Gui::GetFocus() const
-{
-	return App->gui->focus;
-}
-
 AddGuiTo Gui::GetPurpose() const
 {
 	return purpose;

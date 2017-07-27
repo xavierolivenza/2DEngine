@@ -66,6 +66,9 @@ public:
 
 	const atlas_element* GetAtlasPrefab(atlas_element_type type, std::string* name) const;
 
+	void SetFocus(const Gui* ui);
+	const Gui* GetFocus() const;
+
 	bool isDebugDrawActive() const;
 
 private:
@@ -75,6 +78,9 @@ private:
 	atlas_button* AllocateNewButton(pugi::xml_node& NewButton, SDL_Texture* atlas_texture);
 	atlas_check* AllocateNewCheck(pugi::xml_node& NewCheck, SDL_Texture* atlas_texture);
 	atlas_scrollbar* AllocateNewScrollbar(pugi::xml_node& NewCheck, atlas_element_type type, SDL_Texture* atlas_texture);
+
+	const Gui* FindMouseHover();
+	bool CanInteract(const Gui* ui) const;
 
 private:
 	bool Gui_DebugDraw = false;

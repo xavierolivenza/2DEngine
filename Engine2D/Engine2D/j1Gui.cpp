@@ -9,6 +9,7 @@
 #include "Gui.h"
 #include "j1Scene.h"
 #include "GuiXMLStorage.h"
+#include "j1Console.h"
 
 //Just an example of how multimap work, just in case that i need it
 /*
@@ -83,9 +84,9 @@ bool j1Gui::Update(float dt)
 				if ((item._Ptr->_Myval)->GetSceneListener() == App->scene->GetActiveScene())
 					(item._Ptr->_Myval)->Draw();
 		}
-	/*
 	if (App->console->IsActive())
 	{
+		/*
 		App->render->DrawQuad(App->console->ConsoleBackground, Black(0), Black(1), Black(2), CONSOLE_ALPHA, true, true, false);
 		App->render->DrawQuad(App->console->ConsoleInputTextBackground, Gray(0), Gray(1), Gray(2), CONSOLE_ALPHA, true, true, false);
 		for (std::list<Gui*>::iterator item = ConsoleElements.begin(); item != ConsoleElements.cend(); ++item)
@@ -101,15 +102,14 @@ bool j1Gui::Update(float dt)
 			if ((*item)->type == GuiType::gui_inputtext)
 				(*item)->Draw();
 		}
+		*/
 	}
-	*/
 	return true;
 }
 
 // Called after all Updates
 bool j1Gui::PostUpdate()
 {
-	/*
 	// Update all guis
 	std::list<Gui*>* list_to_iterate = nullptr;
 	if (App->console->IsActive())
@@ -146,7 +146,6 @@ bool j1Gui::PostUpdate()
 			(*item)->Update(mouse_hover, focus);
 		}
 	}
-	*/
 	return true;
 }
 
@@ -393,7 +392,99 @@ const atlas_element* j1Gui::GetAtlasPrefab(atlas_element_type type, std::string*
 	return nullptr;
 }
 
+void j1Gui::SetFocus(const Gui* ui)
+{
+	j1Module* listener = nullptr;
+
+	if (ui != focus)
+	{
+		if (ui != nullptr)
+		{
+			if (ui->module_listener != nullptr)
+				listener = ui->module_listener;
+			if (ui->scene_listener != nullptr)
+				listener = (j1Module*)ui->scene_listener;
+			//if (ui->can_focus == true && CanInteract(ui) == true)
+			if (ui->can_focus == true)
+			{
+				if (focus != nullptr)
+				{
+					if (ui->module_listener != nullptr)
+						listener->OnGui(focus, GuiEvent::lost_focus);
+					else
+						((MainScene*)listener)->OnGui(focus, GuiEvent::lost_focus);
+				}
+				focus = (Gui*)ui;
+				if (ui->module_listener != nullptr)
+					listener->OnGui(focus, GuiEvent::gain_focus);
+				else
+					((MainScene*)listener)->OnGui(focus, GuiEvent::gain_focus);
+			}
+		}
+		else
+		{
+			if (focus != nullptr)
+			{
+				if (ui != nullptr)
+				{
+					if (ui->module_listener != nullptr)
+						ui->module_listener->OnGui(focus, GuiEvent::lost_focus);
+					else
+						((MainScene*)ui->scene_listener)->OnGui(focus, GuiEvent::lost_focus);
+				}
+			}
+			focus = nullptr;
+		}
+	}
+}
+
+const Gui* j1Gui::GetFocus() const
+{
+	return focus;
+}
+
 bool j1Gui::isDebugDrawActive() const
 {
 	return Gui_DebugDraw;
+}
+
+const Gui* j1Gui::FindMouseHover()
+{
+	iPoint mouse;
+	App->input->GetMousePosition(mouse.x, mouse.y);
+
+	std::list<Gui*>* list_to_iterate = nullptr;
+	if (App->console->IsActive())
+		list_to_iterate = &ConsoleElements;
+	else
+		list_to_iterate = &GuiElements;
+
+	for (std::list<Gui*>::const_reverse_iterator item = list_to_iterate->rbegin(); item != list_to_iterate->crend(); ++item)
+	{
+		if ((list_to_iterate == &ConsoleElements) && ((*item)->type == GuiType::gui_label))
+			continue;
+		else
+			if (CanInteract(*item) == true)
+				if ((*item)->PointContained(mouse.x, mouse.y))
+					return *item;
+		/*
+		if ((*item)->InFOV())
+		{
+		if ((list_to_iterate == &ConsoleElements) && ((*item)->type == GuiType::gui_label))
+		continue;
+		else
+		if (CanInteract(*item) == true)
+		if ((*item)->PointContained(mouse.x, mouse.y))
+		return *item;
+		}
+		*/
+	}
+
+	return nullptr;
+}
+
+bool j1Gui::CanInteract(const Gui* ui) const
+{
+	//return ui->movable && ui->visible;
+	return ui->visible;
 }

@@ -75,7 +75,7 @@ class MainScene;
 
 class Gui
 {
-	//friend class j1Gui;
+	friend class j1Gui;
 public:
 	Gui(iPoint position, GuiType type, bool movable, bool can_focus, j1Module* module_listener, AddGuiTo purpose);
 	Gui(iPoint position, GuiType type, bool movable, bool can_focus, MainScene* scene_listener, AddGuiTo purpose);
@@ -103,8 +103,7 @@ public:
 
 	void Focusable(bool value);
 	bool FocusableStat() const;
-	Gui* GetFocus() const;
-	
+
 	AddGuiTo GetPurpose() const;
 	bool InFOV();
 	bool PointContained(int x, int y) const;
