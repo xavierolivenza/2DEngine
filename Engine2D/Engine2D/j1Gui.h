@@ -5,6 +5,7 @@
 #include "SDL\include\SDL.h"
 
 #define CURSOR_WIDTH 2
+#define DEBUG_DRAW_ALPHA 80
 
 enum atlas_element_type;
 struct atlas_element;

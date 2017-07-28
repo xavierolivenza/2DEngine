@@ -7,6 +7,7 @@
 #include "j1Gui.h"
 #include "Animation.h"
 #include "GuiXMLStorage.h"
+#include "j1Render.h"
 
 enum GuiType
 {

@@ -29,22 +29,20 @@ GuiImage::~GuiImage()
 
 void GuiImage::Draw()
 {
-	/*
-	if (this->visible == true)
+	if (this->visible)
 	{
-		if (usecam)
-		{
-			App->render->Blit(atlas, position.x - App->render->camera.x, position.y - App->render->camera.y, &texture_rect, 1.0f, 0, INT_MAX, INT_MAX, usescale, opacity);
-			if (App->gui->Gui_DebugDraw_isactive())
-				this->DebugDraw();
-		}
+		Frame actualFrame = ImageAnimation.GetCurrentFrame();
+
+		if (this->move_with_camera)
+			App->render->Blit(Atlas, position.x - actualFrame.pivot.x - App->render->camera.x, position.y - actualFrame.pivot.y - App->render->camera.y, &actualFrame.rect, 1.0f, 0, INT_MAX, INT_MAX);
 		else
-			App->render->Blit(atlas, position.x, position.y, &texture_rect, 1.0f, 0, INT_MAX, INT_MAX, usescale, opacity);
+			App->render->Blit(Atlas, position.x, position.y, &actualFrame.rect, 1.0f, 0, INT_MAX, INT_MAX);
+		if (App->gui->isDebugDrawActive())
+			this->DebugDraw();
 	}
-	*/
 }
 
 void GuiImage::DebugDraw() const
 {
-	//App->render->DrawQuad(Gui_Collider, Lime(0), Lime(1), Lime(2), DEBUG_DRAW_ALPHA, true, false, false);
+	App->render->DrawQuad(Gui_Collider, Lime(0), Lime(1), Lime(2), DEBUG_DRAW_ALPHA, true, false, false);
 }

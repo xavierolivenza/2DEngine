@@ -41,7 +41,7 @@ private:
 	std::string	title;
 	uint		width = 0;
 	uint		height = 0;
-	uint		scale = 0;
+	float		scale = 0.0f;
 };
 
 #endif // __j1WINDOW_H__

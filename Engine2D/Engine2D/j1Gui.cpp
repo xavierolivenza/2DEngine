@@ -313,8 +313,8 @@ atlas_image_label_window* j1Gui::AllocateNewImageLabelWindow(pugi::xml_node& New
 	//So from code is usefull to know if some image is in fact null
 	/*
 	if (((char*)NewImageLabelWindow.attribute("name").as_string("") == "") && !NewImageLabelWindow.attribute("animation_loop").as_bool(false) &&
-	(NewImageLabelWindow.attribute("animation_speed").as_float(0.0f) == 0.0f) && atlas_element_state_frames.empty())
-	return nullptr;
+		(NewImageLabelWindow.attribute("animation_speed").as_float(0.0f) == 0.0f) && atlas_element_state_frames.empty())
+		return nullptr;
 	*/
 	if (atlas_element_state_frames.empty())
 		return nullptr;
