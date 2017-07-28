@@ -7,8 +7,8 @@ class GuiImage : public Gui
 {
 public:
 	//elementneme is the name of the element type that you want to use, this name is the one asigned in the Atlas XML file
-	GuiImage(char* elementname, iPoint position, bool movable, bool can_focus, j1Module* module_listener, AddGuiTo addto);
-	GuiImage(char* elementname, iPoint position, bool movable, bool can_focus, MainScene* scene_listener, AddGuiTo addto);
+	GuiImage(char* elementname, iPoint position, bool movable, bool can_focus, bool move_with_camera, j1Module* module_listener, AddGuiTo addto);
+	GuiImage(char* elementname, iPoint position, bool movable, bool can_focus, bool move_with_camera, MainScene* scene_listener, AddGuiTo addto);
 	~GuiImage();
 
 	void Draw();

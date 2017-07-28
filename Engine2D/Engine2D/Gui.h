@@ -77,8 +77,8 @@ class Gui
 {
 	friend class j1Gui;
 public:
-	Gui(iPoint position, GuiType type, bool movable, bool can_focus, j1Module* module_listener, AddGuiTo purpose);
-	Gui(iPoint position, GuiType type, bool movable, bool can_focus, MainScene* scene_listener, AddGuiTo purpose);
+	Gui(iPoint position, GuiType type, bool movable, bool can_focus, bool move_with_camera, j1Module* module_listener, AddGuiTo purpose);
+	Gui(iPoint position, GuiType type, bool movable, bool can_focus, bool move_with_camera, MainScene* scene_listener, AddGuiTo purpose);
 	virtual ~Gui() {}
 	virtual void Update(const Gui* mouse_hover, const Gui* focus) {}
 	virtual void Draw() {}
@@ -123,6 +123,7 @@ protected:
 	bool movable = false;
 	uint opacity = 255; //0-255
 	bool can_focus = false;
+	bool move_with_camera = false;
 	SDL_Rect Gui_Collider = { 0,0,0,0 };
 	
 	bool mouse_inside = false;

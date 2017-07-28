@@ -1,13 +1,13 @@
 #include "GuiImage.h"
 
-GuiImage::GuiImage(char* elementname, iPoint position, bool movable, bool can_focus, j1Module* module_listener, AddGuiTo addto) :
-	Gui(position, GuiType::gui_image, movable, can_focus, module_listener, addto)
+GuiImage::GuiImage(char* elementname, iPoint position, bool movable, bool move_with_camera, bool can_focus, j1Module* module_listener, AddGuiTo addto) :
+	Gui(position, GuiType::gui_image, movable, can_focus, move_with_camera, module_listener, addto)
 {
 	CommonConstructor(&std::string(elementname));
 }
 
-GuiImage::GuiImage(char* elementname, iPoint position, bool movable, bool can_focus, MainScene* scene_listener, AddGuiTo addto) :
-	Gui(position, GuiType::gui_image, movable, can_focus, module_listener, addto)
+GuiImage::GuiImage(char* elementname, iPoint position, bool movable, bool move_with_camera, bool can_focus, MainScene* scene_listener, AddGuiTo addto) :
+	Gui(position, GuiType::gui_image, movable, can_focus, move_with_camera, scene_listener, addto)
 {
 	CommonConstructor(&std::string(elementname));
 }
@@ -29,10 +29,22 @@ GuiImage::~GuiImage()
 
 void GuiImage::Draw()
 {
-
+	/*
+	if (this->visible == true)
+	{
+		if (usecam)
+		{
+			App->render->Blit(atlas, position.x - App->render->camera.x, position.y - App->render->camera.y, &texture_rect, 1.0f, 0, INT_MAX, INT_MAX, usescale, opacity);
+			if (App->gui->Gui_DebugDraw_isactive())
+				this->DebugDraw();
+		}
+		else
+			App->render->Blit(atlas, position.x, position.y, &texture_rect, 1.0f, 0, INT_MAX, INT_MAX, usescale, opacity);
+	}
+	*/
 }
 
 void GuiImage::DebugDraw() const
 {
-
+	//App->render->DrawQuad(Gui_Collider, Lime(0), Lime(1), Lime(2), DEBUG_DRAW_ALPHA, true, false, false);
 }
