@@ -5,7 +5,6 @@
 #include "j1Input.h"
 #include "j1Gui.h"
 #include "j1FileSystem.h"
-#include "Gui.h"
 #include "j1Scene.h"
 #include "GuiXMLStorage.h"
 #include "j1Console.h"

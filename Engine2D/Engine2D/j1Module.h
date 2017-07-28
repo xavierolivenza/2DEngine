@@ -10,6 +10,7 @@
 #include <vector>
 #include <map>
 
+#include "SDL\include\SDL.h"
 #include "PugiXml\src\pugixml.hpp"
 #include "p2Defs.h"
 #include "p2Point.h"

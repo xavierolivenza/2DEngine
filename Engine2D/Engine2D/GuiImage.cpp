@@ -1,4 +1,5 @@
 #include "GuiImage.h"
+#include "j1Gui.h"
 
 GuiImage::GuiImage(char* elementname, iPoint position, bool movable, bool move_with_camera, bool can_focus, j1Module* module_listener, AddGuiTo addto) :
 	Gui(position, GuiType::gui_image, movable, can_focus, move_with_camera, module_listener, addto)

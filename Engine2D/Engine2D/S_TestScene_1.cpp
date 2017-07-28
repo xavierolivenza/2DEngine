@@ -26,6 +26,10 @@ bool S_TestScene_1::Start()
 			App->pathfinding->SetMap(w, h, data);
 		RELEASE_ARRAY(data);
 	}
+
+	testimage1 = App->gui->CreateImage("default_image", { 0,0 }, this, false, false, true, AddGuiTo::regular_purpose);
+	testimage1 = App->gui->CreateImage("pixel_fire", { 0,0 }, this, true, false, false, AddGuiTo::regular_purpose);
+
 	return true;
 }
 

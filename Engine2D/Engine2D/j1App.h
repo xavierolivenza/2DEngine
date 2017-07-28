@@ -4,7 +4,6 @@
 #include "j1Module.h"
 #include "j1PerfTimer.h"
 #include "j1Timer.h"
-#include "PugiXml\src\pugixml.hpp"
 
 // Modules
 class j1Window;

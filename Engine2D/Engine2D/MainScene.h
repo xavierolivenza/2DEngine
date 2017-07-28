@@ -6,6 +6,8 @@
 #include "j1Map.h"
 #include "j1Pathfinding.h"
 #include "p2Log.h"
+#include "j1Gui.h"
+#include "Gui.h"
 
 class MainScene {
 public:

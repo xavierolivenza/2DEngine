@@ -47,11 +47,19 @@ public:
 		if (frames.size() > 1)
 		{
 			current_frame += speed;
+			if (current_frame > (frames.size() - 1))
+			{
+				if (loop)
+					current_frame = 0.0f;
+				loops++;
+			}
+			/*
 			if (current_frame >= last_frame)
 			{
 				current_frame = (loop) ? 0.0f : last_frame - 1;
 				loops++;
 			}
+			*/
 			return frames.at((int)current_frame);
 		}
 		//If not, only one frame, it's an static image, just return the same image forever

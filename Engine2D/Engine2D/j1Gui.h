@@ -2,7 +2,7 @@
 #define __j1GUI_H__
 
 #include "j1Module.h"
-#include "SDL\include\SDL.h"
+#include "Gui.h"
 
 #define CURSOR_WIDTH 2
 #define DEBUG_DRAW_ALPHA 80
@@ -16,7 +16,6 @@ struct atlas_button;
 struct atlas_check;
 struct atlas_scrollbar;
 
-enum AddGuiTo;
 class Gui;
 class GuiImage;
 
@@ -79,8 +78,10 @@ public:
 
 	bool isDebugDrawActive() const;
 
-	GuiImage* CreateImage(char* elementname, iPoint position, j1Module* module_listener, bool movable, bool can_focus, bool move_with_camera, AddGuiTo addto);
-	GuiImage* CreateImage(char* elementname, iPoint position, MainScene* scene_listener, bool movable, bool can_focus, bool move_with_camera, AddGuiTo addto);
+	GuiImage* CreateImage(char* elementname, iPoint position, j1Module* module_listener, bool movable = false, bool can_focus = false,
+		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
+	GuiImage* CreateImage(char* elementname, iPoint position, MainScene* scene_listener, bool movable = false, bool can_focus = false,
+		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
 
 private:
 	void PushBackNewAtlas(pugi::xml_node& conf, GUIAtlas AtalsEnum);

@@ -16,7 +16,8 @@ public:
 	bool CleanUp();
 
 public:
-
+	GuiImage* testimage1 = nullptr;
+	GuiImage* testimage2 = nullptr;
 };
 
 #endif // 

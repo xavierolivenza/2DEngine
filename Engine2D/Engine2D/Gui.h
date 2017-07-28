@@ -4,7 +4,6 @@
 #include "j1App.h"
 #include "j1Module.h"
 #include "Color.h"
-#include "j1Gui.h"
 #include "Animation.h"
 #include "GuiXMLStorage.h"
 #include "j1Render.h"
