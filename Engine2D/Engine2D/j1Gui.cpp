@@ -1,4 +1,3 @@
-#include "p2Log.h"
 #include "j1App.h"
 #include "j1Render.h"
 #include "j1Textures.h"
@@ -10,6 +9,8 @@
 #include "j1Scene.h"
 #include "GuiXMLStorage.h"
 #include "j1Console.h"
+
+#include "GuiImage.h"
 
 //Just an example of how multimap work, just in case that i need it
 /*
@@ -492,4 +493,36 @@ bool j1Gui::CanInteract(const Gui* ui) const
 {
 	//return ui->movable && ui->visible;
 	return ui->visible;
+}
+
+void j1Gui::push_back_gui(Gui* gui, AddGuiTo addto)
+{
+	switch (addto)
+	{
+	case AddGuiTo::regular_purpose:
+		GuiElements.push_back(gui);
+		break;
+	case AddGuiTo::console_purpose:
+		ConsoleElements.push_back(gui);
+		break;
+	case AddGuiTo::null_AddGuiTo:
+	case AddGuiTo::viewport_purpose:
+		break;
+	}
+}
+
+GuiImage* j1Gui::CreateImage(char* elementname, iPoint position, j1Module* module_listener, bool movable, bool can_focus, bool move_with_camera, AddGuiTo addto)
+{
+	GuiImage* ret = nullptr;
+	ret = new GuiImage(elementname, position, movable, move_with_camera, can_focus, module_listener, addto);
+	push_back_gui(ret, addto);
+	return ret;
+}
+
+GuiImage* j1Gui::CreateImage(char* elementname, iPoint position, MainScene* scene_listener, bool movable, bool can_focus, bool move_with_camera, AddGuiTo addto)
+{
+	GuiImage* ret = nullptr;
+	ret = new GuiImage(elementname, position, movable, move_with_camera, can_focus, scene_listener, addto);
+	push_back_gui(ret, addto);
+	return ret;
 }

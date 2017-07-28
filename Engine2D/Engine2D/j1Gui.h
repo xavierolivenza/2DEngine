@@ -7,12 +7,18 @@
 #define CURSOR_WIDTH 2
 #define DEBUG_DRAW_ALPHA 80
 
+class MainScene;
+
 enum atlas_element_type;
 struct atlas_element;
 struct atlas_image_label_window;
 struct atlas_button;
 struct atlas_check;
 struct atlas_scrollbar;
+
+enum AddGuiTo;
+class Gui;
+class GuiImage;
 
 enum GUIAtlas
 {
@@ -73,6 +79,9 @@ public:
 
 	bool isDebugDrawActive() const;
 
+	GuiImage* CreateImage(char* elementname, iPoint position, j1Module* module_listener, bool movable, bool can_focus, bool move_with_camera, AddGuiTo addto);
+	GuiImage* CreateImage(char* elementname, iPoint position, MainScene* scene_listener, bool movable, bool can_focus, bool move_with_camera, AddGuiTo addto);
+
 private:
 	void PushBackNewAtlas(pugi::xml_node& conf, GUIAtlas AtalsEnum);
 	std::list<atlas_element*>* LoadAtlasRectsXML(std::string* file, SDL_Texture* atlas_texture);
@@ -83,6 +92,8 @@ private:
 
 	const Gui* FindMouseHover();
 	bool CanInteract(const Gui* ui) const;
+
+	void push_back_gui(Gui* gui, AddGuiTo addto);
 
 private:
 	bool Gui_DebugDraw = false;
