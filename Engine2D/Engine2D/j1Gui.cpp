@@ -44,8 +44,9 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 	LOG("Loading GUI atlas");
 	bool ret = true;
 
-	PushBackNewAtlas(conf, "default_atlas", "default_atlas_rects", GUIAtlas::default);
-	PushBackNewAtlas(conf, "over_atlas", "over_atlas_rects", GUIAtlas::over);
+	PushBackNewAtlas(conf.child("default_atlas"), GUIAtlas::default);
+	PushBackNewAtlas(conf.child("over_atlas"), GUIAtlas::over);
+	PushBackNewAtlas(conf.child("fire_atlas"), GUIAtlas::fire);
 
 	return ret;
 }
@@ -219,9 +220,9 @@ SDL_Texture* j1Gui::GetAtlas(GUIAtlas atlas) const
 	return nullptr;
 }
 
-void j1Gui::PushBackNewAtlas(pugi::xml_node& conf, char* atlas_file_name, char* atlas_rects_file_name, GUIAtlas AtalsEnum)
+void j1Gui::PushBackNewAtlas(pugi::xml_node& conf, GUIAtlas AtalsEnum)
 {
-	gui_atlas_list.push_back(new Atlas(conf.child(atlas_file_name).attribute("file").as_string(""), conf.child(atlas_rects_file_name).attribute("file").as_string(""), AtalsEnum));
+	gui_atlas_list.push_back(new Atlas(conf.attribute("texture").as_string(""), conf.attribute("rects").as_string(""), AtalsEnum));
 }
 
 std::list<atlas_element*>* j1Gui::LoadAtlasRectsXML(std::string* file, SDL_Texture* atlas_texture)
@@ -306,17 +307,21 @@ atlas_image_label_window* j1Gui::AllocateNewImageLabelWindow(pugi::xml_node& New
 		atlas_element_state_frames.push_back(newframe);
 	}
 
-	SDL_Rect collider = { NewImageLabelWindow.child("collider").attribute("x").as_int(0),NewImageLabelWindow.child("collider").attribute("y").as_int(0),
-		NewImageLabelWindow.child("collider").attribute("w").as_int(0) ,NewImageLabelWindow.child("collider").attribute("h").as_int(0) };
-	
 	//this is usefull for thing like the Checkbox which you have the option of making it in two ways, or buttons with less than 3 states.
 	//1. With check_unchecked_background, check_checked_background and check_check.
 	//2. With check_unchecked_background and check_checked_backed_check.
 	//So from code is usefull to know if some image is in fact null
+	/*
 	if (((char*)NewImageLabelWindow.attribute("name").as_string("") == "") && !NewImageLabelWindow.attribute("animation_loop").as_bool(false) &&
-		(NewImageLabelWindow.attribute("animation_speed").as_float(0.0f) == 0.0f) && atlas_element_state_frames.empty())
+	(NewImageLabelWindow.attribute("animation_speed").as_float(0.0f) == 0.0f) && atlas_element_state_frames.empty())
+	return nullptr;
+	*/
+	if (atlas_element_state_frames.empty())
 		return nullptr;
 
+	SDL_Rect collider = { NewImageLabelWindow.child("collider").attribute("x").as_int(0),NewImageLabelWindow.child("collider").attribute("y").as_int(0),
+		NewImageLabelWindow.child("collider").attribute("w").as_int(0) ,NewImageLabelWindow.child("collider").attribute("h").as_int(0) };
+	
 	atlas_image_label_window* newtoadd = new atlas_image_label_window((char*)NewImageLabelWindow.attribute("name").as_string(""),
 		type, NewImageLabelWindow.attribute("animation_loop").as_bool(false), NewImageLabelWindow.attribute("animation_speed").as_float(0.0f),
 		&atlas_element_state_frames, &collider, atlas_texture);

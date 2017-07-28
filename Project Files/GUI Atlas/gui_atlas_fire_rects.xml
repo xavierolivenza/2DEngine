@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<gui_atlas_rects>
+  <GUI_Image>
+    <!-- GUI_Image Type 1-->
+    <image name="pixel_fire" animation_loop="true" animation_speed="1.0">
+      <collider x="0" y="0" w="46" h="183"/>
+      <state x="0" y="0" w="46" h="183" pivot_x="0" pivot_y="0"/>
+      <state x="46" y="0" w="46" h="183" pivot_x="0" pivot_y="0"/>
+      <state x="92" y="0 " w="46" h="183" pivot_x="0" pivot_y="0"/>
+      <state x="138" y="0" w="46" h="183" pivot_x="0" pivot_y="0"/>
+      <state x="184" y="0" w="46" h="183" pivot_x="0" pivot_y="0"/>
+      <state x="230" y="0 " w="46" h="183" pivot_x="0" pivot_y="0"/>
+      <state x="276" y="0" w="46" h="183" pivot_x="0" pivot_y="0"/>
+      <state x="322" y="0" w="46" h="183" pivot_x="0" pivot_y="0"/>
+      <state x="368" y="0 " w="46" h="183" pivot_x="0" pivot_y="0"/>
+      <state x="414" y="0" w="46" h="183" pivot_x="0" pivot_y="0"/>
+      <state x="460" y="0" w="46" h="183" pivot_x="0" pivot_y="0"/>
+      <state x="506" y="0 " w="46" h="183" pivot_x="0" pivot_y="0"/>
+    </image>
+  </GUI_Image>
+	
+  <GUI_Label>
+  </GUI_Label>
+  
+  <GUI_Button>
+  </GUI_Button>
+  
+  <GUI_Window>
+  </GUI_Window>
+  
+  <GUI_Scrollbar_Vertical>
+  </GUI_Scrollbar_Vertical>
+  
+  <GUI_Scrollbar_Horitzontal>
+  </GUI_Scrollbar_Horitzontal>
+
+  <GUI_Check>
+  </GUI_Check>
+  
+  <!-- Something in project-->
+  <GUI_Bar>
+  </GUI_Bar>
+  
+</gui_atlas_rects>

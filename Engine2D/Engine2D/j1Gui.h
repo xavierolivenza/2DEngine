@@ -16,7 +16,8 @@ struct atlas_scrollbar;
 enum GUIAtlas
 {
 	default,
-	over
+	over,
+	fire
 };
 
 struct Atlas
@@ -72,7 +73,7 @@ public:
 	bool isDebugDrawActive() const;
 
 private:
-	void PushBackNewAtlas(pugi::xml_node& conf, char* atlas_file_name, char* atlas_rects_file_name, GUIAtlas AtalsEnum);
+	void PushBackNewAtlas(pugi::xml_node& conf, GUIAtlas AtalsEnum);
 	std::list<atlas_element*>* LoadAtlasRectsXML(std::string* file, SDL_Texture* atlas_texture);
 	atlas_image_label_window* AllocateNewImageLabelWindow(pugi::xml_node& NewImageLabelWindow, atlas_element_type type, SDL_Texture* atlas_texture);
 	atlas_button* AllocateNewButton(pugi::xml_node& NewButton, SDL_Texture* atlas_texture);

@@ -15,10 +15,9 @@
   </font>
 
   <gui>
-    <default_atlas file="gui/gui_atlas_default.png"/>
-    <default_atlas_rects file="gui/gui_atlas_default_rects.xml"/>
-	  <over_atlas file="gui/gui_atlas_over.png"/>
-    <over_atlas_rects file="gui/gui_atlas_over_rects.xml"/>
+    <default_atlas texture="gui/gui_atlas_default.png" rects="gui/gui_atlas_default_rects.xml"/>
+    <over_atlas texture="gui/gui_atlas_over.png" rects="gui/gui_atlas_over_rects.xml"/>
+    <fire_atlas texture="gui/gui_atlas_fire.png" rects="gui/gui_atlas_fire_rects.xml"/>
   </gui>
     
   <window>

@@ -4,87 +4,108 @@
   <GUI_Image>
     <!-- GUI_Image Mouse -->
     <image name="over_image_mouse" animation_loop="false" animation_speed="0.0">
-      <state x="232" y="156" w="17" h="24"/>
+      <collider x="0" y="0" w="17" h="24"/>
+      <state x="232" y="156" w="17" h="24" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Mouse_Right_Click -->
     <image name="over_image_mouse_right_click" animation_loop="false" animation_speed="0.0">
-      <state x="20" y="210" w="20" h="32"/>
+      <collider x="0" y="0" w="20" h="32"/>
+      <state x="20" y="210" w="20" h="32" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Mouse_Left_Click -->
     <image name="over_image_mouse_left_click" animation_loop="false" animation_speed="0.0">
-      <state x="0" y="120" w="20" h="32"/>
+      <collider x="0" y="0" w="20" h="32"/>
+      <state x="0" y="120" w="20" h="32" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Mouse_Middle_Click -->
     <image name="over_image_mouse_middle_click" animation_loop="false" animation_speed="0.0">
-      <state x="40" y="120" w="20" h="32"/>
+      <collider x="0" y="0" w="20" h="32"/>
+      <state x="40" y="120" w="20" h="32" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Mouse_Wheel_Up -->
     <image name="over_image_mouse_wheel_up" animation_loop="false" animation_speed="0.0">
-      <state x="60" y="120" w="39" h="32"/>
+      <collider x="0" y="0" w="39" h="32"/>
+      <state x="60" y="120" w="39" h="32" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Mouse_Wheel_Down -->
     <image name="over_image_mouse_wheel_down" animation_loop="false" animation_speed="0.0">
-      <state x="99" y="120" w="39" h="32"/>
+      <collider x="0" y="0" w="39" h="32"/>
+      <state x="99" y="120" w="39" h="32" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Controller_A -->
     <image name="over_image_controller_a" animation_loop="false" animation_speed="0.0">
-      <state x="196" y="126" w="30" h="30"/>
+      <collider x="0" y="0" w="30" h="30"/>
+      <state x="196" y="126" w="30" h="30" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Controller_B -->
     <image name="over_image_controller_b" animation_loop="false" animation_speed="0.0">
-      <state x="226" y="126" w="30" h="30"/>
+      <collider x="0" y="0" w="30" h="30"/>
+      <state x="226" y="126" w="30" h="30" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Controller_X -->
     <image name="over_image_controller_x" animation_loop="false" animation_speed="0.0">
-      <state x="256" y="126" w="30" h="30"/>
+      <collider x="0" y="0" w="30" h="30"/>
+      <state x="256" y="126" w="30" h="30" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Controller_Y -->
     <image name="over_image_controller_y" animation_loop="false" animation_speed="0.0">
-      <state x="256" y="156" w="30" h="30"/>
+      <collider x="0" y="0" w="30" h="30"/>
+      <state x="256" y="156" w="30" h="30" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Controller_Pad_Up -->
     <image name="over_image_controller_pad_up" animation_loop="false" animation_speed="0.0">
-      <state x="196" y="156" w="36" h="36"/>
+      <collider x="0" y="0" w="36" h="36"/>
+      <state x="196" y="156" w="36" h="36" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Controller_Pad_Right -->
     <image name="over_image_controller_pad_right" animation_loop="false" animation_speed="0.0">
-      <state x="196" y="192" w="36" h="36"/>
+      <collider x="0" y="0" w="36" h="36"/>
+      <state x="196" y="192" w="36" h="36" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Controller_Pad_Down -->
     <image name="over_image_controller_pad_down" animation_loop="false" animation_speed="0.0">
-      <state x="232" y="192" w="36" h="36"/>
+      <collider x="0" y="0" w="36" h="36"/>
+      <state x="232" y="192" w="36" h="36" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Controller_Pad_Left -->
     <image name="over_image_controller_pad_left" animation_loop="false" animation_speed="0.0">
-      <state x="268" y="192" w="36" h="36"/>
+      <collider x="0" y="0" w="36" h="36"/>
+      <state x="268" y="192" w="36" h="36" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Controller_L -->
     <image name="over_image_controller_l" animation_loop="false" animation_speed="0.0">
-      <state x="" y="" w="" h=""/>
+      <collider x="0" y="0" w="" h=""/>
+      <state x="" y="" w="" h="" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Controller_R -->
     <image name="over_image_controller_r" animation_loop="false" animation_speed="0.0">
-      <state x="" y="" w="" h=""/>
+      <collider x="0" y="0" w="" h=""/>
+      <state x="" y="" w="" h="" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Controller_LB -->
     <image name="over_image_controller_lb" animation_loop="false" animation_speed="0.0">
-      <state x="" y="" w="" h=""/>
+      <collider x="0" y="0" w="" h=""/>
+      <state x="" y="" w="" h="" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Controller_RB -->
     <image name="over_image_controller_rb" animation_loop="false" animation_speed="0.0">
-      <state x="" y="" w="" h=""/>
+      <collider x="0" y="0" w="" h=""/>
+      <state x="" y="" w="" h="" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Controller_LT -->
     <image name="over_image_controller_lt" animation_loop="false" animation_speed="0.0">
-      <state x="" y="" w="" h=""/>
+      <collider x="0" y="0" w="" h=""/>
+      <state x="" y="" w="" h="" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Controller_RT -->
     <image name="over_image_controller_rt" animation_loop="false" animation_speed="0.0">
-      <state x="" y="" w="" h=""/>
+      <collider x="0" y="0" w="" h=""/>
+      <state x="" y="" w="" h="" pivot_x="0" pivot_y="0"/>
     </image>
     <!-- GUI_Image Controller_Menu -->
     <image name="over_image_controller_menu" animation_loop="false" animation_speed="0.0">
-      <state x="138" y="120" w="30" h="30"/>
+      <collider x="0" y="0" w="30" h="30"/>
+      <state x="138" y="120" w="30" h="30" pivot_x="0" pivot_y="0"/>
     </image>
   </GUI_Image>
 	
@@ -94,20 +115,22 @@
   <GUI_Button>
     <!-- GUI_Button Type 1-->
     <button name="over_button_big">
+      <collider x="0" y="0" w="304" h="63"/>
       <state_idle animation_loop="false" animation_speed="0.0">
-        <state x="0" y="0" w="304" h="63"/>
+        <state x="0" y="0" w="304" h="63" pivot_x="0" pivot_y="0"/>
       </state_idle>
       <state_hover animation_loop="false" animation_speed="0.0">
-        <state x="0" y="63" w="304" h="63"/>
+        <state x="0" y="63" w="304" h="63" pivot_x="0" pivot_y="0"/>
       </state_hover>
     </button>
     <!-- GUI_Button Type 2-->
     <button name="over_button_small">
+      <collider x="0" y="0" w="196" h="42"/>
       <state_idle animation_loop="false" animation_speed="0.0">
-        <state x="0" y="126" w="196" h="42"/>
+        <state x="0" y="126" w="196" h="42" pivot_x="0" pivot_y="0"/>
       </state_idle>
       <state_pressed animation_loop="false" animation_speed="0.0">
-        <state x="0" y="168" w="196" h="42"/>
+        <state x="0" y="168" w="196" h="42" pivot_x="0" pivot_y="0"/>
       </state_pressed>
     </button>
   </GUI_Button>
