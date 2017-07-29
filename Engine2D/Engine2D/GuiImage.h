@@ -14,7 +14,7 @@ public:
 	void Draw();
 
 private:
-	void CommonConstructor(std::string* elementname);
+	void CommonConstructor(iPoint position, std::string* elementname);
 	void DebugDraw() const;
 
 private:

@@ -52,6 +52,11 @@ bool j1Input::PreUpdate()
 	
 	const Uint8* keys = SDL_GetKeyboardState(nullptr);
 
+	mouse_motion_x = 0;
+	mouse_motion_y = 0;
+	mouse_wheel_mov = 0;
+	input_text.clear();
+
 	for(int i = 0; i < MAX_KEYS; ++i)
 	{
 		if(keys[i] == 1)
@@ -85,7 +90,11 @@ bool j1Input::PreUpdate()
 		{
 			case SDL_QUIT:
 				windowEvents[WE_QUIT] = true;
-			break;
+				break;
+
+			case SDL_TEXTINPUT:
+				input_text = event.text.text;
+				break;
 
 			case SDL_WINDOWEVENT:
 				switch(event.window.event)
@@ -110,12 +119,16 @@ bool j1Input::PreUpdate()
 			case SDL_MOUSEBUTTONDOWN:
 				mouse_buttons[event.button.button - 1] = KEY_DOWN;
 				//LOG("Mouse button %d down", event.button.button-1);
-			break;
+				break;
 
 			case SDL_MOUSEBUTTONUP:
 				mouse_buttons[event.button.button - 1] = KEY_UP;
 				//LOG("Mouse button %d up", event.button.button-1);
-			break;
+				break;
+
+			case SDL_MOUSEWHEEL:
+				mouse_wheel_mov = event.wheel.y;
+				break;
 
 			case SDL_MOUSEMOTION:
 				int scale = App->win->GetScale();
@@ -124,7 +137,7 @@ bool j1Input::PreUpdate()
 				mouse_x = event.motion.x / scale;
 				mouse_y = event.motion.y / scale;
 				//LOG("Mouse motion x %d y %d", mouse_motion_x, mouse_motion_y);
-			break;
+				break;
 		}
 	}
 

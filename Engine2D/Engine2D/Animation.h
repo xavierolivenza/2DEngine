@@ -4,6 +4,7 @@
 #include "SDL/include/SDL_rect.h"
 #include "p2Point.h"
 #include <vector>
+#include "j1Timer.h"
 
 struct Frame
 {
@@ -19,10 +20,13 @@ public:
 	iPoint pivot = { 0,0 };
 	std::vector<Frame> frames;
 	int last_frame = 0;
-
+	uint frameMiliseconds = 250;
+	
 private:
 	float current_frame = 0.0f;
 	int loops = 0;
+	j1Timer AnimationTimer;
+	bool FirstLoop = true;
 
 public:
 	Animation()
@@ -43,9 +47,32 @@ public:
 
 	Frame& GetCurrentFrame()
 	{
+		if (FirstLoop)
+		{
+			AnimationTimer.Start();
+			FirstLoop = false;
+		}
+
+
 		//if there's in fact an animation, calculate and return the current frame
 		if (frames.size() > 1)
 		{
+			if (AnimationTimer.Read() >= (frameMiliseconds * (current_frame + 1)))
+			{
+				current_frame += 1;
+			}
+
+			if (current_frame > (frames.size() - 1))
+			{
+				if (loop)
+				{
+					current_frame = 0.0f;
+					AnimationTimer.Start();
+				}
+				loops++;
+			}
+
+			/*
 			current_frame += speed;
 			if (current_frame > (frames.size() - 1))
 			{
@@ -53,6 +80,7 @@ public:
 					current_frame = 0.0f;
 				loops++;
 			}
+			*/
 			/*
 			if (current_frame >= last_frame)
 			{

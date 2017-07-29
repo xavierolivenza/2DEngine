@@ -76,6 +76,8 @@ private:
 	int			mouse_motion_y = 0;
 	int			mouse_x = 0;
 	int			mouse_y = 0;
+	int			mouse_wheel_mov = 0;
+	std::string input_text;
 };
 
 #endif // __j1INPUT_H__
