@@ -22,8 +22,11 @@ Gui::Gui(iPoint position, GuiType type, bool movable, bool can_focus, bool move_
 
 void Gui::SetLocalPos(int x, int y)
 {
-	position.x = Gui_Collider.x = x;
-	position.y = Gui_Collider.y = y;
+	position.x = x;
+	position.y = y;
+	iPoint Gui_ColliderXY = App->render->WorldToScreen(x, y);
+	Gui_Collider.x = Gui_ColliderXY.x;
+	Gui_Collider.y = Gui_ColliderXY.y;
 }
 
 iPoint Gui::GetLocalPos() const
@@ -39,6 +42,7 @@ void Gui::GetLocalPos(int& x, int& y) const
 
 void Gui::Move(int x, int y)
 {
+	//Here may have an isue with camera movement like it happened in SetLocalPos
 	position.x += x;
 	Gui_Collider.x = position.x;
 	position.y += y;

@@ -115,7 +115,7 @@ public:
 	const MainScene* GetSceneListener() const;
 
 protected:
-	AddGuiTo purpose;
+	AddGuiTo purpose = AddGuiTo::regular_purpose;
 	GuiType type = GuiType::null_GuiType;
 	iPoint position = { 0,0 };
 	fPoint drag_vel = { 0.0f, 0.0f };

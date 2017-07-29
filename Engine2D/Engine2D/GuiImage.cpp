@@ -37,7 +37,7 @@ void GuiImage::Draw()
 		if (this->move_with_camera)
 			App->render->Blit(Atlas, position.x - actualFrame.pivot.x - App->render->camera.x, position.y - actualFrame.pivot.y - App->render->camera.y, &actualFrame.rect, 1.0f, 0, INT_MAX, INT_MAX);
 		else
-			App->render->Blit(Atlas, position.x, position.y, &actualFrame.rect, 1.0f, 0, INT_MAX, INT_MAX);
+			App->render->Blit(Atlas, position.x - actualFrame.pivot.x, position.y - actualFrame.pivot.y, &actualFrame.rect, 1.0f, 0, INT_MAX, INT_MAX);
 		if (App->gui->isDebugDrawActive())
 			this->DebugDraw();
 	}

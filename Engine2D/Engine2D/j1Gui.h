@@ -107,6 +107,8 @@ private:
 	std::list<Gui*> ConsoleElements;
 
 	Gui* focus = nullptr;
+
+	iPoint cameraPos = { 0,0 };
 };
 
 #endif // __j1GUI_H__

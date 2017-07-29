@@ -128,23 +128,31 @@ bool j1Gui::PostUpdate()
 	
 	for (std::list<Gui*>::iterator item = list_to_iterate->begin(); item != list_to_iterate->cend(); ++item)
 	{
-		if ((*item)->GetModuleListener() != nullptr)
+		if (!(item._Ptr->_Myval)->move_with_camera)
 		{
-			(*item)->CheckInput(mouse_hover, focus);
-			(*item)->Update(mouse_hover, focus);
-		}
-		if ((*item)->GetSceneListener() != nullptr)//if is scene
-		{
-			if ((*item)->GetSceneListener() == App->scene->GetActiveScene())
+			iPoint newCameraPos = { App->render->camera.x,App->render->camera.y };
+			if (cameraPos != newCameraPos)
 			{
-				(*item)->CheckInput(mouse_hover, focus);
-				(*item)->Update(mouse_hover, focus);
+				(item._Ptr->_Myval)->Gui_Collider.x += (newCameraPos.x - cameraPos.x);
+				(item._Ptr->_Myval)->Gui_Collider.y += (newCameraPos.y - cameraPos.y);
+				cameraPos = newCameraPos;
 			}
 		}
+		if ((item._Ptr->_Myval)->GetModuleListener() != nullptr)
+		{
+			(item._Ptr->_Myval)->CheckInput(mouse_hover, focus);
+			(item._Ptr->_Myval)->Update(mouse_hover, focus);
+		}
+		if ((item._Ptr->_Myval)->GetSceneListener() != nullptr)//if is scene
+			if ((item._Ptr->_Myval)->GetSceneListener() == App->scene->GetActiveScene())
+			{
+				(item._Ptr->_Myval)->CheckInput(mouse_hover, focus);
+				(item._Ptr->_Myval)->Update(mouse_hover, focus);
+			}
 		if (App->console->IsActive())
 		{
-			(*item)->CheckInput(mouse_hover, focus);
-			(*item)->Update(mouse_hover, focus);
+			(item._Ptr->_Myval)->CheckInput(mouse_hover, focus);
+			(item._Ptr->_Myval)->Update(mouse_hover, focus);
 		}
 	}
 	return true;
