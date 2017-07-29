@@ -323,7 +323,7 @@ atlas_image_label_window* j1Gui::AllocateNewImageLabelWindow(pugi::xml_node& New
 		NewImageLabelWindow.child("collider").attribute("w").as_int(0) ,NewImageLabelWindow.child("collider").attribute("h").as_int(0) };
 	
 	atlas_image_label_window* newtoadd = new atlas_image_label_window((char*)NewImageLabelWindow.attribute("name").as_string(""),
-		type, NewImageLabelWindow.attribute("animation_loop").as_bool(false), NewImageLabelWindow.attribute("animation_speed").as_float(0.0f),
+		type, NewImageLabelWindow.attribute("animation_loop").as_bool(false), NewImageLabelWindow.attribute("frameMiliseconds").as_int(0),
 		&atlas_element_state_frames, &collider, atlas_texture);
 
 	return newtoadd;

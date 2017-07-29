@@ -13,6 +13,8 @@ public:
 
 	void Draw();
 
+	void SetAnimationFrameMiliseconds(int frameMiliseconds);
+
 private:
 	void CommonConstructor(iPoint position, std::string* elementname);
 	void DebugDraw() const;

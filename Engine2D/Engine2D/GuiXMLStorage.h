@@ -31,16 +31,16 @@ struct atlas_element
 
 struct atlas_image_label_window : public atlas_element
 {
-	atlas_image_label_window(char* name, atlas_element_type type, bool animation_loop, float animation_speed, std::vector<Frame>* atlas_element_state_frames,
+	atlas_image_label_window(char* name, atlas_element_type type, bool animation_loop, int frameMiliseconds, std::vector<Frame>* atlas_element_state_frames,
 		SDL_Rect* Collider, SDL_Texture* Atlas_texture) :
-		animation_loop(animation_loop), animation_speed(animation_speed), atlas_element_state_frames(*atlas_element_state_frames),
+		animation_loop(animation_loop), frameMiliseconds(frameMiliseconds), atlas_element_state_frames(*atlas_element_state_frames),
 		atlas_element(name, type, Collider, Atlas_texture)
 	{
 
 	}
 
 	bool animation_loop = false;
-	float animation_speed = 0.0f;
+	int frameMiliseconds = 0;
 	std::vector<Frame> atlas_element_state_frames;
 };
 

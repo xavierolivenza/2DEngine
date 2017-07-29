@@ -3,7 +3,7 @@
 <gui_atlas_rects>
   <GUI_Image>
     <!-- GUI_Image Type 1-->
-    <image name="pixel_fire" animation_loop="true" animation_speed="1.0">
+    <image name="pixel_fire" animation_loop="true" frameMiliseconds="100">
       <collider x="0" y="0" w="46" h="183"/>
       <state x="0" y="0" w="46" h="183" pivot_x="0" pivot_y="0"/>
       <state x="46" y="0" w="46" h="183" pivot_x="0" pivot_y="0"/>
