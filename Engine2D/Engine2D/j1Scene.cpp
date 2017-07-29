@@ -88,6 +88,13 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
+	if (TimeToCreateGUI)
+	{
+		for (std::list<MainScene*>::iterator item = scene_list.begin(); item != scene_list.cend(); ++item)
+			(item._Ptr->_Myval)->CreateSceneGUI();
+		TimeToCreateGUI = false;
+	}
+
 	if (active_scene != prev_active_scene)
 	{
 		active_scene->Start();

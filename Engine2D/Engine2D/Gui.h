@@ -8,6 +8,13 @@
 #include "GuiXMLStorage.h"
 #include "j1Render.h"
 
+static Color GuiImageDebugColor = Red;
+static Color GuiLabelDebugColor = Green;
+static Color GuiWindowDebugColor = Blue;
+static Color GuiButtonDebugColor = Yellow;
+static Color GuiScrollBarDebugColor = Purple;
+static Color GuiCheckDebugColor = White;
+
 enum GuiType
 {
 	gui_image,

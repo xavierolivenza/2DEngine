@@ -9,6 +9,7 @@ public:
 	S_TestScene_1();
 	~S_TestScene_1();
 	bool Awake(pugi::xml_node& conf);
+	void CreateSceneGUI();
 	bool Start();
 	bool PreUpdate();
 	bool Update();

@@ -21,6 +21,11 @@ public:
 		return true;
 	}
 
+	virtual void CreateSceneGUI()
+	{
+
+	}
+
 	virtual bool Start()
 	{
 		return true;

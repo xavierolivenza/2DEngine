@@ -16,11 +16,16 @@ GuiImage::GuiImage(char* elementname, iPoint position, bool movable, bool move_w
 void GuiImage::CommonConstructor(iPoint position, std::string* elementname)
 {
 	atlas_image_label_window* ImageType = (atlas_image_label_window*)App->gui->GetAtlasPrefab(atlas_element_type::enum_atlas_image, elementname);
-	ImageAnimation.loop = ImageType->animation_loop;
-	ImageAnimation.frameMiliseconds = ImageType->frameMiliseconds;
-	ImageAnimation.frames = ImageType->atlas_element_state_frames;
-	Atlas = ImageType->Atlas_texture;
-	Gui_Collider = { position.x - ImageType->Collider.x,position.y - ImageType->Collider.y,ImageType->Collider.w,ImageType->Collider.h };
+	if (ImageType != nullptr)
+	{
+		ImageAnimation.loop = ImageType->animation_loop;
+		ImageAnimation.frameMiliseconds = ImageType->frameMiliseconds;
+		ImageAnimation.frames = ImageType->atlas_element_state_frames;
+		Atlas = ImageType->Atlas_texture;
+		Gui_Collider = { position.x - ImageType->Collider.x,position.y - ImageType->Collider.y,ImageType->Collider.w,ImageType->Collider.h };
+	}
+	else
+		LOG("Error Loading Image %s", elementname->c_str());
 }
 
 GuiImage::~GuiImage()
@@ -45,7 +50,7 @@ void GuiImage::Draw()
 
 void GuiImage::DebugDraw() const
 {
-	App->render->DrawQuad(Gui_Collider, Lime(0), Lime(1), Lime(2), DEBUG_DRAW_ALPHA, true, false, false);
+	App->render->DrawQuad(Gui_Collider, GuiImageDebugColor(0), GuiImageDebugColor(1), GuiImageDebugColor(2), DEBUG_DRAW_ALPHA, true, false, false);
 }
 
 void GuiImage::SetAnimationFrameMiliseconds(int frameMiliseconds)

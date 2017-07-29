@@ -38,6 +38,8 @@ public:
 	const MainScene* GetActiveScene() const;
 
 private:
+	bool TimeToCreateGUI = true;
+
 	MainScene* active_scene = nullptr;
 	MainScene* prev_active_scene = nullptr;
 	std::list<MainScene*> scene_list;

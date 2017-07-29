@@ -102,9 +102,12 @@ bool j1App::Awake()
 			capped_ms = 1000 / cap;
 	}
 
-	if(ret == true)
+	if (ret == true)
+	{
 		for (std::list<j1Module*>::iterator item = modules.begin(); item != modules.cend() && ret == true; ++item)
 			ret = (item._Ptr->_Myval)->Awake(config.child((item._Ptr->_Myval)->name.c_str()));
+	}
+		
 
 	PERF_PEEK(ptimer);
 
