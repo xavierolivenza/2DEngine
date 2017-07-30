@@ -19,6 +19,8 @@ public:
 public:
 	GuiImage* testimage1 = nullptr;
 	GuiImage* testimage2 = nullptr;
+	GuiLabel* testlabel1 = nullptr;
+	GuiLabel* testlabel2 = nullptr;
 };
 
 #endif // 

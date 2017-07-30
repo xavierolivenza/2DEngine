@@ -10,6 +10,7 @@
 #include "j1Console.h"
 
 #include "GuiImage.h"
+#include "GuiLabel.h"
 
 //Just an example of how multimap work, just in case that i need it
 /*
@@ -125,17 +126,20 @@ bool j1Gui::PostUpdate()
 
 	//if (mouse_hover && mouse_hover->can_focus == true && App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == j1KeyState::KEY_DOWN)
 	//	SetFocus(mouse_hover);
-	
+
+	iPoint newCameraPos = { App->render->camera.x,App->render->camera.y };
+	bool cam_moved = false;
+	if (cameraPos != newCameraPos)
+		cam_moved = true;
+
 	for (std::list<Gui*>::iterator item = list_to_iterate->begin(); item != list_to_iterate->cend(); ++item)
 	{
 		if (!(item._Ptr->_Myval)->move_with_camera)
 		{
-			iPoint newCameraPos = { App->render->camera.x,App->render->camera.y };
-			if (cameraPos != newCameraPos)
+			if (cam_moved)
 			{
 				(item._Ptr->_Myval)->Gui_Collider.x += (newCameraPos.x - cameraPos.x);
 				(item._Ptr->_Myval)->Gui_Collider.y += (newCameraPos.y - cameraPos.y);
-				cameraPos = newCameraPos;
 			}
 		}
 		if ((item._Ptr->_Myval)->GetModuleListener() != nullptr)
@@ -155,6 +159,9 @@ bool j1Gui::PostUpdate()
 			(item._Ptr->_Myval)->Update(mouse_hover, focus);
 		}
 	}
+
+	cameraPos = newCameraPos;
+
 	return true;
 }
 
@@ -396,12 +403,13 @@ atlas_scrollbar* j1Gui::AllocateNewScrollbar(pugi::xml_node& NewScrollbar, atlas
 
 const atlas_element* j1Gui::GetAtlasPrefab(atlas_element_type type, std::string* name) const
 {
-	for (std::list<Atlas*>::const_iterator item = gui_atlas_list.begin(); item != gui_atlas_list.cend(); ++item)
-		if ((item._Ptr->_Myval)->atlas_content != nullptr)
-			for (std::list<atlas_element*>::iterator item2 = ((item._Ptr->_Myval)->atlas_content)->begin(); item2 != ((item._Ptr->_Myval)->atlas_content)->cend(); ++item2)
-				if ((item2._Ptr->_Myval)->type == type)
-					if ((item2._Ptr->_Myval)->name == *name)
-						return item2._Ptr->_Myval;
+	if ((name != nullptr) && (name != &std::string("")))
+		for (std::list<Atlas*>::const_iterator item = gui_atlas_list.begin(); item != gui_atlas_list.cend(); ++item)
+			if ((item._Ptr->_Myval)->atlas_content != nullptr)
+				for (std::list<atlas_element*>::iterator item2 = ((item._Ptr->_Myval)->atlas_content)->begin(); item2 != ((item._Ptr->_Myval)->atlas_content)->cend(); ++item2)
+					if ((item2._Ptr->_Myval)->type == type)
+						if ((item2._Ptr->_Myval)->name == *name)
+							return item2._Ptr->_Myval;
 	return nullptr;
 }
 
@@ -521,7 +529,7 @@ void j1Gui::push_back_gui(Gui* gui, AddGuiTo addto)
 GuiImage* j1Gui::CreateImage(char* elementname, iPoint position, j1Module* module_listener, bool movable, bool can_focus, bool move_with_camera, AddGuiTo addto)
 {
 	GuiImage* ret = nullptr;
-	ret = new GuiImage(elementname, position, movable, move_with_camera, can_focus, module_listener, addto);
+	ret = new GuiImage(elementname, position, movable, can_focus, move_with_camera, module_listener, addto);
 	push_back_gui(ret, addto);
 	return ret;
 }
@@ -529,7 +537,23 @@ GuiImage* j1Gui::CreateImage(char* elementname, iPoint position, j1Module* modul
 GuiImage* j1Gui::CreateImage(char* elementname, iPoint position, MainScene* scene_listener, bool movable, bool can_focus, bool move_with_camera, AddGuiTo addto)
 {
 	GuiImage* ret = nullptr;
-	ret = new GuiImage(elementname, position, movable, move_with_camera, can_focus, scene_listener, addto);
+	ret = new GuiImage(elementname, position, movable, can_focus, move_with_camera, scene_listener, addto);
+	push_back_gui(ret, addto);
+	return ret;
+}
+
+GuiLabel* j1Gui::CreateLabel(char* str, char* elementname, iPoint position, j1Module* module_listener, bool movable, bool can_focus, bool move_with_camera, AddGuiTo addto)
+{
+	GuiLabel* ret = nullptr;
+	ret = new GuiLabel(str, elementname, position, movable, can_focus, move_with_camera, module_listener, addto);
+	push_back_gui(ret, addto);
+	return ret;
+}
+
+GuiLabel* j1Gui::CreateLabel(char* str, char* elementname, iPoint position, MainScene* scene_listener, bool movable, bool can_focus, bool move_with_camera, AddGuiTo addto)
+{
+	GuiLabel* ret = nullptr;
+	ret = new GuiLabel(str, elementname, position, movable, can_focus, move_with_camera, scene_listener, addto);
 	push_back_gui(ret, addto);
 	return ret;
 }

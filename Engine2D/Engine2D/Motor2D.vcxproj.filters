@@ -85,6 +85,9 @@
     <ClCompile Include="ConsoleCommandCVar.cpp">
       <Filter>Desenvolupament  ========\Console</Filter>
     </ClCompile>
+    <ClCompile Include="GuiLabel.cpp">
+      <Filter>Desenvolupament  ========\GUI\GUI Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -185,6 +188,9 @@
     </ClInclude>
     <ClInclude Include="ConsoleCommandCVar.h">
       <Filter>Desenvolupament  ========\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiLabel.h">
+      <Filter>Desenvolupament  ========\GUI\GUI Elements</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

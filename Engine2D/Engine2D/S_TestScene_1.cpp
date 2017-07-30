@@ -19,6 +19,8 @@ void  S_TestScene_1::CreateSceneGUI()
 {
 	testimage1 = App->gui->CreateImage("default_image", { 0,0 }, this, false, false, true, AddGuiTo::regular_purpose);
 	testimage2 = App->gui->CreateImage("pixel_fire", { 200,200 }, this, true, false, false, AddGuiTo::regular_purpose);
+	testlabel1 = App->gui->CreateLabel("hello world 1", "default_label", { 500,50 }, this, false, false, true, AddGuiTo::regular_purpose);
+	testlabel2 = App->gui->CreateLabel("hello world 2", "default_label", { 500,200 }, this, true, false, false, AddGuiTo::regular_purpose);
 }
 
 bool S_TestScene_1::Start()

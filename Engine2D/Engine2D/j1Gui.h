@@ -18,6 +18,7 @@ struct atlas_scrollbar;
 
 class Gui;
 class GuiImage;
+class GuiLabel;
 
 enum GUIAtlas
 {
@@ -82,6 +83,11 @@ public:
 		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
 	GuiImage* CreateImage(char* elementname, iPoint position, MainScene* scene_listener, bool movable = false, bool can_focus = false,
 		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
+
+	GuiLabel* CreateLabel(char* str, char* elementname, iPoint position, j1Module* module_listener, bool movable = false,
+		bool can_focus = false, bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
+	GuiLabel* CreateLabel(char* str, char* elementname, iPoint position, MainScene* scene_listener, bool movable = false,
+		bool can_focus = false, bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
 
 private:
 	void PushBackNewAtlas(pugi::xml_node& conf, GUIAtlas AtalsEnum);
