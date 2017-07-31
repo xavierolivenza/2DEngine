@@ -50,7 +50,9 @@ bool S_TestScene_1::Update()
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 		testimage1->SetAnimationFrameMiliseconds(200);
 	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
-		testlabel1->ChangeStr("change 1");
+	{
+
+	}
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 		testlabel1->ChangeStr(&std::string("change 2"));
 	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)

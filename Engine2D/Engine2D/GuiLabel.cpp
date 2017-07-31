@@ -60,9 +60,9 @@ void GuiLabel::Draw()
 			UpdateStr();
 		if (StrTexture != nullptr)
 			if (this->move_with_camera)
-				App->render->Blit(StrTexture, position.x - offset.x - App->render->camera.x, position.y - offset.y - App->render->camera.y, nullptr, 1.0f, 0, INT_MAX, INT_MAX);
+				App->render->Blit(StrTexture, position.x + offset.x - App->render->camera.x, position.y + offset.y - App->render->camera.y, nullptr, 1.0f, 0, INT_MAX, INT_MAX);
 			else
-				App->render->Blit(StrTexture, position.x - offset.x, position.y - offset.y, nullptr, 1.0f, 0, INT_MAX, INT_MAX);
+				App->render->Blit(StrTexture, position.x + offset.x, position.y + offset.y, nullptr, 1.0f, 0, INT_MAX, INT_MAX);
 
 		if (App->gui->isDebugDrawActive())
 			this->DebugDraw();
@@ -119,7 +119,7 @@ void GuiLabel::CenterStrWithBackground()
 		int w = 0;
 		int h = 0;
 		App->font->CalcSize(str.c_str(), w, h, font);
-		SetStrOffset((Gui_Collider.w * 0.5f) - (w * 0.5f), (Gui_Collider.h * 0.5f) - (h * 0.5f));
+		SetStrOffset((Gui_Collider.w - w) * 0.5f, (Gui_Collider.h - h) * 0.5f);
 	}
 }
 
