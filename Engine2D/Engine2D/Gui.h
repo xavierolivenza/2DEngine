@@ -90,6 +90,8 @@ public:
 	virtual void Update(const Gui* mouse_hover, const Gui* focus) {}
 	virtual void Draw() {}
 	virtual void DebugDraw() const {}
+	virtual void FocusGained() {}
+	virtual void FocusLost() {}
 
 	void SetLocalPos(int x, int y);
 	iPoint GetLocalPos() const;

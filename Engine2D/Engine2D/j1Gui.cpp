@@ -11,6 +11,7 @@
 
 #include "GuiImage.h"
 #include "GuiLabel.h"
+#include "GuiInputText.h"
 
 //Just an example of how multimap work, just in case that i need it
 /*
@@ -124,8 +125,8 @@ bool j1Gui::PostUpdate()
 		if (mouse_hover->GetSceneListener() == App->scene->GetActiveScene())
 			SetFocus(mouse_hover);
 
-	//if (mouse_hover && mouse_hover->can_focus == true && App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == j1KeyState::KEY_DOWN)
-	//	SetFocus(mouse_hover);
+	if (mouse_hover && mouse_hover->can_focus == true && App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == j1KeyState::KEY_DOWN)
+		SetFocus(mouse_hover);
 
 	iPoint newCameraPos = { App->render->camera.x,App->render->camera.y };
 	bool cam_moved = false;
@@ -213,13 +214,14 @@ bool j1Gui::CleanUp()
 	}
 	gui_atlas_list.clear();
 
-	//TO CLEAN
-	/*
-	std::list<atlas_element*>* default_atlas_content = nullptr;
-	std::list<atlas_element*>* over_atlas_content = nullptr;
-	std::list<Gui*> GuiElements;
-	std::list<Gui*> ConsoleElements;
-	*/
+	for (std::list<Gui*>::iterator item = GuiElements.begin(); item != GuiElements.cend(); ++item)
+		RELEASE(item._Ptr->_Myval);
+	GuiElements.clear();
+
+	for (std::list<Gui*>::iterator item = ConsoleElements.begin(); item != ConsoleElements.cend(); ++item)
+		RELEASE(item._Ptr->_Myval);
+	ConsoleElements.clear();
+
 	return true;
 }
 
@@ -432,12 +434,14 @@ void j1Gui::SetFocus(const Gui* ui)
 						listener->OnGui(focus, GuiEvent::lost_focus);
 					else
 						((MainScene*)listener)->OnGui(focus, GuiEvent::lost_focus);
+					focus->FocusLost();
 				}
 				focus = (Gui*)ui;
 				if (ui->module_listener != nullptr)
 					listener->OnGui(focus, GuiEvent::gain_focus);
 				else
 					((MainScene*)listener)->OnGui(focus, GuiEvent::gain_focus);
+				focus->FocusGained();
 			}
 		}
 		else

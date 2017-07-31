@@ -21,6 +21,7 @@ public:
 	GuiImage* testimage2 = nullptr;
 	GuiLabel* testlabel1 = nullptr;
 	GuiLabel* testlabel2 = nullptr;
+	GuiInputText* inputtexttest1 = nullptr;
 };
 
 #endif // 

@@ -22,6 +22,7 @@ void  S_TestScene_1::CreateSceneGUI()
 	testimage2 = App->gui->CreateImage("pixel_fire", { 200,200 }, this, true, false, false, AddGuiTo::regular_purpose);
 	testlabel1 = App->gui->CreateLabel("hello world 1", "default_label", { 500,50 }, this, false, false, true, AddGuiTo::regular_purpose);
 	testlabel2 = App->gui->CreateLabel("hello world 2", "", { 500,200 }, this, true, false, true, AddGuiTo::regular_purpose);
+	inputtexttest1;
 }
 
 bool S_TestScene_1::Start()

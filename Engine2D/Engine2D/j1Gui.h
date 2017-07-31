@@ -19,6 +19,7 @@ struct atlas_scrollbar;
 class Gui;
 class GuiImage;
 class GuiLabel;
+class GuiInputText;
 
 enum GUIAtlas
 {

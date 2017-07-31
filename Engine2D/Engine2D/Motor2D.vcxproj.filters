@@ -88,6 +88,9 @@
     <ClCompile Include="GuiLabel.cpp">
       <Filter>Desenvolupament  ========\GUI\GUI Elements</Filter>
     </ClCompile>
+    <ClCompile Include="GuiInputText.cpp">
+      <Filter>Desenvolupament  ========\GUI\GUI Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -190,6 +193,9 @@
       <Filter>Desenvolupament  ========\Console</Filter>
     </ClInclude>
     <ClInclude Include="GuiLabel.h">
+      <Filter>Desenvolupament  ========\GUI\GUI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiInputText.h">
       <Filter>Desenvolupament  ========\GUI\GUI Elements</Filter>
     </ClInclude>
   </ItemGroup>
