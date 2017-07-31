@@ -17,7 +17,6 @@ public:
 
 	void SetAnimationFrameMiliseconds(int frameMiliseconds);
 
-	void ChangeStr(char* newstr);
 	void ChangeStr(std::string* newstr);
 
 	void SetStrOffset(iPoint newoffset);

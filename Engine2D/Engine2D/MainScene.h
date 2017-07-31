@@ -9,6 +9,9 @@
 #include "j1Gui.h"
 #include "Gui.h"
 
+#include "GuiImage.h"
+#include "GuiLabel.h"
+
 class MainScene {
 public:
 

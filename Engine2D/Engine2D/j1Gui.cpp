@@ -134,14 +134,12 @@ bool j1Gui::PostUpdate()
 
 	for (std::list<Gui*>::iterator item = list_to_iterate->begin(); item != list_to_iterate->cend(); ++item)
 	{
-		if (!(item._Ptr->_Myval)->move_with_camera)
-		{
+		if ((item._Ptr->_Myval)->movable && !(item._Ptr->_Myval)->move_with_camera)
 			if (cam_moved)
 			{
 				(item._Ptr->_Myval)->Gui_Collider.x += (newCameraPos.x - cameraPos.x);
 				(item._Ptr->_Myval)->Gui_Collider.y += (newCameraPos.y - cameraPos.y);
 			}
-		}
 		if ((item._Ptr->_Myval)->GetModuleListener() != nullptr)
 		{
 			(item._Ptr->_Myval)->CheckInput(mouse_hover, focus);
@@ -159,7 +157,7 @@ bool j1Gui::PostUpdate()
 			(item._Ptr->_Myval)->Update(mouse_hover, focus);
 		}
 	}
-
+	
 	cameraPos = newCameraPos;
 
 	return true;

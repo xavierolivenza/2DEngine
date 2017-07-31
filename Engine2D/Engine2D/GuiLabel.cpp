@@ -47,7 +47,7 @@ void GuiLabel::Draw()
 	if (this->visible)
 	{
 		//Blit background if it was assigned in the constructor
-		if(hasBackground)
+		if (hasBackground)
 		{
 			Frame actualFrame = LabelBackgroundAnimation.GetCurrentFrame();
 			if (this->move_with_camera)
@@ -86,13 +86,14 @@ void GuiLabel::UpdateStr()
 		App->tex->UnLoad(StrTexture);
 	if(str.size() != 0)
 		StrTexture = App->font->Print(str.c_str(), { (Uint8)(color)(0), (Uint8)(color)(1), (Uint8)(color)(2), 255}, font);
+	if (!hasBackground)
+	{
+		int w = 0;
+		int h = 0;
+		App->font->CalcSize(str.c_str(), w, h, font);
+		Gui_Collider = { position.x,position.y,w,h };
+	}
 	str_modified = false;
-}
-
-void GuiLabel::ChangeStr(char* newstr)
-{
-	this->str = *newstr;
-	UpdateStr();
 }
 
 void GuiLabel::ChangeStr(std::string* newstr)
@@ -115,7 +116,10 @@ void GuiLabel::CenterStrWithBackground()
 {
 	if (hasBackground)
 	{
-		//TO DO
+		int w = 0;
+		int h = 0;
+		App->font->CalcSize(str.c_str(), w, h, font);
+		SetStrOffset((Gui_Collider.w * 0.5f) - (w * 0.5f), (Gui_Collider.h * 0.5f) - (h * 0.5f));
 	}
 }
 
