@@ -1,5 +1,7 @@
 #include "GuiLabel.h"
 #include "j1Gui.h"
+#include "j1Textures.h"
+#include "j1Fonts.h"
 
 GuiLabel::GuiLabel(char* str, char* elementname, iPoint position, bool movable, bool can_focus, bool move_with_camera, j1Module* module_listener, AddGuiTo addto) :
 	Gui(position, GuiType::gui_label, movable, can_focus, move_with_camera, module_listener, addto)
@@ -30,6 +32,8 @@ void GuiLabel::CommonConstructor(iPoint position, std::string* str, std::string*
 		else
 			LOG("Error Loading Label %s", elementname->c_str());
 		this->str = *str;
+		font = App->font->default;
+		UpdateStr();
 	}
 }
 
@@ -52,8 +56,14 @@ void GuiLabel::Draw()
 				App->render->Blit(Atlas, position.x - actualFrame.pivot.x, position.y - actualFrame.pivot.y, &actualFrame.rect, 1.0f, 0, INT_MAX, INT_MAX);
 		}
 		//Blit label itself
+		if (str_modified)
+			UpdateStr();
+		if (StrTexture != nullptr)
+			if (this->move_with_camera)
+				App->render->Blit(StrTexture, position.x - offset.x - App->render->camera.x, position.y - offset.y - App->render->camera.y, nullptr, 1.0f, 0, INT_MAX, INT_MAX);
+			else
+				App->render->Blit(StrTexture, position.x - offset.x, position.y - offset.y, nullptr, 1.0f, 0, INT_MAX, INT_MAX);
 
-		
 		if (App->gui->isDebugDrawActive())
 			this->DebugDraw();
 	}
@@ -68,4 +78,57 @@ void GuiLabel::SetAnimationFrameMiliseconds(int frameMiliseconds)
 {
 	if (hasBackground)
 		LabelBackgroundAnimation.frameMiliseconds = frameMiliseconds;
+}
+
+void GuiLabel::UpdateStr()
+{
+	if(StrTexture != nullptr)
+		App->tex->UnLoad(StrTexture);
+	if(str.size() != 0)
+		StrTexture = App->font->Print(str.c_str(), { (Uint8)(color)(0), (Uint8)(color)(1), (Uint8)(color)(2), 255}, font);
+	str_modified = false;
+}
+
+void GuiLabel::ChangeStr(char* newstr)
+{
+	this->str = *newstr;
+	UpdateStr();
+}
+
+void GuiLabel::ChangeStr(std::string* newstr)
+{
+	this->str = *newstr;
+	UpdateStr();
+}
+
+void GuiLabel::SetStrOffset(iPoint newoffset)
+{
+	offset = newoffset;
+}
+
+void GuiLabel::SetStrOffset(int newoffsetx, int newoffsety)
+{
+	offset = { newoffsetx,newoffsety };
+}
+
+void GuiLabel::CenterStrWithBackground()
+{
+	if (hasBackground)
+	{
+		//TO DO
+	}
+}
+
+void GuiLabel::SetStrColor(Color* newcolor)
+{
+	color = *newcolor;
+	UpdateStr();
+}
+
+void GuiLabel::SetStrColor(uint r, uint g, uint b)
+{
+	color.r = r;
+	color.g = g;
+	color.b = b;
+	UpdateStr();
 }

@@ -3,6 +3,8 @@
 
 #include "Gui.h"
 
+struct _TTF_Font;
+
 class GuiLabel : public Gui
 {
 public:
@@ -15,15 +17,31 @@ public:
 
 	void SetAnimationFrameMiliseconds(int frameMiliseconds);
 
+	void ChangeStr(char* newstr);
+	void ChangeStr(std::string* newstr);
+
+	void SetStrOffset(iPoint newoffset);
+	void SetStrOffset(int newoffsetx, int newoffsety);
+	void CenterStrWithBackground();
+
+	void SetStrColor(Color* newcolor);
+	void SetStrColor(uint r, uint g, uint b);
+
 private:
 	void CommonConstructor(iPoint position, std::string* str, std::string* elementname);
 	void DebugDraw() const;
+	void UpdateStr();
 
 private:
 	bool hasBackground = false;
 	Animation LabelBackgroundAnimation;
 	SDL_Texture* Atlas;
 	std::string str;
+	bool str_modified = false;
+	SDL_Texture* StrTexture = nullptr;
+	iPoint offset = { 0,0 };
+	Color color = White;
+	_TTF_Font* font = nullptr;
 };
 
 #endif // __GUILABEL_H__
