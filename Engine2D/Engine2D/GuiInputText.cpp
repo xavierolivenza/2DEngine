@@ -23,6 +23,7 @@ void GuiInputText::CommonConstructor()
 	Gui_Collider = Label->Gui_Collider;
 	Label->itsInputText(true);
 	OriginalStr = CurrentStr = Label->str;
+	writingPos = CurrentStr.size();
 	edit_timer.Start();
 }
 
@@ -36,28 +37,61 @@ void GuiInputText::Update(const Gui* mouse_hover, const Gui* focus)
 	Label->position.x = position.x;
 	Label->position.y = position.y;
 
-	std::string* newstrtoadd = App->input->GetInputText();
-	if (newstrtoadd != nullptr)
+	if (focus == this)
 	{
-		if (std::isalnum((*newstrtoadd)[0]))
+		std::string* newstrtoadd = App->input->GetInputText();
+		if (newstrtoadd != nullptr)
+			if (std::isalnum((*newstrtoadd)[0]))
+			{
+				CurrentStr.insert(writingPos, *newstrtoadd);
+				writingPos++;
+				Label->ChangeStr(&CurrentStr);
+			}
+		if (CurrentStr.size() > 0)
 		{
-			CurrentStr += *newstrtoadd;
-			Label->ChangeStr(&CurrentStr);
+			if (App->input->GetKey(SDL_SCANCODE_BACKSPACE) == j1KeyState::KEY_REPEAT)
+			{
+				if (edit_timer.ReadSec() >= 0.05f)
+				{
+					CurrentStr.erase(writingPos, 1);
+					Label->ChangeStr(&CurrentStr);
+					writingPos--;
+					edit_timer.Start();
+				}
+			}
+			if (App->input->GetKey(SDL_SCANCODE_BACKSPACE) == j1KeyState::KEY_UP)
+				writingPos++;
+			if (App->input->GetKey(SDL_SCANCODE_LEFT) == j1KeyState::KEY_REPEAT)
+			{
+				if (edit_timer.ReadSec() >= 0.1f)
+					if (writingPos > 0)
+					{
+						writingPos--;
+						edit_timer.Start();
+					}
+			}
+			if (App->input->GetKey(SDL_SCANCODE_RIGHT) == j1KeyState::KEY_REPEAT)
+			{
+				if (edit_timer.ReadSec() >= 0.1f)
+				{
+					if (writingPos < CurrentStr.size())
+					{
+						writingPos++;
+						edit_timer.Start();
+					}
+				}
+			}
 		}
 	}
-	if ((App->input->GetKey(SDL_SCANCODE_BACKSPACE) == j1KeyState::KEY_REPEAT) && (CurrentStr.size() > 0))
-	{
-		if (edit_timer.ReadSec() >= 0.05) {
-			CurrentStr.pop_back();
-			Label->ChangeStr(&CurrentStr);
-			edit_timer.Start();
-		}
-	}
+	
+	
 }
 
 void GuiInputText::Draw()
 {
 	Label->Draw();
+
+	//Draw input bar to know where of the label are you editing
 
 	if (App->gui->isDebugDrawActive())
 		DebugDraw();

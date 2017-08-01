@@ -35,6 +35,7 @@ private:
 	void DebugDraw() const;
 
 private:
+	uint writingPos = 0;
 	GuiLabel* Label = nullptr;
 	std::string OriginalStr;
 	std::string CurrentStr;
