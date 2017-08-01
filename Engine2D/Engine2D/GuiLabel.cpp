@@ -64,7 +64,7 @@ void GuiLabel::Draw()
 			else
 				App->render->Blit(StrTexture, position.x + offset.x, position.y + offset.y, nullptr, 1.0f, 0, INT_MAX, INT_MAX);
 
-		if (App->gui->isDebugDrawActive())
+		if (App->gui->isDebugDrawActive() && !itsInputTextvalue)
 			this->DebugDraw();
 	}
 }
@@ -135,4 +135,9 @@ void GuiLabel::SetStrColor(uint r, uint g, uint b)
 	color.g = g;
 	color.b = b;
 	UpdateStr();
+}
+
+void GuiLabel::itsInputText(bool itsInputText)
+{
+	itsInputTextvalue = itsInputText;
 }

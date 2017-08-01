@@ -7,6 +7,7 @@ struct _TTF_Font;
 
 class GuiLabel : public Gui
 {
+	friend class GuiInputText;
 public:
 	//elementneme is the name of the element type that you want to use, this name is the one asigned in the Atlas XML file
 	GuiLabel(char* str, char* elementname, iPoint position, bool movable, bool can_focus, bool move_with_camera, j1Module* module_listener, AddGuiTo addto);
@@ -30,6 +31,7 @@ private:
 	void CommonConstructor(iPoint position, std::string* str, std::string* elementname);
 	void DebugDraw() const;
 	void UpdateStr();
+	void itsInputText(bool itsInputText);
 
 private:
 	bool hasBackground = false;
@@ -41,6 +43,7 @@ private:
 	iPoint offset = { 0,0 };
 	Color color = White;
 	_TTF_Font* font = nullptr;
+	bool itsInputTextvalue = false;
 };
 
 #endif // __GUILABEL_H__

@@ -426,7 +426,7 @@ void j1Gui::SetFocus(const Gui* ui)
 			if (ui->scene_listener != nullptr)
 				listener = (j1Module*)ui->scene_listener;
 			//if (ui->can_focus == true && CanInteract(ui) == true)
-			if (ui->can_focus == true)
+			if (ui->can_focus && (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == j1KeyState::KEY_DOWN))
 			{
 				if (focus != nullptr)
 				{
@@ -556,6 +556,22 @@ GuiLabel* j1Gui::CreateLabel(char* str, char* elementname, iPoint position, Main
 {
 	GuiLabel* ret = nullptr;
 	ret = new GuiLabel(str, elementname, position, movable, can_focus, move_with_camera, scene_listener, addto);
+	push_back_gui(ret, addto);
+	return ret;
+}
+
+GuiInputText* j1Gui::CreateGuiInputText(char* str, char* elementname, iPoint position, j1Module* module_listener, bool isPassword, bool movable, bool can_focus, bool move_with_camera, AddGuiTo addto)
+{
+	GuiInputText* ret = nullptr;
+	ret = new GuiInputText(str, elementname, position, isPassword, movable, can_focus, move_with_camera, module_listener, addto);
+	push_back_gui(ret, addto);
+	return ret;
+}
+
+GuiInputText* j1Gui::CreateGuiInputText(char* str, char* elementname, iPoint position, MainScene* scene_listener, bool isPassword, bool movable, bool can_focus, bool move_with_camera, AddGuiTo addto)
+{
+	GuiInputText* ret = nullptr;
+	ret = new GuiInputText(str, elementname, position, isPassword, movable, can_focus, move_with_camera, scene_listener, addto);
 	push_back_gui(ret, addto);
 	return ret;
 }

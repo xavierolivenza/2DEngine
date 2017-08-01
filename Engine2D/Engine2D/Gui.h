@@ -10,10 +10,11 @@
 
 static Color GuiImageDebugColor = Red;
 static Color GuiLabelDebugColor = Green;
-static Color GuiWindowDebugColor = Blue;
-static Color GuiButtonDebugColor = Yellow;
-static Color GuiScrollBarDebugColor = Purple;
-static Color GuiCheckDebugColor = White;
+static Color GuiInputTextDebugColor = Blue;
+static Color GuiWindowDebugColor = Yellow;
+static Color GuiButtonDebugColor = Purple;
+static Color GuiScrollBarDebugColor = White;
+static Color GuiCheckDebugColor = Cyan;
 
 enum GuiType
 {
