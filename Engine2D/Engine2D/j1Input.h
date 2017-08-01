@@ -27,7 +27,6 @@ enum j1KeyState
 
 class j1Input : public j1Module
 {
-
 public:
 
 	j1Input();
@@ -67,6 +66,14 @@ public:
 	// Get mouse / axis position
 	void GetMousePosition(int &x, int &y);
 	void GetMouseMotion(int& x, int& y);
+
+	std::string* GetInputText()
+	{
+		if (input_text.size() > 0)
+			return &input_text;
+		else
+			return nullptr;
+	}
 
 private:
 	bool		windowEvents[WE_COUNT];

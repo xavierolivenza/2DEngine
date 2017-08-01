@@ -1,20 +1,29 @@
+#include <cctype>
+
 #include "j1Gui.h"
 #include "GuiInputText.h"
+#include "j1Input.h"
 
 GuiInputText::GuiInputText(char* str, char* elementname, iPoint position, bool isPassword, bool movable, bool can_focus, bool move_with_camera, j1Module* module_listener, AddGuiTo addto) :
 	Gui(position, GuiType::gui_inputtext, movable, can_focus, move_with_camera, module_listener, addto)
 {
 	Label = App->gui->CreateLabel(str, elementname, position, module_listener, movable, can_focus, move_with_camera, AddGuiTo::null_AddGuiTo);
-	Gui_Collider = Label->Gui_Collider;
-	Label->itsInputText(true);
+	CommonConstructor();
 }
 
 GuiInputText::GuiInputText(char* str, char* elementname, iPoint position, bool isPassword, bool movable, bool can_focus, bool move_with_camera, MainScene* scene_listener, AddGuiTo addto) :
 	Gui(position, GuiType::gui_inputtext, movable, can_focus, move_with_camera, scene_listener, addto)
 {
 	Label = App->gui->CreateLabel(str, elementname, position, scene_listener, movable, can_focus, move_with_camera, AddGuiTo::null_AddGuiTo);
+	CommonConstructor();
+}
+
+void GuiInputText::CommonConstructor()
+{
 	Gui_Collider = Label->Gui_Collider;
 	Label->itsInputText(true);
+	OriginalStr = CurrentStr = Label->str;
+	edit_timer.Start();
 }
 
 GuiInputText::~GuiInputText()
@@ -26,6 +35,24 @@ void GuiInputText::Update(const Gui* mouse_hover, const Gui* focus)
 {
 	Label->position.x = position.x;
 	Label->position.y = position.y;
+
+	std::string* newstrtoadd = App->input->GetInputText();
+	if (newstrtoadd != nullptr)
+	{
+		if (std::isalnum((*newstrtoadd)[0]))
+		{
+			CurrentStr += *newstrtoadd;
+			Label->ChangeStr(&CurrentStr);
+		}
+	}
+	if ((App->input->GetKey(SDL_SCANCODE_BACKSPACE) == j1KeyState::KEY_REPEAT) && (CurrentStr.size() > 0))
+	{
+		if (edit_timer.ReadSec() >= 0.05) {
+			CurrentStr.pop_back();
+			Label->ChangeStr(&CurrentStr);
+			edit_timer.Start();
+		}
+	}
 }
 
 void GuiInputText::Draw()

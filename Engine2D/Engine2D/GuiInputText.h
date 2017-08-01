@@ -31,6 +31,7 @@ public:
 	void SetStrColor(uint r, uint g, uint b);
 
 private:
+	void CommonConstructor();
 	void DebugDraw() const;
 
 private:
@@ -38,6 +39,7 @@ private:
 	std::string OriginalStr;
 	std::string CurrentStr;
 	bool isPassword = false;
+	j1Timer edit_timer;
 
 };
 
