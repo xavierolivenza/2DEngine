@@ -21,7 +21,7 @@ private:
 
 private:
 	Animation ImageAnimation;
-	SDL_Texture* Atlas;
+	SDL_Texture* Atlas = nullptr;
 };
 
 #endif // __GUIIMAGE_H__

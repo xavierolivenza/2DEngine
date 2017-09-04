@@ -60,7 +60,10 @@ void GuiInputText::Update(const Gui* mouse_hover, const Gui* focus)
 				}
 			}
 			if (App->input->GetKey(SDL_SCANCODE_BACKSPACE) == j1KeyState::KEY_UP)
-				writingPos++;
+			{
+				if(!CurrentStr.empty())
+					writingPos++;
+			}
 			if (App->input->GetKey(SDL_SCANCODE_LEFT) == j1KeyState::KEY_REPEAT)
 			{
 				if (edit_timer.ReadSec() >= 0.1f)
@@ -81,6 +84,8 @@ void GuiInputText::Update(const Gui* mouse_hover, const Gui* focus)
 					}
 				}
 			}
+			if (writingPos < 0)
+				writingPos = 0;
 		}
 	}
 	

@@ -15,6 +15,12 @@ bool S_TestScene_2::Awake(pugi::xml_node& conf)
 	return true;
 }
 
+void  S_TestScene_2::CreateSceneGUI()
+{
+	testbutton1 = App->gui->CreateButton("fdsfa", ButtonType::idle_hover_pressed, "default_button_big", { 0,0 }, this, false, false, true, AddGuiTo::regular_purpose);
+	testbutton1 = App->gui->CreateButton("fdsfa", ButtonType::idle_hover_pressed, "default_button_big", { 200,0 }, this, true, false, false, AddGuiTo::regular_purpose);
+}
+
 bool S_TestScene_2::Start()
 {
 	if (App->map->Load("scene_2.tmx") == true)

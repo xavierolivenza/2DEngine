@@ -20,6 +20,7 @@ class Gui;
 class GuiImage;
 class GuiLabel;
 class GuiInputText;
+class GuiButton;
 
 enum GUIAtlas
 {
@@ -94,6 +95,11 @@ public:
 		bool movable = false, bool can_focus = false, bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
 	GuiInputText* CreateGuiInputText(char* str, char* elementname, iPoint position, MainScene* scene_listener, bool isPassword = false,
 		bool movable = false, bool can_focus = false, bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
+
+	GuiButton* CreateButton(char* str, ButtonType type, char* elementname, iPoint position, j1Module* module_listener, bool movable = false, bool can_focus = false,
+		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
+	GuiButton* CreateButton(char* str, ButtonType type, char* elementname, iPoint position, MainScene* scene_listener, bool movable = false, bool can_focus = false,
+		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
 
 private:
 	void PushBackNewAtlas(pugi::xml_node& conf, GUIAtlas AtalsEnum);

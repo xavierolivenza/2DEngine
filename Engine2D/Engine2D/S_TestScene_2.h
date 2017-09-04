@@ -9,6 +9,7 @@ public:
 	S_TestScene_2();
 	~S_TestScene_2();
 	bool Awake(pugi::xml_node& conf);
+	void CreateSceneGUI();
 	bool Start();
 	bool PreUpdate();
 	bool Update();
@@ -16,6 +17,8 @@ public:
 	bool CleanUp();
 
 public:
+	GuiButton* testbutton1 = nullptr;
+	GuiButton* testbutton2 = nullptr;
 
 };
 

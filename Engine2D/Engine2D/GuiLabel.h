@@ -36,7 +36,7 @@ private:
 private:
 	bool hasBackground = false;
 	Animation LabelBackgroundAnimation;
-	SDL_Texture* Atlas;
+	SDL_Texture* Atlas = nullptr;
 	std::string str;
 	bool str_modified = false;
 	SDL_Texture* StrTexture = nullptr;

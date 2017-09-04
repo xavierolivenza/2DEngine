@@ -78,6 +78,7 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="ConsoleCommandCVar.cpp" />
     <ClCompile Include="Gui.cpp" />
+    <ClCompile Include="GuiButton.cpp" />
     <ClCompile Include="GuiImage.cpp" />
     <ClCompile Include="GuiInputText.cpp" />
     <ClCompile Include="GuiLabel.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="ConsoleCommandCVar.h" />
     <ClInclude Include="Gui.h" />
+    <ClInclude Include="GuiButton.h" />
     <ClInclude Include="GuiImage.h" />
     <ClInclude Include="GuiInputText.h" />
     <ClInclude Include="GuiLabel.h" />
