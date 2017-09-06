@@ -105,11 +105,15 @@ void GuiLabel::ChangeStr(std::string* newstr)
 void GuiLabel::SetStrOffset(iPoint newoffset)
 {
 	offset = newoffset;
+	Gui_Collider.x += offset.x;
+	Gui_Collider.y += offset.y;
 }
 
 void GuiLabel::SetStrOffset(int newoffsetx, int newoffsety)
 {
 	offset = { newoffsetx,newoffsety };
+	Gui_Collider.x += offset.x;
+	Gui_Collider.y += offset.y;
 }
 
 void GuiLabel::CenterStrWithBackground()

@@ -107,6 +107,7 @@ void GuiButton::Update(const Gui* mouse_hover, const Gui* focus)
 		ButtonNewPos.x += x;
 		ButtonNewPos.y += y;
 		ButtonString->SetLocalPos(ButtonNewPos.x, ButtonNewPos.y);
+		CenterStrWithBackground();
 		PrevPos = NewPos;
 	}
 }
