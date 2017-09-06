@@ -118,7 +118,7 @@ void GuiLabel::CenterStrWithBackground()
 	{
 		int w = 0;
 		int h = 0;
-		App->font->CalcSize(str.c_str(), w, h, font);
+		GetLabelWH(w, h);
 		SetStrOffset((Gui_Collider.w - w) * 0.5f, (Gui_Collider.h - h) * 0.5f);
 	}
 }
@@ -135,6 +135,11 @@ void GuiLabel::SetStrColor(uint r, uint g, uint b)
 	color.g = g;
 	color.b = b;
 	UpdateStr();
+}
+
+void GuiLabel::GetLabelWH(int& w, int& h)
+{
+	App->font->CalcSize(str.c_str(), w, h, font);
 }
 
 void GuiLabel::itsInputText(bool itsInputText)

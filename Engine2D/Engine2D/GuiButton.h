@@ -25,6 +25,15 @@ public:
 
 	void SetAnimationFrameMiliseconds(GuiButtonState statetochange, int frameMiliseconds);
 
+	void ChangeStr(std::string* newstr);
+
+	void SetStrOffset(iPoint newoffset);
+	void SetStrOffset(int newoffsetx, int newoffsety);
+	void CenterStrWithBackground();
+
+	void SetStrColor(Color* newcolor);
+	void SetStrColor(uint r, uint g, uint b);
+
 private:
 	void CommonConstructor(ButtonType type, iPoint position, std::string* elementname);
 	void DebugDraw() const;
@@ -37,6 +46,9 @@ private:
 	SDL_Texture* Atlas = nullptr;
 	GuiLabel* ButtonString = nullptr;
 	Animation* ActualButtonAnimation = nullptr;
+
+	iPoint PrevPos = { 0,0 };
+	iPoint NewPos = { 0,0 };
 };
 
 #endif // __GUIBUTTON_H__

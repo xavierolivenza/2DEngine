@@ -1,6 +1,8 @@
 #include "GuiButton.h"
 #include "GuiLabel.h"
 #include "j1Gui.h"
+#include "j1Input.h"
+#include "j1Fonts.h"
 
 GuiButton::GuiButton(char* str, ButtonType type, char* elementname, iPoint position, bool movable, bool can_focus, bool move_with_camera, j1Module* module_listener, AddGuiTo addto) :
 	Gui(position, GuiType::gui_button, movable, can_focus, move_with_camera, module_listener, addto)
@@ -59,6 +61,8 @@ void GuiButton::CommonConstructor(ButtonType type, iPoint position, std::string*
 		Atlas = ButtonType->Atlas_texture;
 		ActualButtonAnimation = &ButtonAnimationIdle;
 		Gui_Collider = { position.x,position.y,ButtonType->Collider.w,ButtonType->Collider.h };
+		CenterStrWithBackground();
+		PrevPos = NewPos = position;
 	}
 	else
 		LOG("Error Loading Image %s", elementname->c_str());
@@ -71,61 +75,56 @@ GuiButton::~GuiButton()
 
 void GuiButton::Update(const Gui* mouse_hover, const Gui* focus)
 {
-	/*
-	bool inside = (mouse_hover == (Gui*)this);
-
-	if ((inside == true) || (focus == this))
+	if ((mouse_hover == (Gui*)this) || (focus == this))
 	{
-		switch (button_type)
+		switch (Type)
 		{
 		case ButtonType::idle_hover:
-			curent_state_texture = &hover_texture_rect;
+			ActualButtonAnimation = &ButtonAnimationHover;
 			break;
 		case ButtonType::idle_pressed:
-			curent_state_texture = &idle_texture_rect;
+			ActualButtonAnimation = &ButtonAnimationIdle;
 			if ((App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == j1KeyState::KEY_DOWN) || (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == j1KeyState::KEY_REPEAT))
-				curent_state_texture = &pressed_texture_rect;
+				ActualButtonAnimation = &ButtonAnimationPressed;
 			break;
 		case ButtonType::idle_hover_pressed:
-			curent_state_texture = &hover_texture_rect;
+			ActualButtonAnimation = &ButtonAnimationHover;
 			if ((App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == j1KeyState::KEY_DOWN) || (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == j1KeyState::KEY_REPEAT))
-				curent_state_texture = &pressed_texture_rect;
+				ActualButtonAnimation = &ButtonAnimationPressed;
 			break;
 		}
 	}
 	else
+		ActualButtonAnimation = &ButtonAnimationIdle;
+
+	NewPos = this->GetLocalPos();
+	if (NewPos != PrevPos)
 	{
-		curent_state_texture = &idle_texture_rect;
+		iPoint ButtonNewPos = ButtonString->GetLocalPos();
+		int x = 0;
+		int y = 0;
+		App->input->GetMouseMotion(x, y);
+		ButtonNewPos.x += x;
+		ButtonNewPos.y += y;
+		ButtonString->SetLocalPos(ButtonNewPos.x, ButtonNewPos.y);
+		PrevPos = NewPos;
 	}
-	if (OriginalPosition != position)
-	{
-		CenterStr();
-		ButtonString->SetLocalPos(ButtonStringPos.x, ButtonStringPos.y);
-	}
-	*/
 }
 
 void GuiButton::Draw()
 {
 	if (this->visible)
 	{
-		/*
-		Frame actualFrame = ImageAnimation.GetCurrentFrame();
+		Frame actualFrame = ActualButtonAnimation->GetCurrentFrame();
 
 		if (this->move_with_camera)
 			App->render->Blit(Atlas, position.x - actualFrame.pivot.x - App->render->camera.x, position.y - actualFrame.pivot.y - App->render->camera.y, &actualFrame.rect, 1.0f, 0, INT_MAX, INT_MAX);
 		else
 			App->render->Blit(Atlas, position.x - actualFrame.pivot.x, position.y - actualFrame.pivot.y, &actualFrame.rect, 1.0f, 0, INT_MAX, INT_MAX);
-		*/
+		ButtonString->Draw();
 		if (App->gui->isDebugDrawActive())
 			this->DebugDraw();
 	}
-	/*
-	//Button
-	App->render->Blit(atlas, position.x - App->render->camera.x, position.y - App->render->camera.y, curent_state_texture, 1.0f, 0, INT_MAX, INT_MAX, false, opacity);
-	//Label
-	ButtonString->Draw();
-	*/
 }
 
 void GuiButton::DebugDraw() const
@@ -149,4 +148,37 @@ void GuiButton::SetAnimationFrameMiliseconds(GuiButtonState statetochange, int f
 	default:
 		LOG("Invalid GuiButtonState in SetAnimationFrameMiliseconds of GuiButton");
 	}
+}
+
+void GuiButton::ChangeStr(std::string* newstr)
+{
+	ButtonString->ChangeStr(newstr);
+}
+
+void GuiButton::SetStrOffset(iPoint newoffset)
+{
+	ButtonString->SetStrOffset(newoffset);
+}
+
+void GuiButton::SetStrOffset(int newoffsetx, int newoffsety)
+{
+	ButtonString->SetStrOffset(newoffsetx, newoffsety);
+}
+
+void GuiButton::CenterStrWithBackground()
+{
+	int w = 0;
+	int h = 0;
+	ButtonString->GetLabelWH(w, h);
+	SetStrOffset((Gui_Collider.w - w) * 0.5f, (Gui_Collider.h - h) * 0.5f);
+}
+
+void GuiButton::SetStrColor(Color* newcolor)
+{
+	ButtonString->SetStrColor(newcolor);
+}
+
+void GuiButton::SetStrColor(uint r, uint g, uint b)
+{
+	ButtonString->SetStrColor(r, g, b);
 }

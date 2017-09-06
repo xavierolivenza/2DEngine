@@ -27,6 +27,8 @@ public:
 	void SetStrColor(Color* newcolor);
 	void SetStrColor(uint r, uint g, uint b);
 
+	void GetLabelWH(int& w, int& h);
+
 private:
 	void CommonConstructor(iPoint position, std::string* str, std::string* elementname);
 	void DebugDraw() const;
