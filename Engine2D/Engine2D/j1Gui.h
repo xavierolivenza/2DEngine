@@ -21,6 +21,7 @@ class GuiImage;
 class GuiLabel;
 class GuiInputText;
 class GuiButton;
+class GuiWindow;
 
 enum GUIAtlas
 {
@@ -99,6 +100,11 @@ public:
 	GuiButton* CreateButton(char* str, ButtonType type, char* elementname, iPoint position, j1Module* module_listener, bool movable = false, bool can_focus = false,
 		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
 	GuiButton* CreateButton(char* str, ButtonType type, char* elementname, iPoint position, MainScene* scene_listener, bool movable = false, bool can_focus = false,
+		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
+
+	GuiWindow* CreateGuiWindow(char* elementname, iPoint position, j1Module* module_listener, bool movable = false, bool can_focus = false,
+		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
+	GuiWindow* CreateGuiWindow(char* elementname, iPoint position, MainScene* scene_listener, bool movable = false, bool can_focus = false,
 		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
 
 private:

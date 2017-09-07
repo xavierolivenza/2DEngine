@@ -13,6 +13,7 @@
 #include "GuiLabel.h"
 #include "GuiInputText.h"
 #include "GuiButton.h"
+#include "GuiWindow.h"
 
 //Just an example of how multimap work, just in case that i need it
 /*
@@ -589,6 +590,22 @@ GuiButton* j1Gui::CreateButton(char* str, ButtonType type, char* elementname, iP
 {
 	GuiButton* ret = nullptr;
 	ret = new GuiButton(str, type, elementname, position, movable, can_focus, move_with_camera, scene_listener, addto);
+	push_back_gui(ret, addto);
+	return ret;
+}
+
+GuiWindow* j1Gui::CreateGuiWindow(char* elementname, iPoint position, j1Module* module_listener, bool movable, bool can_focus, bool move_with_camera, AddGuiTo addto)
+{
+	GuiWindow* ret = nullptr;
+	ret = new GuiWindow(elementname, position, movable, can_focus, move_with_camera, module_listener, addto);
+	push_back_gui(ret, addto);
+	return ret;
+}
+
+GuiWindow* j1Gui::CreateGuiWindow(char* elementname, iPoint position, MainScene* scene_listener, bool movable, bool can_focus, bool move_with_camera, AddGuiTo addto)
+{
+	GuiWindow* ret = nullptr;
+	ret = new GuiWindow(elementname, position, movable, can_focus, move_with_camera, scene_listener, addto);
 	push_back_gui(ret, addto);
 	return ret;
 }

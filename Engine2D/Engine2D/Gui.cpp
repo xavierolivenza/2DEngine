@@ -115,7 +115,7 @@ void Gui::LossOpacityOverTime(uint initialalpha, uint finalalpha, uint transitio
 
 void Gui::LossOpacityOverTime(uint finalalpha, uint transitionmilisec)
 {
-
+	//Waiting to be implemented when gui elements are implemented and working
 }
 
 void Gui::Focusable(bool value)

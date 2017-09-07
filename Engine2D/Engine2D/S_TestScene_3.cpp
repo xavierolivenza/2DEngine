@@ -15,6 +15,12 @@ bool S_TestScene_3::Awake(pugi::xml_node& conf)
 	return true;
 }
 
+void S_TestScene_3::CreateSceneGUI()
+{
+	testwindow1 = App->gui->CreateGuiWindow("default_window", { 0,0 }, this, false, false, true, AddGuiTo::regular_purpose);
+	testwindow2 = App->gui->CreateGuiWindow("default_window", { 500,0 }, this, true, false, false, AddGuiTo::regular_purpose);
+}
+
 bool S_TestScene_3::Start()
 {
 	if (App->map->Load("scene_3.tmx") == true)
