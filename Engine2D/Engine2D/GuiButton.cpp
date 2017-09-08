@@ -1,8 +1,6 @@
 #include "GuiButton.h"
 #include "GuiLabel.h"
 #include "j1Gui.h"
-#include "j1Input.h"
-#include "j1Fonts.h"
 
 GuiButton::GuiButton(char* str, ButtonType type, char* elementname, iPoint position, bool movable, bool can_focus, bool move_with_camera, j1Module* module_listener, AddGuiTo addto) :
 	Gui(position, GuiType::gui_button, movable, can_focus, move_with_camera, module_listener, addto)

@@ -2,7 +2,6 @@
 
 #include "j1Gui.h"
 #include "GuiInputText.h"
-#include "j1Input.h"
 
 GuiInputText::GuiInputText(char* str, char* elementname, iPoint position, bool isPassword, bool movable, bool can_focus, bool move_with_camera, j1Module* module_listener, AddGuiTo addto) :
 	Gui(position, GuiType::gui_inputtext, movable, can_focus, move_with_camera, module_listener, addto)

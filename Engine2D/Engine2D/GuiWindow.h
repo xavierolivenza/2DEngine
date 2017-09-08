@@ -25,12 +25,7 @@ private:
 	Animation WindowAnimation;
 	SDL_Texture* Atlas = nullptr;
 	std::list<Gui*> WindowElements;
-
-	/*
-	bool has_background = false;
-	SDL_Rect background_rect = { 0,0,0,0 };
 	iPoint OriginalPosition = { 0,0 };
-	*/
 };
 
 #endif // __GUIWINDOW_H__

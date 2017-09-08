@@ -7,6 +7,8 @@
 #include "Animation.h"
 #include "GuiXMLStorage.h"
 #include "j1Render.h"
+#include "j1Input.h"
+#include "j1Fonts.h"
 
 static Color GuiImageDebugColor = Red;
 static Color GuiLabelDebugColor = Green;
@@ -58,6 +60,7 @@ enum AddGuiTo
 	regular_purpose,
 	console_purpose,
 	viewport_purpose,
+	window_purpose,
 	null_AddGuiTo
 };
 
@@ -80,6 +83,7 @@ enum BarType
 };
 
 class MainScene;
+class GuiWindow;
 
 class Gui
 {
@@ -124,6 +128,8 @@ public:
 	const j1Module* GetModuleListener() const;
 	const MainScene* GetSceneListener() const;
 
+	void SetParentWindow(GuiWindow* window);
+
 protected:
 	AddGuiTo purpose = AddGuiTo::regular_purpose;
 	GuiType type = GuiType::null_GuiType;
@@ -139,6 +145,8 @@ protected:
 	bool mouse_inside = false;
 	j1Module* module_listener = nullptr;
 	MainScene* scene_listener = nullptr;
+
+	GuiWindow* ParentWindow = nullptr;
 };
 
 #endif // __GUI_H__

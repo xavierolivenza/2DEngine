@@ -83,11 +83,14 @@ bool j1Gui::Update(float dt)
 	for (std::list<Gui*>::iterator item = GuiElements.begin(); item != GuiElements.cend(); ++item)
 		if ((item._Ptr->_Myval)->GetPurpose() != AddGuiTo::viewport_purpose)
 		{
-			if ((item._Ptr->_Myval)->GetModuleListener() != nullptr)
-				(item._Ptr->_Myval)->Draw();
-			if ((item._Ptr->_Myval)->GetSceneListener() != nullptr)//if is scene
-				if ((item._Ptr->_Myval)->GetSceneListener() == App->scene->GetActiveScene())
+			if(((item._Ptr->_Myval)->ParentWindow == nullptr) || (((item._Ptr->_Myval)->ParentWindow != nullptr) && ((item._Ptr->_Myval)->ParentWindow->visible)))
+			{
+				if ((item._Ptr->_Myval)->GetModuleListener() != nullptr)
 					(item._Ptr->_Myval)->Draw();
+				if ((item._Ptr->_Myval)->GetSceneListener() != nullptr)//if is scene
+					if ((item._Ptr->_Myval)->GetSceneListener() == App->scene->GetActiveScene())
+						(item._Ptr->_Myval)->Draw();
+			}
 		}
 	if (App->console->IsActive())
 	{
@@ -143,17 +146,20 @@ bool j1Gui::PostUpdate()
 				(item._Ptr->_Myval)->Gui_Collider.x += (newCameraPos.x - cameraPos.x);
 				(item._Ptr->_Myval)->Gui_Collider.y += (newCameraPos.y - cameraPos.y);
 			}
-		if ((item._Ptr->_Myval)->GetModuleListener() != nullptr)
+		if (((item._Ptr->_Myval)->ParentWindow == nullptr) || (((item._Ptr->_Myval)->ParentWindow != nullptr) && ((item._Ptr->_Myval)->ParentWindow->visible)))
 		{
-			(item._Ptr->_Myval)->CheckInput(mouse_hover, focus);
-			(item._Ptr->_Myval)->Update(mouse_hover, focus);
-		}
-		if ((item._Ptr->_Myval)->GetSceneListener() != nullptr)//if is scene
-			if ((item._Ptr->_Myval)->GetSceneListener() == App->scene->GetActiveScene())
+			if ((item._Ptr->_Myval)->GetModuleListener() != nullptr)
 			{
 				(item._Ptr->_Myval)->CheckInput(mouse_hover, focus);
 				(item._Ptr->_Myval)->Update(mouse_hover, focus);
 			}
+			if ((item._Ptr->_Myval)->GetSceneListener() != nullptr)//if is scene
+				if ((item._Ptr->_Myval)->GetSceneListener() == App->scene->GetActiveScene())
+				{
+					(item._Ptr->_Myval)->CheckInput(mouse_hover, focus);
+					(item._Ptr->_Myval)->Update(mouse_hover, focus);
+				}
+		}
 		if (App->console->IsActive())
 		{
 			(item._Ptr->_Myval)->CheckInput(mouse_hover, focus);
@@ -519,6 +525,7 @@ void j1Gui::push_back_gui(Gui* gui, AddGuiTo addto)
 	switch (addto)
 	{
 	case AddGuiTo::regular_purpose:
+	case AddGuiTo::window_purpose:
 		GuiElements.push_back(gui);
 		break;
 	case AddGuiTo::console_purpose:

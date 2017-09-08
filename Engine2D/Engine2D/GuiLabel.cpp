@@ -1,7 +1,6 @@
 #include "GuiLabel.h"
 #include "j1Gui.h"
 #include "j1Textures.h"
-#include "j1Fonts.h"
 
 GuiLabel::GuiLabel(char* str, char* elementname, iPoint position, bool movable, bool can_focus, bool move_with_camera, j1Module* module_listener, AddGuiTo addto) :
 	Gui(position, GuiType::gui_label, movable, can_focus, move_with_camera, module_listener, addto)

@@ -12,6 +12,8 @@
 #include "GuiImage.h"
 #include "GuiLabel.h"
 #include "GuiInputText.h"
+#include "GuiButton.h"
+#include "GuiWindow.h"
 
 class MainScene {
 public:

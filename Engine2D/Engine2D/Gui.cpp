@@ -266,3 +266,8 @@ const MainScene* Gui::GetSceneListener() const
 {
 	return scene_listener;
 }
+
+void Gui::SetParentWindow(GuiWindow* window)
+{
+	ParentWindow = window;
+}
