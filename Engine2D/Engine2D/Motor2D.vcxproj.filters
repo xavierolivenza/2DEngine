@@ -97,6 +97,9 @@
     <ClCompile Include="GuiWindow.cpp">
       <Filter>Desenvolupament  ========\GUI\GUI Elements</Filter>
     </ClCompile>
+    <ClCompile Include="GuiCheck.cpp">
+      <Filter>Desenvolupament  ========\GUI\GUI Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -208,6 +211,9 @@
       <Filter>Desenvolupament  ========\GUI\GUI Elements</Filter>
     </ClInclude>
     <ClInclude Include="GuiWindow.h">
+      <Filter>Desenvolupament  ========\GUI\GUI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiCheck.h">
       <Filter>Desenvolupament  ========\GUI\GUI Elements</Filter>
     </ClInclude>
   </ItemGroup>

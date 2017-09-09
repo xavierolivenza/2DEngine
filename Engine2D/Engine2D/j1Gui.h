@@ -22,6 +22,7 @@ class GuiLabel;
 class GuiInputText;
 class GuiButton;
 class GuiWindow;
+class GuiCheck;
 
 enum GUIAtlas
 {
@@ -97,14 +98,19 @@ public:
 	GuiInputText* CreateGuiInputText(char* str, char* elementname, iPoint position, MainScene* scene_listener, bool isPassword = false,
 		bool movable = false, bool can_focus = false, bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
 
-	GuiButton* CreateButton(char* str, ButtonType type, char* elementname, iPoint position, j1Module* module_listener, bool movable = false, bool can_focus = false,
-		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
-	GuiButton* CreateButton(char* str, ButtonType type, char* elementname, iPoint position, MainScene* scene_listener, bool movable = false, bool can_focus = false,
-		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
+	GuiButton* CreateButton(char* str, ButtonType type, char* elementname, iPoint position, j1Module* module_listener, bool movable = false,
+		bool can_focus = false, bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
+	GuiButton* CreateButton(char* str, ButtonType type, char* elementname, iPoint position, MainScene* scene_listener, bool movable = false,
+		bool can_focus = false, bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
 
 	GuiWindow* CreateGuiWindow(char* elementname, iPoint position, j1Module* module_listener, bool movable = false, bool can_focus = false,
 		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
 	GuiWindow* CreateGuiWindow(char* elementname, iPoint position, MainScene* scene_listener, bool movable = false, bool can_focus = false,
+		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
+
+	GuiCheck* CreateCheck(char* elementname, bool stat, iPoint position, j1Module* module_listener, bool movable = false, bool can_focus = false,
+		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
+	GuiCheck* CreateCheck(char* elementname, bool stat, iPoint position, MainScene* scene_listener, bool movable = false, bool can_focus = false,
 		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
 
 private:

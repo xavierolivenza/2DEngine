@@ -82,6 +82,16 @@ bool Gui::IsMovable() const
 	return movable;
 }
 
+void Gui::SetCollider(int x, int y, int w, int h)
+{
+	Gui_Collider = { x,y,w,h };
+}
+
+void Gui::SetCollider(SDL_Rect* collider)
+{
+	Gui_Collider = *collider;
+}
+
 void Gui::SetVisible(bool visible)
 {
 	this->visible = visible;

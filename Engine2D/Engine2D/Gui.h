@@ -107,6 +107,9 @@ public:
 	void GetDragVelocity(float& x, float& y) const;
 	bool IsMovable() const;
 
+	void SetCollider(int x, int y, int w, int h);
+	void SetCollider(SDL_Rect* collider);
+
 	void SetVisible(bool visible);
 	void SetOpacity(uint alpha);
 	int GetOpacity() const;

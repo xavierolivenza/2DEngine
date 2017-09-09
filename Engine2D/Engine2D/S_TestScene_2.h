@@ -19,7 +19,10 @@ public:
 public:
 	GuiButton* testbutton1 = nullptr;
 	GuiButton* testbutton2 = nullptr;
-
+	GuiCheck* testcheck1 = nullptr;
+	GuiCheck* testcheck2 = nullptr;
+	GuiCheck* testcheck3 = nullptr;
+	GuiCheck* testcheck4 = nullptr;
 };
 
 #endif // 

@@ -79,6 +79,7 @@
     <ClCompile Include="ConsoleCommandCVar.cpp" />
     <ClCompile Include="Gui.cpp" />
     <ClCompile Include="GuiButton.cpp" />
+    <ClCompile Include="GuiCheck.cpp" />
     <ClCompile Include="GuiImage.cpp" />
     <ClCompile Include="GuiInputText.cpp" />
     <ClCompile Include="GuiLabel.cpp" />
@@ -114,6 +115,7 @@
     <ClInclude Include="ConsoleCommandCVar.h" />
     <ClInclude Include="Gui.h" />
     <ClInclude Include="GuiButton.h" />
+    <ClInclude Include="GuiCheck.h" />
     <ClInclude Include="GuiImage.h" />
     <ClInclude Include="GuiInputText.h" />
     <ClInclude Include="GuiLabel.h" />

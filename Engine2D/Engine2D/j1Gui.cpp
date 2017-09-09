@@ -14,6 +14,7 @@
 #include "GuiInputText.h"
 #include "GuiButton.h"
 #include "GuiWindow.h"
+#include "GuiCheck.h"
 
 //Just an example of how multimap work, just in case that i need it
 /*
@@ -516,8 +517,11 @@ const Gui* j1Gui::FindMouseHover()
 
 bool j1Gui::CanInteract(const Gui* ui) const
 {
+	bool inscene = false;
+	if (((ui->module_listener != nullptr) && (ui->module_listener->active)) || ((ui->scene_listener != nullptr) && (ui->scene_listener == App->scene->GetActiveScene())))
+		inscene = true;
+	return ui->visible && inscene;
 	//return ui->movable && ui->visible;
-	return ui->visible;
 }
 
 void j1Gui::push_back_gui(Gui* gui, AddGuiTo addto)
@@ -613,6 +617,22 @@ GuiWindow* j1Gui::CreateGuiWindow(char* elementname, iPoint position, MainScene*
 {
 	GuiWindow* ret = nullptr;
 	ret = new GuiWindow(elementname, position, movable, can_focus, move_with_camera, scene_listener, addto);
+	push_back_gui(ret, addto);
+	return ret;
+}
+
+GuiCheck* j1Gui::CreateCheck(char* elementname, bool stat, iPoint position, j1Module* module_listener, bool movable, bool can_focus, bool move_with_camera, AddGuiTo addto)
+{
+	GuiCheck* ret = nullptr;
+	ret = new GuiCheck(elementname, stat, position, movable, can_focus, move_with_camera, module_listener, addto);
+	push_back_gui(ret, addto);
+	return ret;
+}
+
+GuiCheck* j1Gui::CreateCheck(char* elementname, bool stat, iPoint position, MainScene* scene_listener, bool movable, bool can_focus, bool move_with_camera, AddGuiTo addto)
+{
+	GuiCheck* ret = nullptr;
+	ret = new GuiCheck(elementname, stat, position, movable, can_focus, move_with_camera, scene_listener, addto);
 	push_back_gui(ret, addto);
 	return ret;
 }

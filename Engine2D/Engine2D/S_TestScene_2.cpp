@@ -17,8 +17,12 @@ bool S_TestScene_2::Awake(pugi::xml_node& conf)
 
 void  S_TestScene_2::CreateSceneGUI()
 {
-	testbutton1 = App->gui->CreateButton("fdsfa", ButtonType::idle_hover_pressed, "default_button_big", { 0,0 }, this, false, false, true, AddGuiTo::regular_purpose);
-	testbutton2 = App->gui->CreateButton("gfdsgdfg", ButtonType::idle_hover_pressed, "default_button_big", { 200,0 }, this, true, false, false, AddGuiTo::regular_purpose);
+	testbutton1 = App->gui->CreateButton("static button", ButtonType::idle_hover_pressed, "default_button_big", { 0,0 }, this, false, false, true, AddGuiTo::regular_purpose);
+	testbutton2 = App->gui->CreateButton("movable button", ButtonType::idle_hover_pressed, "default_button_big", { 300,0 }, this, true, false, false, AddGuiTo::regular_purpose);
+	testcheck1 = App->gui->CreateCheck("default_check_three_tex", false, { 0,300 }, this, false, false, true, AddGuiTo::regular_purpose);
+	testcheck2 = App->gui->CreateCheck("default_check_three_tex", false, { 100,300 }, this, true, false, false, AddGuiTo::regular_purpose);
+	testcheck3 = App->gui->CreateCheck("default_check_two_tex", false, { 200,300 }, this, false, false, true, AddGuiTo::regular_purpose);
+	testcheck4 = App->gui->CreateCheck("default_check_two_tex", false, { 300,300 }, this, true, false, false, AddGuiTo::regular_purpose);
 }
 
 bool S_TestScene_2::Start()
