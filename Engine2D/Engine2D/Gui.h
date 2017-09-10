@@ -17,6 +17,7 @@ static Color GuiWindowDebugColor = Yellow;
 static Color GuiButtonDebugColor = Purple;
 static Color GuiScrollBarDebugColor = White;
 static Color GuiCheckDebugColor = Cyan;
+static Color GuiViewportDebugColor = Pink;
 
 enum GuiType
 {
@@ -73,6 +74,15 @@ enum ButtonType
 	null_ButtonType
 };
 
+enum ScrollBarType
+{
+	vertical_left,
+	vertical_right,
+	horitzontal_up,
+	horitzontal_down,
+	null_ScrollBarType
+};
+
 enum BarType
 {
 	vertical_up,
@@ -84,6 +94,7 @@ enum BarType
 
 class MainScene;
 class GuiWindow;
+class GuiViewport;
 
 class Gui
 {
@@ -132,6 +143,7 @@ public:
 	const MainScene* GetSceneListener() const;
 
 	void SetParentWindow(GuiWindow* window);
+	void SetParentViewport(GuiViewport* viewport);
 
 protected:
 	AddGuiTo purpose = AddGuiTo::regular_purpose;
@@ -150,6 +162,7 @@ protected:
 	MainScene* scene_listener = nullptr;
 
 	GuiWindow* ParentWindow = nullptr;
+	GuiViewport* ParentViewport = nullptr;
 };
 
 #endif // __GUI_H__

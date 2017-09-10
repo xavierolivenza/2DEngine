@@ -22,6 +22,7 @@ Gui::Gui(iPoint position, GuiType type, bool movable, bool can_focus, bool move_
 
 void Gui::SetLocalPos(int x, int y)
 {
+	/**/
 	position.x = Gui_Collider.x = x;
 	position.y = Gui_Collider.y = y;
 
@@ -31,6 +32,7 @@ void Gui::SetLocalPos(int x, int y)
 		Gui_Collider.x = Gui_ColliderXY.x;
 		Gui_Collider.y = Gui_ColliderXY.y;
 	}
+	/**/
 	/*
 	position.x = x;
 	position.y = y;
@@ -152,9 +154,14 @@ bool Gui::InFOV()
 
 bool Gui::PointContained(int x, int y) const
 {
-	return ((visible == true) &&
-		((x >= Gui_Collider.x) && (x < (Gui_Collider.x + Gui_Collider.w)) &&
-		(y >= Gui_Collider.y) && (y < (Gui_Collider.y + Gui_Collider.h))));
+	if ((purpose == AddGuiTo::viewport_purpose) && (ParentViewport != nullptr))
+		return ((visible == true) &&
+			((x >= (Gui_Collider.x + ParentViewport->position.x)) && (x < ((Gui_Collider.x + ParentViewport->position.x) + Gui_Collider.w)) &&
+			(y >= (Gui_Collider.y + ParentViewport->position.y)) && (y < ((Gui_Collider.y + ParentViewport->position.y) + Gui_Collider.h))));
+	else
+		return ((visible == true) &&
+			((x >= Gui_Collider.x) && (x < (Gui_Collider.x + Gui_Collider.w)) &&
+			(y >= Gui_Collider.y) && (y < (Gui_Collider.y + Gui_Collider.h))));
 }
 
 void Gui::CheckInput(const Gui* mouse_hover, const Gui* focus)
@@ -280,4 +287,9 @@ const MainScene* Gui::GetSceneListener() const
 void Gui::SetParentWindow(GuiWindow* window)
 {
 	ParentWindow = window;
+}
+
+void Gui::SetParentViewport(GuiViewport* viewport)
+{
+	ParentViewport = viewport;
 }

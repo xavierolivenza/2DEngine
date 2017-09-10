@@ -95,8 +95,7 @@ void GuiButton::Update(const Gui* mouse_hover, const Gui* focus)
 	else
 		ActualButtonAnimation = &ButtonAnimationIdle;
 
-	NewPos = this->GetLocalPos();
-	if (NewPos != PrevPos)
+	if (position != PrevPos)
 	{
 		iPoint ButtonNewPos = ButtonString->GetLocalPos();
 		int x = 0;
@@ -106,7 +105,7 @@ void GuiButton::Update(const Gui* mouse_hover, const Gui* focus)
 		ButtonNewPos.y += y;
 		ButtonString->SetLocalPos(ButtonNewPos.x, ButtonNewPos.y);
 		CenterStrWithBackground();
-		PrevPos = NewPos;
+		PrevPos = position;
 	}
 }
 

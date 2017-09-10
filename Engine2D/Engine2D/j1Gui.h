@@ -23,6 +23,8 @@ class GuiInputText;
 class GuiButton;
 class GuiWindow;
 class GuiCheck;
+class GuiViewport;
+class GuiScrollBar;
 
 enum GUIAtlas
 {
@@ -111,6 +113,11 @@ public:
 	GuiCheck* CreateCheck(char* elementname, bool stat, iPoint position, j1Module* module_listener, bool movable = false, bool can_focus = false,
 		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
 	GuiCheck* CreateCheck(char* elementname, bool stat, iPoint position, MainScene* scene_listener, bool movable = false, bool can_focus = false,
+		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
+
+	GuiViewport* CreateViewport(SDL_Rect* position_size, j1Module* module_listener, bool movable = false, bool can_focus = false,
+		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
+	GuiViewport* CreateViewport(SDL_Rect* position_size, MainScene* scene_listener, bool movable = false, bool can_focus = false,
 		bool move_with_camera = true, AddGuiTo addto = AddGuiTo::regular_purpose);
 
 private:

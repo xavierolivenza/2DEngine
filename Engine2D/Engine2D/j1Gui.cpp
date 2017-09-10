@@ -15,6 +15,8 @@
 #include "GuiButton.h"
 #include "GuiWindow.h"
 #include "GuiCheck.h"
+#include "GuiViewport.h"
+#include "GuiScrollBar.h"
 
 //Just an example of how multimap work, just in case that i need it
 /*
@@ -530,13 +532,13 @@ void j1Gui::push_back_gui(Gui* gui, AddGuiTo addto)
 	{
 	case AddGuiTo::regular_purpose:
 	case AddGuiTo::window_purpose:
+	case AddGuiTo::viewport_purpose:
 		GuiElements.push_back(gui);
 		break;
 	case AddGuiTo::console_purpose:
 		ConsoleElements.push_back(gui);
 		break;
 	case AddGuiTo::null_AddGuiTo:
-	case AddGuiTo::viewport_purpose:
 		break;
 	}
 }
@@ -633,6 +635,22 @@ GuiCheck* j1Gui::CreateCheck(char* elementname, bool stat, iPoint position, Main
 {
 	GuiCheck* ret = nullptr;
 	ret = new GuiCheck(elementname, stat, position, movable, can_focus, move_with_camera, scene_listener, addto);
+	push_back_gui(ret, addto);
+	return ret;
+}
+
+GuiViewport* j1Gui::CreateViewport(SDL_Rect* position_size, j1Module* module_listener, bool movable, bool can_focus, bool move_with_camera, AddGuiTo addto)
+{
+	GuiViewport* ret = nullptr;
+	ret = new GuiViewport(position_size, movable, can_focus, move_with_camera, module_listener, addto);
+	push_back_gui(ret, addto);
+	return ret;
+}
+
+GuiViewport* j1Gui::CreateViewport(SDL_Rect* position_size, MainScene* scene_listener, bool movable, bool can_focus, bool move_with_camera, AddGuiTo addto)
+{
+	GuiViewport* ret = nullptr;
+	ret = new GuiViewport(position_size, movable, can_focus, move_with_camera, scene_listener, addto);
 	push_back_gui(ret, addto);
 	return ret;
 }

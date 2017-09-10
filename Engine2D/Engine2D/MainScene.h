@@ -15,6 +15,8 @@
 #include "GuiButton.h"
 #include "GuiWindow.h"
 #include "GuiCheck.h"
+#include "GuiViewport.h"
+#include "GuiScrollBar.h"
 
 class MainScene {
 public:
